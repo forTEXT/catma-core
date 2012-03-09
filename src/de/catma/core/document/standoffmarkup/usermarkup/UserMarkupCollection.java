@@ -2,7 +2,9 @@ package de.catma.core.document.standoffmarkup.usermarkup;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import de.catma.core.tag.TagDefinition;
 import de.catma.core.tag.TagLibrary;
@@ -29,14 +31,36 @@ public class UserMarkupCollection {
 	}
 
 	public List<TagReference> getTagReferences(TagDefinition tagDefinition) {
+		return getTagReferences(tagDefinition, false);
+	}
+	
+	public List<TagReference> getTagReferences(
+			TagDefinition tagDefinition, boolean withChildReferences) {
+		
 		List<TagReference> result = new ArrayList<TagReference>();
+		
+		Set<String> tagDefinitionIDs = new HashSet<String>();
+		tagDefinitionIDs.add(tagDefinition.getID());
+		
+		if (withChildReferences) {
+			tagDefinitionIDs.addAll(getChildIDs(tagDefinition));
+		}
+		
 		for (TagReference tr : tagReferences) {
-			if (tr.getTagDefinition().getID().equals(tagDefinition.getID())) {
+			if (tagDefinitionIDs.contains(tr.getTagDefinition().getID())) {
 				result.add(tr);
 			}
 		}
 		
 		return result;
+	}
+	
+	Set<String> getChildIDs(TagDefinition tagDefinition) {
+		return tagLibrary.getChildIDs(tagDefinition);
+	}
+
+	public List<TagDefinition> getChildren(TagDefinition tagDefinition) {
+		return tagLibrary.getChildren(tagDefinition);
 	}
 
 	@Override

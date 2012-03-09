@@ -32,8 +32,8 @@ public class TagDefinition implements Versionable {
 		this.type = type;
 		this.version = version;
 		this.baseID = baseID;
-		if ((this.baseID != null) && this.baseID.isEmpty()) {
-			this.baseID = null;
+		if (this.baseID == null) {
+			this.baseID = "";
 		}
 		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
@@ -49,7 +49,7 @@ public class TagDefinition implements Versionable {
 		return "TAG_DEF[" + type 
 				+ ",#" + id +","
 				+version
-				+((baseID==null) ? "]" : (",#"+baseID+"]"));
+				+((baseID.isEmpty()) ? "]" : (",#"+baseID+"]"));
 	}
 
 	public void addSystemPropertyDefinition(PropertyDefinition propertyDefinition) {

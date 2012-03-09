@@ -3,7 +3,9 @@ package de.catma.core.tag;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class TagLibrary implements Iterable<TagsetDefinition> {
 
@@ -39,5 +41,24 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	
 	public String getName() {
 		return name;
+	}
+
+	public List<TagDefinition> getChildren(TagDefinition tagDefinition) {
+		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
+		return tagsetDefinition.getChildren(tagDefinition);
+	}
+
+	public TagsetDefinition getTagsetDefinition(TagDefinition tagDefinition) {
+		for (TagsetDefinition td : this) {
+			if (td.contains(tagDefinition)) {
+				return td;
+			}
+		}
+		return null;
+	}
+
+	public Set<String> getChildIDs(TagDefinition tagDefinition) {
+		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
+		return tagsetDefinition.getChildIDs(tagDefinition);
 	}
 }
