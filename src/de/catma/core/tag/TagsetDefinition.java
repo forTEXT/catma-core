@@ -34,7 +34,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		return "TAGSET_DEF["+name+",#"+id+","+version+"]";
 	}
 
-	public void addTagDefinition(TagDefinition tagDef) {
+	void addTagDefinition(TagDefinition tagDef) {
 		tagDefinitions.put(tagDef.getID(),tagDef);
 		if (!tagDefinitionChildren.containsKey(tagDef.getBaseID())) {
 			tagDefinitionChildren.put(
@@ -108,5 +108,14 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 
 	void setName(String name) {
 		this.name = name;
+	}
+
+	public void remove(TagDefinition tagDefinition) {
+		this.tagDefinitions.remove(tagDefinition.getID());
+		Set<String> childrenOfParent = this.tagDefinitionChildren.get(
+				tagDefinition.getBaseID());
+		if (childrenOfParent != null) {
+			childrenOfParent.remove(tagDefinition.getID());
+		}
 	}
 }

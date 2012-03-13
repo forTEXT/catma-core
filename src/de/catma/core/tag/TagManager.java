@@ -11,6 +11,8 @@ public class TagManager {
 		tagsetDefinitionAdded,
 		tagsetDefinitionNameChanged, 
 		tagsetDefinitionRemoved,
+		tagDefinitionAdded, 
+		tagDefinitionRemoved,
 		;
 	}
 	
@@ -60,4 +62,25 @@ public class TagManager {
 				new Pair<TagLibrary, TagsetDefinition>(tagLibrary, tagsetDefinition),
 				null);
 	}
+
+	public void addTagDefintion(TagsetDefinition tagsetDefinition,
+			TagDefinition tagDefinition) {
+		tagsetDefinition.addTagDefinition(tagDefinition);
+		this.propertyChangeSupport.firePropertyChange(
+			TagManagerEvent.tagDefinitionAdded.name(),
+			null,
+			new Pair<TagsetDefinition, TagDefinition>(
+					tagsetDefinition, tagDefinition));
+	}
+
+	public void removeTagDefinition(TagsetDefinition tagsetDefinition,
+			TagDefinition tagDefinition) {
+	
+		tagsetDefinition.remove(tagDefinition);
+		this.propertyChangeSupport.firePropertyChange(
+				TagManagerEvent.tagDefinitionRemoved.name(),
+				new Pair<TagsetDefinition, TagDefinition>(tagsetDefinition, tagDefinition),
+				null);
+	}
+
 }

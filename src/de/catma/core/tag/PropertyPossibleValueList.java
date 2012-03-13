@@ -1,11 +1,16 @@
 package de.catma.core.tag;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PropertyPossibleValueList {
 
 	private boolean singleSelect;
 	private PropertyValueList propertyValueList;
+	
+	public PropertyPossibleValueList(String value) {
+		this(asList(value), true);
+	}
 	
 	public PropertyPossibleValueList(List<String> values, boolean singleSelect) {
 		super();
@@ -33,7 +38,11 @@ public class PropertyPossibleValueList {
 		return propertyValueList;
 	}
 	
-	
+	private static List<String> asList(String value) {
+		ArrayList<String> result =new ArrayList<String>();
+		result.add(value);
+		return result;
+	}
 	
 	
 }
