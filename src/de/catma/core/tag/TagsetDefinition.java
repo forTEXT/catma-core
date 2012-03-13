@@ -105,4 +105,8 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 
 		return Collections.unmodifiableSet(childIDs);	
 	}
+
+	void setName(String name) {
+		this.name = name;
+	}
 }

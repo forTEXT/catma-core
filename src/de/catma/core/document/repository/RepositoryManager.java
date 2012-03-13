@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import de.catma.core.tag.TagManager;
+
 
 public class RepositoryManager {
 	
 	private List<Repository> repositories;
 	
-	public RepositoryManager(Properties properties) 
+	public RepositoryManager(TagManager tagManager, Properties properties) 
 			throws Exception {
 		repositories = new ArrayList<Repository>();
 		
@@ -18,11 +20,12 @@ public class RepositoryManager {
 		while(RepositoryPropertyKey.Repository.exists(properties, index)) {
 			
 			RepositoryFactory repositoryFactory =  
-					(RepositoryFactory)Class.forName(
-							RepositoryPropertyKey.RepositoryFactory.getProperty(properties, index),
-							true, Thread.currentThread().getContextClassLoader()).newInstance();
+				(RepositoryFactory)Class.forName(
+					RepositoryPropertyKey.RepositoryFactory.getProperty(properties, index),
+					true, Thread.currentThread().getContextClassLoader()).newInstance();
 			
-			Repository repository = repositoryFactory.createRepository(properties, index);
+			Repository repository = 
+				repositoryFactory.createRepository(tagManager, properties, index);
 			
 			repositories.add(repository);
 			

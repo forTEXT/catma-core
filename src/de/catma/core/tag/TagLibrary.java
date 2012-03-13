@@ -9,16 +9,18 @@ import java.util.Set;
 
 public class TagLibrary implements Iterable<TagsetDefinition> {
 
+	private String id;
 	private String name;
 	private Map<String,TagsetDefinition> tagsetDefinitions;
 	
-	public TagLibrary(String name) {
+	public TagLibrary(String id, String name) {
 		super();
+		this.id = id;
 		this.name = name;
 		tagsetDefinitions = new HashMap<String, TagsetDefinition>();
 	}
 
-	public void add(TagsetDefinition tagsetDefinition) {
+	void add(TagsetDefinition tagsetDefinition) {
 		tagsetDefinitions.put(tagsetDefinition.getID(),tagsetDefinition);
 	}
 
@@ -60,5 +62,13 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	public Set<String> getChildIDs(TagDefinition tagDefinition) {
 		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
 		return tagsetDefinition.getChildIDs(tagDefinition);
+	}
+
+	void remove(TagsetDefinition tagsetDefinition) {
+		tagsetDefinitions.remove(tagsetDefinition.getID());
+	}
+	
+	public String getId() {
+		return id;
 	}
 }
