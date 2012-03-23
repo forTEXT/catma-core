@@ -12,6 +12,10 @@ public class PropertyValueList {
 		this.values = values;
 	}
 	
+	void setValues(List<String> values) {
+		this.values = values; 
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

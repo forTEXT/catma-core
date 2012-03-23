@@ -29,6 +29,13 @@ public class PropertyPossibleValueList {
 		return propertyValueList.getFirstValue();
 	}
 	
+	void setValue(String value) {
+		setValues(asList(value));
+	}
+	
+	void setValues(List<String> values) {
+		propertyValueList.setValues(values);
+	}
 	
 	public boolean isSingleSelect() {
 		return singleSelect;

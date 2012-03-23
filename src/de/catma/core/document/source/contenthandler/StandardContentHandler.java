@@ -38,12 +38,6 @@ import java.nio.charset.Charset;
  */
 public class StandardContentHandler extends AbstractSourceContentHandler {
 	
-	/**
-	 * UTF-8 <b>B</b>yte<b>O</b>rder<b>M</b>ark: 0xEF 0xBB 0xBF
-	 */
-	public static final byte[] UTF_8_BOM = 
-		new byte[] {(byte)0xEF, (byte)0xBB, (byte)0xBF};
-	
 	public void load(InputStream is) throws IOException {
 		
 		Charset charset = 

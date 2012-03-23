@@ -12,7 +12,8 @@ public class TagManager {
 		tagsetDefinitionNameChanged, 
 		tagsetDefinitionRemoved,
 		tagDefinitionAdded, 
-		tagDefinitionRemoved,
+		tagDefinitionRemoved, 
+		tagDefinitionChanged,
 		;
 	}
 	
@@ -81,6 +82,29 @@ public class TagManager {
 				TagManagerEvent.tagDefinitionRemoved.name(),
 				new Pair<TagsetDefinition, TagDefinition>(tagsetDefinition, tagDefinition),
 				null);
+	}
+	
+	public void setTagDefinitionTypeAndColor(
+			TagDefinition tagDefinition, String type, String colorRgbAsString) {
+		String oldType = tagDefinition.getType();
+		String oldRgb =tagDefinition.getColor();
+		boolean tagDefChanged = false;
+		if (!oldType.equals(type)) {
+			tagDefinition.setType(type);
+			tagDefChanged = true;
+		}
+		
+		if (!oldRgb.equals(colorRgbAsString)) {
+			tagDefinition.setColor(colorRgbAsString);
+			tagDefChanged = true;
+		}
+		
+		if (tagDefChanged) {
+			this.propertyChangeSupport.firePropertyChange(
+					TagManagerEvent.tagDefinitionChanged.name(),
+					new Pair<String, String>(oldType, oldRgb),
+					tagDefinition);
+		}
 	}
 
 }
