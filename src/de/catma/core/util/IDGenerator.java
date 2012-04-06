@@ -7,4 +7,8 @@ public class IDGenerator {
 	public String generate() {
 		return ID_PREFIX + UUID.randomUUID().toString();
 	}
+	
+	public String generate(String base) {
+		return ID_PREFIX + UUID.nameUUIDFromBytes(base.getBytes()).toString();
+	}
 }

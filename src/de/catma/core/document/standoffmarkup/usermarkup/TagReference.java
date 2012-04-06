@@ -46,4 +46,8 @@ public class TagReference {
 			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).
 				getPropertyValueList().getFirstValue();
 	}
+	
+	public TagInstance getTagInstance() {
+		return tagInstance;
+	}
 }

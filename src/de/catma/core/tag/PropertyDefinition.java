@@ -9,9 +9,10 @@ public class PropertyDefinition {
 	}
 
 	private String name;
+	private String id;
 	private PropertyPossibleValueList possibleValueList;
 	
-	public PropertyDefinition(String name,
+	public PropertyDefinition(String id, String name,
 			PropertyPossibleValueList possibleValueList) {
 		super();
 		this.name = name;
@@ -21,9 +22,12 @@ public class PropertyDefinition {
 	
 	@Override
 	public String toString() {
-		return "PROP["+name+"="+possibleValueList+"]";
+		return "PROP#"+id+"["+name+"="+possibleValueList+"]";
 	}
-
+	
+	public String getId() {
+		return id;
+	}
 
 	public String getName() {
 		return name;

@@ -19,4 +19,17 @@ public class Property {
 	public PropertyValueList getPropertyValueList() {
 		return propertyValueList;
 	}
+	
+	public PropertyDefinition getPropertyDefinition() {
+		return propertyDefinition;
+	}
+
+	void setPropertyDefinition(PropertyDefinition propertyDefinition) {
+		//FIXME: check current values against possible values
+		this.propertyDefinition = propertyDefinition;
+	}
+	
+	public void setPropertyValueList(PropertyValueList propertyValueList) {
+		this.propertyValueList = propertyValueList;
+	}
 }

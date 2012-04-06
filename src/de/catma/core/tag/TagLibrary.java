@@ -24,6 +24,10 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		tagsetDefinitions.put(tagsetDefinition.getID(),tagsetDefinition);
 	}
 
+	void replace(TagsetDefinition tagsetDefinition) {
+		add(tagsetDefinition);
+	}
+	
 	public TagDefinition getTagDefinition(String tagDefinitionID) {
 		for(TagsetDefinition tagsetDefiniton : tagsetDefinitions.values()) {
 			if (tagsetDefiniton.hasTagDefinition(tagDefinitionID)) {
@@ -37,7 +41,7 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return Collections.unmodifiableCollection(tagsetDefinitions.values()).iterator();
 	}
 
-	public TagsetDefinition getTagsetDefintion(String tagsetDefinitionID) {
+	public TagsetDefinition getTagsetDefinition(String tagsetDefinitionID) {
 		return tagsetDefinitions.get(tagsetDefinitionID);
 	}
 	

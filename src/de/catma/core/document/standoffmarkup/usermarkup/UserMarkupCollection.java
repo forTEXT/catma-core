@@ -8,6 +8,7 @@ import java.util.Set;
 
 import de.catma.core.tag.TagDefinition;
 import de.catma.core.tag.TagLibrary;
+import de.catma.core.tag.TagsetDefinition;
 
 public class UserMarkupCollection {
 	private String id;
@@ -74,5 +75,20 @@ public class UserMarkupCollection {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	void update(TagsetDefinition tagsetDefinition) {
+		List<TagReference> toBeRemoved = new ArrayList<TagReference>();
+		for (TagReference tr : tagReferences) {
+			TagDefinition newTagDef = tagsetDefinition.getTagDefinition(tr.getTagDefinition().getID());
+			if (newTagDef != null) {
+				tr.getTagInstance().setTagDefinition(newTagDef);
+			}
+			else {
+				toBeRemoved.add(tr);
+			}
+		}
+		
+		tagReferences.removeAll(toBeRemoved);
 	}
 }

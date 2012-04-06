@@ -12,6 +12,15 @@ public class TagDefinition implements Versionable {
 	private static enum SystemPropertyName {
 		catma_displaycolor,
 		;
+		
+		public static boolean hasPropertyName(String name) {
+			for (SystemPropertyName sysPropName : values()) {
+				if (sysPropName.name().equals(name)) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 	
 	public final static TagDefinition CATMA_BASE_TAG = 
@@ -53,24 +62,42 @@ public class TagDefinition implements Versionable {
 	}
 
 	public void addSystemPropertyDefinition(PropertyDefinition propertyDefinition) {
-		systemPropertyDefinitions.put(propertyDefinition.getName(), propertyDefinition);
+		systemPropertyDefinitions.put(propertyDefinition.getId(), propertyDefinition);
 	}
 	
 	public void addUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		userDefinedPropertyDefinitions.put(propertyDefinition.getName(), propertyDefinition);
+		userDefinedPropertyDefinitions.put(propertyDefinition.getId(), propertyDefinition);
 	}	
 	
 	public String getID() {
 		return id;
 	}
-
-	public PropertyDefinition getPropertyDefinition(String propertyName) {
-		if (systemPropertyDefinitions.containsKey(propertyName)) {
-			return systemPropertyDefinitions.get(propertyName);
+	
+	public PropertyDefinition getPropertyDefinition(String id) {
+		if (systemPropertyDefinitions.containsKey(id)) {
+			return systemPropertyDefinitions.get(id);
 		}
 		else {
-			return userDefinedPropertyDefinitions.get(propertyName);
+			return userDefinedPropertyDefinitions.get(id);
 		}
+	}
+	
+	public PropertyDefinition getPropertyDefinitionByName(String propertyName) {
+		if (SystemPropertyName.hasPropertyName(propertyName)) {
+			for (PropertyDefinition pd : systemPropertyDefinitions.values()) {
+				if (pd.getName().equals(propertyName)) {
+					return pd;
+				}
+			}
+		}
+		
+		for (PropertyDefinition pd : userDefinedPropertyDefinitions.values()) {
+			if (pd.getName().equals(propertyName)) {
+				return pd;
+			}
+		}
+		
+		return null;
 	}
 	
 	public Collection<PropertyDefinition> getUserDefinedPropertyDefinitions() {
@@ -86,7 +113,7 @@ public class TagDefinition implements Versionable {
 	}
 	
 	public String getColor() {
-		return systemPropertyDefinitions.get(
+		return getPropertyDefinitionByName(
 				SystemPropertyName.catma_displaycolor.name()).getFirstValue();
 	}
 
@@ -100,35 +127,9 @@ public class TagDefinition implements Versionable {
 	}
 	
 	void setColor(String colorAsRgbInt) {
-		systemPropertyDefinitions.get(
+		getPropertyDefinitionByName(
 			SystemPropertyName.catma_displaycolor.name()).
 				getPossibleValueList().setValue(colorAsRgbInt);
 	}
-
-//	@Override
-//	public int hashCode() {
-//		final int prime = 31;
-//		int result = 1;
-//		result = prime * result + ((id == null) ? 0 : id.hashCode());
-//		return result;
-//	}
-//
-//	@Override
-//	public boolean equals(Object obj) {
-//		if (this == obj)
-//			return true;
-//		if (obj == null)
-//			return false;
-//		if (getClass() != obj.getClass())
-//			return false;
-//		TagDefinition other = (TagDefinition) obj;
-//		if (id == null) {
-//			if (other.id != null)
-//				return false;
-//		} else if (!id.equals(other.id))
-//			return false;
-//		return true;
-//	}
-	
 	
 }

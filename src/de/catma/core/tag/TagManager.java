@@ -2,6 +2,8 @@ package de.catma.core.tag;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.catma.core.util.Pair;
 
@@ -9,18 +11,29 @@ public class TagManager {
 	
 	public enum TagManagerEvent {
 		tagsetDefinitionAdded,
-		tagsetDefinitionNameChanged, 
+		tagsetDefinitionNameChanged,
+		tagsetDefinitionChanged,
 		tagsetDefinitionRemoved,
-		tagDefinitionAdded, 
-		tagDefinitionRemoved, 
 		tagDefinitionChanged,
 		;
 	}
+	
+	private List<TagLibrary> currentTagLibraries;
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
 	public TagManager() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
+		currentTagLibraries = new ArrayList<TagLibrary>();
+	}
+	
+	//TODO: taglibary events, tagLibraries are held to cover tagdef move operations between tagsetdefs, not implemented yet 
+	public void addTagLibrary(TagLibrary tagLibrary) {
+		currentTagLibraries.add(tagLibrary);
+	}
+	
+	public void removeTagLibrary(TagLibrary tagLibrary) {
+		currentTagLibraries.remove(tagLibrary);
 	}
 	
 	public void addTagsetDefinition(
@@ -68,7 +81,7 @@ public class TagManager {
 			TagDefinition tagDefinition) {
 		tagsetDefinition.addTagDefinition(tagDefinition);
 		this.propertyChangeSupport.firePropertyChange(
-			TagManagerEvent.tagDefinitionAdded.name(),
+			TagManagerEvent.tagDefinitionChanged.name(),
 			null,
 			new Pair<TagsetDefinition, TagDefinition>(
 					tagsetDefinition, tagDefinition));
@@ -79,7 +92,7 @@ public class TagManager {
 	
 		tagsetDefinition.remove(tagDefinition);
 		this.propertyChangeSupport.firePropertyChange(
-				TagManagerEvent.tagDefinitionRemoved.name(),
+				TagManagerEvent.tagDefinitionChanged.name(),
 				new Pair<TagsetDefinition, TagDefinition>(tagsetDefinition, tagDefinition),
 				null);
 	}
@@ -107,4 +120,9 @@ public class TagManager {
 		}
 	}
 
+	public void update(TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
+		tagLibrary.replace(tagsetDefinition);
+	}
+	
+	
 }
