@@ -123,6 +123,5 @@ public class TagManager {
 	public void update(TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
 		tagLibrary.replace(tagsetDefinition);
 	}
-	
-	
+
 }

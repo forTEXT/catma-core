@@ -39,5 +39,4 @@ public class UserMarkupCollectionManager {
 	public void add(UserMarkupCollection userMarkupCollection) {
 		this.userMarkupCollections.add(userMarkupCollection);		
 	}
-
 }
