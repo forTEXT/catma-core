@@ -1,12 +1,13 @@
 package de.catma.core.document.standoffmarkup.usermarkup;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import de.catma.core.tag.TagManager;
 import de.catma.core.tag.TagsetDefinition;
 
-public class UserMarkupCollectionManager {
+public class UserMarkupCollectionManager implements Iterable<UserMarkupCollection>{
 
 	private TagManager tagManager;
 	private List<UserMarkupCollection> userMarkupCollections;
@@ -38,5 +39,10 @@ public class UserMarkupCollectionManager {
 
 	public void add(UserMarkupCollection userMarkupCollection) {
 		this.userMarkupCollections.add(userMarkupCollection);		
+	}
+	
+	@Override
+	public Iterator<UserMarkupCollection> iterator() {
+		return userMarkupCollections.iterator();
 	}
 }
