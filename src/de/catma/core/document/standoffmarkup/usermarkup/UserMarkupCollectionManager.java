@@ -8,6 +8,7 @@ import de.catma.core.tag.TagManager;
 import de.catma.core.tag.TagsetDefinition;
 
 public class UserMarkupCollectionManager implements Iterable<UserMarkupCollection>{
+	
 
 	private TagManager tagManager;
 	private List<UserMarkupCollection> userMarkupCollections;
@@ -44,5 +45,12 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	@Override
 	public Iterator<UserMarkupCollection> iterator() {
 		return userMarkupCollections.iterator();
+	}
+
+	public void addTagReferences(
+			List<TagReference> tagReferences,
+			UserMarkupCollection userMarkupCollection) {
+	
+		userMarkupCollection.addTagReferences(tagReferences);
 	}
 }

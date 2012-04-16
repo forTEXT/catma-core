@@ -1,6 +1,7 @@
 package de.catma.core.tag;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +16,29 @@ public class TagInstance {
 	public TagInstance(String id, TagDefinition tagDefinition) {
 		this.id = id;
 		this.tagDefinition = tagDefinition;
+
 		systemProperties = new HashMap<String, Property>();
+		setDefaultValues(
+				systemProperties, 
+				tagDefinition.getSystemPropertyDefinitions());
+
 		userDefinedProperties = new HashMap<String, Property>();
+		setDefaultValues(
+			userDefinedProperties, 
+			tagDefinition.getUserDefinedPropertyDefinitions());
+
 	}
 	
+	private void setDefaultValues(
+			Map<String,Property> properties,
+			Collection<PropertyDefinition> propertyDefinitions) {
+		for (PropertyDefinition pDef : propertyDefinitions) {
+			properties.put(
+			pDef.getId(), 
+			new Property(pDef, new PropertyValueList(pDef.getFirstValue())));
+		}
+	}
+
 	public TagDefinition getTagDefinition() {
 		return tagDefinition;
 	}

@@ -1,5 +1,6 @@
 package de.catma.core.tag;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,8 +8,12 @@ public class PropertyValueList {
 
 	private List<String> values;
 
+	public PropertyValueList(String value) {
+		values = new ArrayList<String>();
+		values.add(value);
+	}
+
 	public PropertyValueList(List<String> values) {
-		super();
 		this.values = values;
 	}
 	

@@ -80,7 +80,8 @@ public class UserMarkupCollection {
 	void update(TagsetDefinition tagsetDefinition) {
 		List<TagReference> toBeRemoved = new ArrayList<TagReference>();
 		for (TagReference tr : tagReferences) {
-			TagDefinition newTagDef = tagsetDefinition.getTagDefinition(tr.getTagDefinition().getID());
+			TagDefinition newTagDef = 
+					tagsetDefinition.getTagDefinition(tr.getTagDefinition().getID());
 			if (newTagDef != null) {
 				tr.getTagInstance().setTagDefinition(newTagDef);
 			}
@@ -90,5 +91,9 @@ public class UserMarkupCollection {
 		}
 		
 		tagReferences.removeAll(toBeRemoved);
+	}
+
+	public void addTagReferences(List<TagReference> tagReferences) {
+		this.tagReferences.addAll(tagReferences);	
 	}
 }
