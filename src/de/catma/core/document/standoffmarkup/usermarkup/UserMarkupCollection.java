@@ -16,9 +16,9 @@ public class UserMarkupCollection {
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
 	
-	public UserMarkupCollection(TagLibrary tagLibrary,
+	public UserMarkupCollection(String id, TagLibrary tagLibrary,
 			List<TagReference> tagReferences) {
-		super();
+		this.id = id;
 		this.tagLibrary = tagLibrary;
 		this.tagReferences = tagReferences;
 	}
@@ -68,11 +68,7 @@ public class UserMarkupCollection {
 	public String toString() {
 		return name;
 	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}

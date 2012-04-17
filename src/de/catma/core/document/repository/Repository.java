@@ -54,8 +54,7 @@ public interface Repository {
 	public void update(StaticMarkupCollection staticMarkupCollection);
 
 	public void insert(SourceDocument sourceDocument) throws IOException;
-	public UserMarkupCollectionReference insert(
-			UserMarkupCollection userMarkupCollection);
+	public void createUserMarkupCollection(String name, SourceDocument sourceDocument);
 	public StaticMarkupCollectionReference insert(
 			StaticMarkupCollection staticMarkupCollection);
 	
