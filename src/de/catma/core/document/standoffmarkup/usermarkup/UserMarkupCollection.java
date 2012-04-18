@@ -92,4 +92,12 @@ public class UserMarkupCollection {
 	public void addTagReferences(List<TagReference> tagReferences) {
 		this.tagReferences.addAll(tagReferences);	
 	}
+	
+	public String getId() {
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
 }
