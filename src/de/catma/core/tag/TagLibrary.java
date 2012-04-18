@@ -79,4 +79,9 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	public boolean contains(TagsetDefinition tagsetDefinition) {
 		return tagsetDefinitions.containsKey(tagsetDefinition.getID());
 	}
+	
+	public String getTagPath(TagDefinition tagDefinition) {
+		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
+		return tagsetDefinition.getTagPath(tagDefinition);
+	}
 }

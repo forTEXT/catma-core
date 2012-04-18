@@ -118,4 +118,22 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 			childrenOfParent.remove(tagDefinition.getID());
 		}
 	}
+
+	public String getTagPath(TagDefinition tagDefinition) {
+		
+		StringBuilder builder = new StringBuilder();
+		builder.append("/");
+		builder.append(tagDefinition.getType());
+		String baseID = tagDefinition.getBaseID();
+		
+		while (!baseID.equals(TagDefinition.CATMA_BASE_TAG.getID())) {
+			TagDefinition parentDef = getTagDefinition(baseID);
+			builder.insert(0, parentDef.getType());
+			builder.insert(0, "/");
+			
+			baseID = parentDef.getBaseID();
+		}
+		
+		return builder.toString();
+	}
 }
