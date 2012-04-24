@@ -6,19 +6,24 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.catma.core.document.ContentInfoSet;
 import de.catma.core.tag.TagDefinition;
 import de.catma.core.tag.TagLibrary;
 import de.catma.core.tag.TagsetDefinition;
 
 public class UserMarkupCollection {
+
 	private String id;
 	private String name;
+	private ContentInfoSet contentInfoSet;
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
 	
-	public UserMarkupCollection(String id, TagLibrary tagLibrary,
+	public UserMarkupCollection(
+			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
 			List<TagReference> tagReferences) {
 		this.id = id;
+		this.contentInfoSet = contentInfoSet;
 		this.tagLibrary = tagLibrary;
 		this.tagReferences = tagReferences;
 	}
@@ -99,5 +104,13 @@ public class UserMarkupCollection {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public ContentInfoSet getContentInfoSet() {
+		return contentInfoSet;
+	}
+	
+	public boolean isEmpty() {
+		return tagReferences.isEmpty();
 	}
 }

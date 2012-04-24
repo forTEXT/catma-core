@@ -135,7 +135,7 @@ public class SourceDocumentHandler {
 	 * @throws IllegalAccessException {@link SourceContentHandler} instantiation failure
 	 */
 	public SourceDocument loadSourceDocument( 
-			SourceDocumentInfo sourceDocumentInfo)
+			String id, SourceDocumentInfo sourceDocumentInfo)
 		throws IOException, InstantiationException, IllegalAccessException {
 		
 		FileType fileType = 
@@ -153,11 +153,11 @@ public class SourceDocumentHandler {
 		String title = sourceDocumentInfo.getContentInfoSet().getTitle();
 		
 		if ((title == null) || (title.equals("empty"))) {
-			title = sourceDocumentInfo.getTechInfoSet().getURI().toString();
+			title = id;
 		}
 		
 		SourceDocument document = 
-				new SourceDocument(title, handler);
+				new SourceDocument(id, title, handler);
 		
 		return document;
 	}

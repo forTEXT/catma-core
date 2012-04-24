@@ -104,6 +104,10 @@ public class TagDefinition implements Versionable {
 		return Collections.unmodifiableCollection(userDefinedPropertyDefinitions.values());
 	}
 	
+	/**
+	 * @return the ID of the parent TagDefinition or an empty String if this is
+	 * 			the {@link #CATMA_BASE_TAG}. This method never returns <code>null</code>.
+	 */
 	public String getBaseID() {
 		return baseID;
 	}

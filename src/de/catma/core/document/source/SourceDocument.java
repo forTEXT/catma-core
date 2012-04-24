@@ -36,13 +36,14 @@ import de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollectionRefe
  */
 public class SourceDocument {
 	
+	private String id;
 	private String title;
 	private SourceContentHandler sourceContentHandler;
 	private List<StaticMarkupCollectionReference> staticMarkupCollectionRefs;
 	private List<UserMarkupCollectionReference> userMarkupCollectionRefs;
 	
-	public SourceDocument(String title, SourceContentHandler handler) {
-		super();
+	public SourceDocument(String id, String title, SourceContentHandler handler) {
+		this.id = id;
 		this.title = title;
 		this.sourceContentHandler = handler;
 		this.staticMarkupCollectionRefs = new ArrayList<StaticMarkupCollectionReference>();
@@ -83,7 +84,7 @@ public class SourceDocument {
 	}
 
 	public String getID() {
-		return sourceContentHandler.getSourceDocumentInfo().getTechInfoSet().getURI().toString();
+		return id;
 	}
 	
 	public List<StaticMarkupCollectionReference> getStaticMarkupCollectionRefs() {
@@ -100,5 +101,9 @@ public class SourceDocument {
 	
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public int getLength() throws IOException {
+		return getContent().length();
 	}
 }

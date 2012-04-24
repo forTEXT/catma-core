@@ -1,5 +1,7 @@
 package de.catma.core.document.source;
 
+import de.catma.core.document.ContentInfoSet;
+
 
 public class SourceDocumentInfo {
 

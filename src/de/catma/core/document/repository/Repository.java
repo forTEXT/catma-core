@@ -2,6 +2,7 @@ package de.catma.core.document.repository;
 
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.net.URI;
 import java.util.Collection;
 import java.util.Set;
 
@@ -58,4 +59,6 @@ public interface Repository {
 	public StaticMarkupCollectionReference insert(
 			StaticMarkupCollection staticMarkupCollection);
 	
+	public String createIdFromURI(URI uri);
+	 
 }

@@ -3,24 +3,34 @@ package de.catma.core.document.source;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class IndexInfoSet {
 
     private List<String> unseparableCharacterSequences;
     private List<Character> userDefinedSeparatingCharacters;
-    
-    
+    private Locale locale;
     
     public IndexInfoSet(List<String> unseparableCharacterSequences,
-			List<Character> userDefinedSeparatingCharacters) {
+			List<Character> userDefinedSeparatingCharacters,
+			Locale locale) {
 		super();
 		this.unseparableCharacterSequences = unseparableCharacterSequences;
 		this.userDefinedSeparatingCharacters = userDefinedSeparatingCharacters;
+		this.locale = locale;
 	}
 
 	public IndexInfoSet() {
 		this.unseparableCharacterSequences = new ArrayList<String>();
 		this.userDefinedSeparatingCharacters = new ArrayList<Character>();
+	}
+	
+    public Locale getLocale() {
+        return (locale==null) ? Locale.getDefault() : locale;
+    }
+    
+	public void setLocale(Locale locale) {
+		this.locale = locale;
 	}
 
 	/**
