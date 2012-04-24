@@ -14,7 +14,7 @@ public class PropertyDefinition {
 	
 	public PropertyDefinition(String id, String name,
 			PropertyPossibleValueList possibleValueList) {
-		super();
+		this.id = id;
 		this.name = name;
 		this.possibleValueList = possibleValueList;
 	}

@@ -19,6 +19,7 @@ public interface Repository {
 	
 	public static enum PropertyChangeEvent {
 		sourceDocumentAdded,
+		userMarkupCollectionAdded,
 		;
 	}
 	
@@ -51,11 +52,16 @@ public interface Repository {
 	public void delete(StaticMarkupCollection staticMarkupCollection);
 	
 	public void update(SourceDocument sourceDocument);
-	public void update(UserMarkupCollection userMarkupCollection);
+	public void update(
+			UserMarkupCollection userMarkupCollection, 
+			SourceDocument sourceDocument) throws IOException;
 	public void update(StaticMarkupCollection staticMarkupCollection);
 
 	public void insert(SourceDocument sourceDocument) throws IOException;
-	public void createUserMarkupCollection(String name, SourceDocument sourceDocument);
+	
+	public void createUserMarkupCollection(String name, SourceDocument sourceDocument) 
+			throws IOException;
+	
 	public StaticMarkupCollectionReference insert(
 			StaticMarkupCollection staticMarkupCollection);
 	

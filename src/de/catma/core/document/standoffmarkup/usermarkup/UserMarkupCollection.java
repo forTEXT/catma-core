@@ -28,6 +28,16 @@ public class UserMarkupCollection {
 		this.tagReferences = tagReferences;
 	}
 	
+	public UserMarkupCollection(String id, String name,
+			ContentInfoSet contentInfoSet) {
+		this(id, contentInfoSet, 
+				new TagLibrary(id, name), 
+				new ArrayList<TagReference>());
+		this.name = name;
+	}
+
+
+
 	public TagLibrary getTagLibrary() {
 		return tagLibrary;
 	}

@@ -44,11 +44,11 @@ public class TagInstance {
 	}
 
 	public void addSystemProperty(Property property) {
-		systemProperties.put(property.getName(), property);
+		systemProperties.put(property.getPropertyDefinition().getId(), property);
 	}
 	
 	public void addUserDefinedProperty(Property property) {
-		userDefinedProperties.put(property.getName(), property);
+		userDefinedProperties.put(property.getPropertyDefinition().getId(), property);
 	}
 	
 	@Override
@@ -60,12 +60,12 @@ public class TagInstance {
 		return id;
 	}
 	
-	public Property getSystemProperty(String name) {
-		return systemProperties.get(name);
+	public Property getSystemProperty(String id) {
+		return systemProperties.get(id);
 	}
 
-	public Property getUserDefinedProperty(String name) {
-		return userDefinedProperties.get(name);
+	public Property getUserDefinedProperty(String id) {
+		return userDefinedProperties.get(id);
 	}
 	
 	public void setTagDefinition(TagDefinition tagDefinition) {
