@@ -106,4 +106,8 @@ public class SourceDocument {
 	public int getLength() throws IOException {
 		return getContent().length();
 	}
+	
+	public void unload() {
+		sourceContentHandler.unload();
+	}
 }

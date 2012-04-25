@@ -48,4 +48,6 @@ public interface SourceContentHandler {
 	public void load() throws IOException;
 	
 	public String getContent() throws IOException;
+	
+	public void unload();
 }

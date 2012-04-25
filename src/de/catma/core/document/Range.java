@@ -271,4 +271,9 @@ public class Range implements Comparable<Range> {
     public boolean hasOverlappingRange(Range range) {
         return (getOverlappingRange(range) != null);
     }
+    
+    public boolean isAdjacentTo(Range rangeToTest) {
+    	return ((getStartPoint() == rangeToTest.getEndPoint()) 
+    				|| (getEndPoint() == rangeToTest.getStartPoint()));
+    }
 }

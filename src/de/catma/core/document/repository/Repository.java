@@ -66,5 +66,4 @@ public interface Repository {
 			StaticMarkupCollection staticMarkupCollection);
 	
 	public String createIdFromURI(URI uri);
-	 
 }

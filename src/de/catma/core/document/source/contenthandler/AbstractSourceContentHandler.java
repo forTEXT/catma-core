@@ -27,6 +27,10 @@ public abstract class AbstractSourceContentHandler implements SourceContentHandl
 	public void setContent(String content) {
 		this.content = content;
 	}
+	
+	public void unload() {
+		content = null;
+	}
 
     
 }
