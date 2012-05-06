@@ -31,7 +31,7 @@ public class KeywordInContext {
     private String keyword;
     private String kwic;
     private Range kwicSourceRange;
-    private long relativeKeywordStartPos;
+    private int relativeKeywordStartPos;
 
     /**
      * Constructor.
@@ -42,7 +42,7 @@ public class KeywordInContext {
      */
     public KeywordInContext(
             String keyword, String kwic,
-            Range kwicSourceRange, long relativeKeywordStartPos) {
+            Range kwicSourceRange, int relativeKeywordStartPos) {
         this.keyword = keyword;
         this.kwic = kwic;
         this.kwicSourceRange = kwicSourceRange;
@@ -73,12 +73,14 @@ public class KeywordInContext {
     /**
      * @return the start position of the keyword within the context string
      */
-    public long getRelativeKeywordStartPos() {
+    public int getRelativeKeywordStartPos() {
         return relativeKeywordStartPos;
     }
 
     @Override
     public String toString() {
-        return getKwic();
+        return getKwic().substring(0,getRelativeKeywordStartPos()) 
+        		+ "***" + keyword + "***" 
+        		+ getKwic().substring(getRelativeKeywordStartPos()+keyword.length());
     }
 }
