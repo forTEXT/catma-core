@@ -95,6 +95,15 @@ public class SourceDocument {
 		return userMarkupCollectionRefs;
 	}
 	
+	public UserMarkupCollectionReference getUserMarkupCollectionReference(String id) {
+		for (UserMarkupCollectionReference ref : userMarkupCollectionRefs) {
+			if (ref.getId().equals(id)) {
+				return ref;
+			}
+		}
+		return null;
+	}
+	
 	public SourceContentHandler getSourceContentHandler() {
 		return sourceContentHandler;
 	}

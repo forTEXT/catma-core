@@ -1,6 +1,7 @@
 package de.catma.core.document.standoffmarkup.usermarkup;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -52,5 +53,10 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 			UserMarkupCollection userMarkupCollection) {
 	
 		userMarkupCollection.addTagReferences(tagReferences);
+	}
+
+
+	public List<UserMarkupCollection> getUserMarkupCollections() {
+		return Collections.unmodifiableList(userMarkupCollections);
 	}
 }

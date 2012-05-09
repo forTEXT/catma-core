@@ -83,4 +83,12 @@ public class KeywordInContext {
         		+ "***" + keyword + "***" 
         		+ getKwic().substring(getRelativeKeywordStartPos()+keyword.length());
     }
+    
+    public String getLeftContext() {
+    	return getKwic().substring(0,getRelativeKeywordStartPos());
+    }
+    
+    public String getRightContext() {
+    	return getKwic().substring(getRelativeKeywordStartPos()+keyword.length());
+    }
 }
