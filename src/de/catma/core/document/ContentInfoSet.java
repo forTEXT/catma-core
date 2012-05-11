@@ -24,6 +24,10 @@ public class ContentInfoSet {
 		this.publisher = "";
 	}
 
+	public ContentInfoSet(String title) {
+		this("", "", "",title);
+	}
+
 	public String getAuthor() {
 		return author;
 	}

@@ -50,4 +50,6 @@ public interface SourceContentHandler {
 	public String getContent() throws IOException;
 	
 	public void unload();
+	
+	public boolean isLoaded();
 }

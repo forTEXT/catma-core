@@ -19,4 +19,8 @@ public class StaticMarkupCollectionReference implements
 	public String toString() {
 		return name;
 	}
+	
+	public String getId() {
+		return id;
+	}
 }

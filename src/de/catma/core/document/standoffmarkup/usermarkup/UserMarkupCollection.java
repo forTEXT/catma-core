@@ -14,7 +14,6 @@ import de.catma.core.tag.TagsetDefinition;
 public class UserMarkupCollection {
 
 	private String id;
-	private String name;
 	private ContentInfoSet contentInfoSet;
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
@@ -28,12 +27,10 @@ public class UserMarkupCollection {
 		this.tagReferences = tagReferences;
 	}
 	
-	public UserMarkupCollection(String id, String name,
-			ContentInfoSet contentInfoSet) {
+	public UserMarkupCollection(String id, ContentInfoSet contentInfoSet) {
 		this(id, contentInfoSet, 
-				new TagLibrary(id, name), 
+				new TagLibrary(id, contentInfoSet.getTitle()), 
 				new ArrayList<TagReference>());
-		this.name = name;
 	}
 
 
@@ -81,11 +78,7 @@ public class UserMarkupCollection {
 
 	@Override
 	public String toString() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
+		return contentInfoSet.getTitle();
 	}
 
 	void update(TagsetDefinition tagsetDefinition) {
@@ -113,7 +106,7 @@ public class UserMarkupCollection {
 	}
 	
 	public String getName() {
-		return name;
+		return contentInfoSet.getTitle();
 	}
 	
 	public ContentInfoSet getContentInfoSet() {

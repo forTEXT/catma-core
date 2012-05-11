@@ -119,4 +119,10 @@ public class SourceDocument {
 	public void unload() {
 		sourceContentHandler.unload();
 	}
+
+	public boolean isLoaded() {
+		return sourceContentHandler.isLoaded();
+	}
+	
+	
 }

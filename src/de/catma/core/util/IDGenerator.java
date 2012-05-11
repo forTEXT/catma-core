@@ -14,7 +14,9 @@ public class IDGenerator {
 	}
 	
 	public String uuidBytesToCatmaID(byte[] uuidBytes) {
-		return ID_PREFIX + UUID.nameUUIDFromBytes(uuidBytes).toString();
+		ByteBuffer bb = ByteBuffer.wrap(uuidBytes);
+		UUID id = new UUID(bb.getLong(0), bb.getLong(8));
+		return ID_PREFIX + id.toString();
 	}
 	
 	public UUID catmaIDToUUID(String catmaID) {

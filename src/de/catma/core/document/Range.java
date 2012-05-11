@@ -20,7 +20,9 @@
 package de.catma.core.document;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.SortedSet;
 
 /**
  * A range of text with a startPoint and an endPoint. This class is immutable.
@@ -276,4 +278,49 @@ public class Range implements Comparable<Range> {
     	return ((getStartPoint() == rangeToTest.getEndPoint()) 
     				|| (getEndPoint() == rangeToTest.getStartPoint()));
     }
+    
+    /**
+     * Merges the contiguous ranges of the given set.
+     * @param sortedRanges the ranges to merge
+     * @return the merged ranges.
+     */
+    public static List<Range> mergeRanges(SortedSet<Range> sortedRanges) {
+        List<Range> result = new ArrayList<Range>();
+
+        Range curRange = null;
+
+        Iterator<Range> rangeIterator = sortedRanges.iterator();
+
+        if (rangeIterator.hasNext()) {
+            curRange = rangeIterator.next();
+
+            while (rangeIterator.hasNext()) {
+                Range range = rangeIterator.next();
+
+                if (curRange.getEndPoint() == range.getStartPoint()) { // merge
+                    curRange = new Range(curRange.getStartPoint(), range.getEndPoint());
+                }
+                else {
+                    result.add(curRange);
+                    curRange = range;
+                }
+            }
+            result.add(curRange);
+        }
+
+        return result;
+    }
+
+    public static Range getEnclosingRange(List<Range> ranges) {
+    	int startPoint = Integer.MAX_VALUE;
+    	int endPoint = 0;
+    	
+    	for (Range range : ranges) {
+    		startPoint = Math.min(range.getStartPoint(), startPoint);
+    		endPoint = Math.max(range.getEndPoint(), endPoint);
+    	}
+    	
+    	return new Range(startPoint, endPoint);
+    }
+
 }
