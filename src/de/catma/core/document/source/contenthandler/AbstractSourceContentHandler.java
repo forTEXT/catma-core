@@ -34,6 +34,6 @@ public abstract class AbstractSourceContentHandler implements SourceContentHandl
 
     @Override
     public boolean isLoaded() {
-    	return (content == null);
+    	return (content != null);
     }
 }
