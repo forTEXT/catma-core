@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Map;
 import java.util.Set;
 
 import de.catma.core.document.Corpus;
@@ -14,6 +15,7 @@ import de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollection;
 import de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
 import de.catma.core.tag.TagLibrary;
 import de.catma.core.tag.TagLibraryReference;
+import de.catma.core.user.User;
 
 public interface Repository {
 	
@@ -32,7 +34,7 @@ public interface Repository {
 			PropertyChangeListener propertyChangeListener);
 	
 	public String getName();
-	public void open() throws Exception;
+	public void open(Map<String,String> userIdentification) throws Exception;
 
 	public Collection<SourceDocument> getSourceDocuments();
 	public SourceDocument getSourceDocument(String id);
@@ -66,4 +68,8 @@ public interface Repository {
 			StaticMarkupCollection staticMarkupCollection);
 	
 	public String createIdFromURI(URI uri);
+	
+	public boolean isAuthenticationRequired();
+	
+	public User getUser();
 }

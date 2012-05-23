@@ -99,7 +99,7 @@ public class TagManager {
 	
 	public void setTagDefinitionTypeAndColor(
 			TagDefinition tagDefinition, String type, String colorRgbAsString) {
-		String oldType = tagDefinition.getType();
+		String oldType = tagDefinition.getName();
 		String oldRgb =tagDefinition.getColor();
 		boolean tagDefChanged = false;
 		if (!oldType.equals(type)) {

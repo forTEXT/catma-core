@@ -28,21 +28,21 @@ public class TagDefinition implements Versionable {
 				"CATMA_BASE_TAG", "CATMA_BASE_TAG", new Version("1"), null);
 	
 	private String id;
-	private String type;
+	private String name;
 	private Version version;
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
-	private String baseID;
+	private String parentID;
 
 
-	public TagDefinition(String id, String type, Version version, String baseID) {
+	public TagDefinition(String id, String name, Version version, String parentID) {
 		super();
 		this.id = id;
-		this.type = type;
+		this.name = name;
 		this.version = version;
-		this.baseID = baseID;
-		if (this.baseID == null) {
-			this.baseID = "";
+		this.parentID = parentID;
+		if (this.parentID == null) {
+			this.parentID = "";
 		}
 		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
@@ -55,10 +55,10 @@ public class TagDefinition implements Versionable {
 	
 	@Override
 	public String toString() {
-		return "TAG_DEF[" + type 
+		return "TAG_DEF[" + name 
 				+ ",#" + id +","
 				+version
-				+((baseID.isEmpty()) ? "]" : (",#"+baseID+"]"));
+				+((parentID.isEmpty()) ? "]" : (",#"+parentID+"]"));
 	}
 
 	public void addSystemPropertyDefinition(PropertyDefinition propertyDefinition) {
@@ -108,12 +108,12 @@ public class TagDefinition implements Versionable {
 	 * @return the ID of the parent TagDefinition or an empty String if this is
 	 * 			the {@link #CATMA_BASE_TAG}. This method never returns <code>null</code>.
 	 */
-	public String getBaseID() {
-		return baseID;
+	public String getParentID() {
+		return parentID;
 	}
 	
-	public String getType() {
-		return type;
+	public String getName() {
+		return name;
 	}
 	
 	public String getColor() {
@@ -127,7 +127,7 @@ public class TagDefinition implements Versionable {
 	}
 	
 	void setType(String type) {
-		this.type = type;
+		this.name = type;
 	}
 	
 	void setColor(String colorAsRgbInt) {

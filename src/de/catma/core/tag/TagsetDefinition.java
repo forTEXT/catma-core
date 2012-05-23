@@ -36,12 +36,12 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 
 	void addTagDefinition(TagDefinition tagDef) {
 		tagDefinitions.put(tagDef.getID(),tagDef);
-		if (!tagDefinitionChildren.containsKey(tagDef.getBaseID())) {
+		if (!tagDefinitionChildren.containsKey(tagDef.getParentID())) {
 			tagDefinitionChildren.put(
-					tagDef.getBaseID(), new HashSet<String>());
+					tagDef.getParentID(), new HashSet<String>());
 		}
 		tagDefinitionChildren.get(
-				tagDef.getBaseID()).add(tagDef.getID());
+				tagDef.getParentID()).add(tagDef.getID());
 	}
 	
 	public String getID() {
@@ -113,7 +113,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	public void remove(TagDefinition tagDefinition) {
 		this.tagDefinitions.remove(tagDefinition.getID());
 		Set<String> childrenOfParent = this.tagDefinitionChildren.get(
-				tagDefinition.getBaseID());
+				tagDefinition.getParentID());
 		if (childrenOfParent != null) {
 			childrenOfParent.remove(tagDefinition.getID());
 		}
@@ -123,15 +123,15 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		
 		StringBuilder builder = new StringBuilder();
 		builder.append("/");
-		builder.append(tagDefinition.getType());
-		String baseID = tagDefinition.getBaseID();
+		builder.append(tagDefinition.getName());
+		String baseID = tagDefinition.getParentID();
 		
 		while (!baseID.equals(TagDefinition.CATMA_BASE_TAG.getID())) {
 			TagDefinition parentDef = getTagDefinition(baseID);
-			builder.insert(0, parentDef.getType());
+			builder.insert(0, parentDef.getName());
 			builder.insert(0, "/");
 			
-			baseID = parentDef.getBaseID();
+			baseID = parentDef.getParentID();
 		}
 		
 		return builder.toString();

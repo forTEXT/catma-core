@@ -5,6 +5,7 @@ public class PropertyDefinition {
 	
 	public enum SystemPropertyName {
 		catma_displaycolor,
+		catma_author,
 		;
 	}
 

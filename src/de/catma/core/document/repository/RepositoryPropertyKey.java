@@ -6,7 +6,9 @@ public enum RepositoryPropertyKey {
 	Repository,
 	SerializationHandlerFactory,
 	RepositoryFolderPath,
-	RepositoryFactory,
+	RepositoryFactory, 
+	RepositoryName,
+	isLocal,
 	;
 
 	public boolean isTrue(Properties properties, int index, boolean defaultValue) {
