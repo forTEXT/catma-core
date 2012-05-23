@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.catma.core.document.source.SourceDocument;
+import de.catma.core.document.source.ISourceDocument;
 import de.catma.core.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
 import de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
 
@@ -12,18 +12,18 @@ public class Corpus {
 
 	private String name;
 
-	private List<SourceDocument> sourceDocuments;
+	private List<ISourceDocument> sourceDocuments;
 	private List<StaticMarkupCollectionReference> staticMarkupCollectionRefs;
 	private List<UserMarkupCollectionReference> userMarkupCollectionRefs;
 	
 	public Corpus(String corpusName) {
 		this.name = corpusName;
-		this.sourceDocuments = new ArrayList<SourceDocument>();
+		this.sourceDocuments = new ArrayList<ISourceDocument>();
 		this.staticMarkupCollectionRefs = new ArrayList<StaticMarkupCollectionReference>();
 		this.userMarkupCollectionRefs = new ArrayList<UserMarkupCollectionReference>();
 	}
 
-	public void addSourceDocument(SourceDocument sourceDocument) {
+	public void addSourceDocument(ISourceDocument sourceDocument) {
 		sourceDocuments.add(sourceDocument);
 	}
 
@@ -42,7 +42,7 @@ public class Corpus {
 		return name;
 	}
 
-	public List<SourceDocument> getSourceDocuments() {
+	public List<ISourceDocument> getSourceDocuments() {
 		return Collections.unmodifiableList(sourceDocuments);
 	}
 

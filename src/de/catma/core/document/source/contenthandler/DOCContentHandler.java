@@ -26,7 +26,7 @@ import java.io.InputStream;
 import org.apache.poi.hwpf.extractor.WordExtractor;
 
 /**
- * A content handler for MS Word Doc based {@link de.catma.document.source.SourceDocument}s.
+ * A content handler for MS Word Doc based {@link de.catma.document.source.ISourceDocument}s.
  *
  * @author Marco Petris
  *

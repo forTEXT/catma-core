@@ -11,21 +11,19 @@ public class TechInfoSet {
 	private Long checksum;
 	private String mimeType;
 	private URI uri;
-	private String xsltDocumentName;
-	private boolean managedResource; 
+	private String xsltDocumentLocalUri;
 	
 	public TechInfoSet(FileType fileType, Charset charset,
-			FileOSType fileOSType, Long checksum, String xsltDocumentName) {
+			FileOSType fileOSType, Long checksum, String xsltDocumentLocalUri) {
 		super();
 		this.fileType = fileType;
 		this.charset = charset;
 		this.fileOSType = fileOSType;
 		this.checksum = checksum;
-		this.xsltDocumentName = xsltDocumentName;
+		this.xsltDocumentLocalUri = xsltDocumentLocalUri;
 	}
 	
 	public TechInfoSet(String mimeType, URI uri) {
-		super();
 		this.mimeType = mimeType;
 		this.uri = uri;
 	}
@@ -78,19 +76,11 @@ public class TechInfoSet {
 		this.uri = uri;
 	}
 	
-	public String getXsltDocumentName() {
-		return xsltDocumentName;
+	public String getXsltDocumentLocalUri() {
+		return xsltDocumentLocalUri;
 	}
 	
-	public void setXsltDocumentName(String xsltDocumentName) {
-		this.xsltDocumentName = xsltDocumentName;
-	}
-
-	public void setManagedResource(boolean managedResource) {
-		this.managedResource = managedResource;
-	}
-	
-	public boolean isManagedResource() {
-		return managedResource;
+	public void setXsltDocumentLocalUri(String xsltDocumentLocalUri) {
+		this.xsltDocumentLocalUri = xsltDocumentLocalUri;
 	}
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import de.catma.core.document.Corpus;
-import de.catma.core.document.source.SourceDocument;
+import de.catma.core.document.source.ISourceDocument;
 import de.catma.core.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
 import de.catma.core.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
 import de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollection;
@@ -36,8 +36,8 @@ public interface Repository {
 	public String getName();
 	public void open(Map<String,String> userIdentification) throws Exception;
 
-	public Collection<SourceDocument> getSourceDocuments();
-	public SourceDocument getSourceDocument(String id);
+	public Collection<ISourceDocument> getSourceDocuments();
+	public ISourceDocument getSourceDocument(String id);
 	public Set<Corpus> getCorpora();
 	public Set<TagLibraryReference> getTagLibraryReferences();
 
@@ -49,25 +49,25 @@ public interface Repository {
 	
 	public TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference);
 	
-	public void delete(SourceDocument sourceDocument);
+	public void delete(ISourceDocument sourceDocument);
 	public void delete(UserMarkupCollection userMarkupCollection);
 	public void delete(StaticMarkupCollection staticMarkupCollection);
 	
-	public void update(SourceDocument sourceDocument);
+	public void update(ISourceDocument sourceDocument);
 	public void update(
 			UserMarkupCollection userMarkupCollection, 
-			SourceDocument sourceDocument) throws IOException;
+			ISourceDocument sourceDocument) throws IOException;
 	public void update(StaticMarkupCollection staticMarkupCollection);
 
-	public void insert(SourceDocument sourceDocument) throws IOException;
+	public void insert(ISourceDocument sourceDocument) throws IOException;
 	
-	public void createUserMarkupCollection(String name, SourceDocument sourceDocument) 
+	public void createUserMarkupCollection(String name, ISourceDocument sourceDocument) 
 			throws IOException;
 	
 	public StaticMarkupCollectionReference insert(
 			StaticMarkupCollection staticMarkupCollection);
 	
-	public String createIdFromURI(URI uri);
+	public String getIdFromURI(URI uri);
 	
 	public boolean isAuthenticationRequired();
 	

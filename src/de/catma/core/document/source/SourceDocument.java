@@ -34,17 +34,15 @@ import de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollectionRefe
  * @author Marco Petris
  *
  */
-public class SourceDocument {
+public class SourceDocument implements ISourceDocument {
 	
 	private String id;
-	private String title;
 	private SourceContentHandler sourceContentHandler;
 	private List<StaticMarkupCollectionReference> staticMarkupCollectionRefs;
 	private List<UserMarkupCollectionReference> userMarkupCollectionRefs;
 	
-	public SourceDocument(String id, String title, SourceContentHandler handler) {
+	SourceDocument(String id, SourceContentHandler handler) {
 		this.id = id;
-		this.title = title;
 		this.sourceContentHandler = handler;
 		this.staticMarkupCollectionRefs = new ArrayList<StaticMarkupCollectionReference>();
 		this.userMarkupCollectionRefs = new ArrayList<UserMarkupCollectionReference>();
@@ -55,13 +53,15 @@ public class SourceDocument {
 	 */
 	@Override
 	public String toString() {
-		return title;
+		String title = 
+				sourceContentHandler.getSourceDocumentInfo().getContentInfoSet().getTitle();
+		return ((title == null) || (title.isEmpty()))? id : title;
 	}
 
-	/**
-	 * @param range the range of the content
-	 * @return the content between the startpoint and the endpoint of the range
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#getContent(de.catma.core.document.Range)
 	 */
+	@Override
 	public String getContent( Range range ) throws IOException {
 		int length = getContent().length();
 		return getContent().substring(
@@ -69,32 +69,60 @@ public class SourceDocument {
 				Math.min(range.getEndPoint(), length));
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#getContent()
+	 */
+	@Override
 	public String getContent() throws IOException {
 		return sourceContentHandler.getContent();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#addStaticMarkupCollectionReference(de.catma.core.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference)
+	 */
+	@Override
 	public void addStaticMarkupCollectionReference(
 			StaticMarkupCollectionReference staticMarkupCollRef) {
 		staticMarkupCollectionRefs.add(staticMarkupCollRef);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#addUserMarkupCollectionReference(de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollectionReference)
+	 */
+	@Override
 	public void addUserMarkupCollectionReference(
 			UserMarkupCollectionReference userMarkupCollRef) {
 		userMarkupCollectionRefs.add(userMarkupCollRef);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#getID()
+	 */
+	@Override
 	public String getID() {
 		return id;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#getStaticMarkupCollectionRefs()
+	 */
+	@Override
 	public List<StaticMarkupCollectionReference> getStaticMarkupCollectionRefs() {
 		return staticMarkupCollectionRefs;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#getUserMarkupCollectionRefs()
+	 */
+	@Override
 	public List<UserMarkupCollectionReference> getUserMarkupCollectionRefs() {
 		return userMarkupCollectionRefs;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#getUserMarkupCollectionReference(java.lang.String)
+	 */
+	@Override
 	public UserMarkupCollectionReference getUserMarkupCollectionReference(String id) {
 		for (UserMarkupCollectionReference ref : userMarkupCollectionRefs) {
 			if (ref.getId().equals(id)) {
@@ -104,25 +132,40 @@ public class SourceDocument {
 		return null;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#getSourceContentHandler()
+	 */
+	@Override
 	public SourceContentHandler getSourceContentHandler() {
 		return sourceContentHandler;
 	}
-	
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#getLength()
+	 */
+	@Override
 	public int getLength() throws IOException {
 		return getContent().length();
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#unload()
+	 */
+	@Override
 	public void unload() {
 		sourceContentHandler.unload();
 	}
 
+	/* (non-Javadoc)
+	 * @see de.catma.core.document.source.ISourceDocument#isLoaded()
+	 */
+	@Override
 	public boolean isLoaded() {
 		return sourceContentHandler.isLoaded();
 	}
 	
-	
+	public void setId(String id) {
+		this.id = id;
+	}
+
 }

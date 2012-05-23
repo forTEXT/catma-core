@@ -37,7 +37,7 @@ public class KeywordInContext {
      * Constructor.
      * @param keyword the keyword
      * @param kwic the keyword in context
-     * @param kwicSourceRange the corresponding Range within the {@link de.catma.document.source.SourceDocument}
+     * @param kwicSourceRange the corresponding Range within the {@link de.catma.document.source.ISourceDocument}
      * @param relativeKeywordStartPos the start position of the keyword within the context string
      */
     public KeywordInContext(
@@ -57,7 +57,7 @@ public class KeywordInContext {
     }
 
     /**
-     * @return the corresponding Range within the {@link de.catma.document.source.SourceDocument}
+     * @return the corresponding Range within the {@link de.catma.document.source.ISourceDocument}
      */
     public Range getKwicSourceRange() {
         return kwicSourceRange;

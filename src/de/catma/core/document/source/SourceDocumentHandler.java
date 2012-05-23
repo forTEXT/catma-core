@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.mozilla.universalchardet.UniversalDetector;
 
+import de.catma.core.document.ContentInfoSet;
 import de.catma.core.document.source.contenthandler.DOCContentHandler;
 import de.catma.core.document.source.contenthandler.HTMLContentHandler;
 import de.catma.core.document.source.contenthandler.PDFContentHandler;
@@ -34,7 +35,7 @@ import de.catma.core.document.source.contenthandler.SourceContentHandler;
 import de.catma.core.document.source.contenthandler.StandardContentHandler;
 
 /**
- * Handles the creation of {@link SourceDocument}s.<br>
+ * Handles the creation of {@link ISourceDocument}s.<br>
  *
  *
  * @author Marco Petris
@@ -150,16 +151,22 @@ public class SourceDocumentHandler {
 			typeHandlerMap.get( fileType ).newInstance();
 		handler.setSourceDocumentInfo(sourceDocumentInfo);
 		
-		String title = sourceDocumentInfo.getContentInfoSet().getTitle();
-		
-		if ((title == null) || (title.equals("empty"))) {
-			title = id;
-		}
 		
 		SourceDocument document = 
-				new SourceDocument(id, title, handler);
+				new SourceDocument(id, handler);
 		
 		return document;
+	}
+	
+	public SourceDocument createEmptySourceDocument() {
+		StandardContentHandler standardContentHandler =
+				new StandardContentHandler();
+		SourceDocumentInfo sourceDocumentInfo = new SourceDocumentInfo();
+		standardContentHandler.setSourceDocumentInfo(sourceDocumentInfo);
+		sourceDocumentInfo.setContentInfoSet(new ContentInfoSet());
+		sourceDocumentInfo.setIndexInfoSet(new IndexInfoSet());
+		sourceDocumentInfo.setTechInfoSet(new TechInfoSet(null, null));
+		return new SourceDocument(null, standardContentHandler);
 	}
 	
 }
