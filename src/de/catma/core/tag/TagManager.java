@@ -18,31 +18,31 @@ public class TagManager {
 		;
 	}
 	
-	private List<TagLibrary> currentTagLibraries;
+	private List<ITagLibrary> currentTagLibraries;
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
 	public TagManager() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
-		currentTagLibraries = new ArrayList<TagLibrary>();
+		currentTagLibraries = new ArrayList<ITagLibrary>();
 	}
 	
 	//TODO: taglibary events, tagLibraries are held to cover tagdef move operations between tagsetdefs, not implemented yet 
-	public void addTagLibrary(TagLibrary tagLibrary) {
+	public void addTagLibrary(ITagLibrary tagLibrary) {
 		currentTagLibraries.add(tagLibrary);
 	}
 	
-	public void removeTagLibrary(TagLibrary tagLibrary) {
+	public void removeTagLibrary(ITagLibrary tagLibrary) {
 		currentTagLibraries.remove(tagLibrary);
 	}
 	
 	public void addTagsetDefinition(
-			TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
+			ITagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
 		tagLibrary.add(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
 			TagManagerEvent.tagsetDefinitionAdded.name(),
 			null, 
-			new Pair<TagLibrary, TagsetDefinition>(
+			new Pair<ITagLibrary, TagsetDefinition>(
 					tagLibrary, tagsetDefinition));
 	}
 
@@ -69,11 +69,11 @@ public class TagManager {
 	}
 
 	public void removeTagsetDefinition(
-			TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
+			ITagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
 		tagLibrary.remove(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagsetDefinitionRemoved.name(),
-				new Pair<TagLibrary, TagsetDefinition>(tagLibrary, tagsetDefinition),
+				new Pair<ITagLibrary, TagsetDefinition>(tagLibrary, tagsetDefinition),
 				null);
 	}
 
@@ -120,7 +120,7 @@ public class TagManager {
 		}
 	}
 
-	public void update(TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
+	public void update(ITagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
 		tagLibrary.replace(tagsetDefinition);
 	}
 

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class TagLibrary implements Iterable<TagsetDefinition> {
+public class TagLibrary implements ITagLibrary {
 
 	private String id;
 	private String name;
@@ -20,11 +20,11 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		tagsetDefinitions = new HashMap<String, TagsetDefinition>();
 	}
 
-	void add(TagsetDefinition tagsetDefinition) {
+	public void add(TagsetDefinition tagsetDefinition) {
 		tagsetDefinitions.put(tagsetDefinition.getID(),tagsetDefinition);
 	}
 
-	void replace(TagsetDefinition tagsetDefinition) {
+	public void replace(TagsetDefinition tagsetDefinition) {
 		add(tagsetDefinition);
 	}
 	
@@ -49,6 +49,14 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public List<TagDefinition> getChildren(TagDefinition tagDefinition) {
 		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
 		return tagsetDefinition.getChildren(tagDefinition);
@@ -68,7 +76,7 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return tagsetDefinition.getChildIDs(tagDefinition);
 	}
 
-	void remove(TagsetDefinition tagsetDefinition) {
+	public void remove(TagsetDefinition tagsetDefinition) {
 		tagsetDefinitions.remove(tagsetDefinition.getID());
 	}
 	
@@ -84,4 +92,10 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
 		return tagsetDefinition.getTagPath(tagDefinition);
 	}
+
+	@Override
+	public String toString() {
+		return (name==null) ? id : name;
+	}
+
 }

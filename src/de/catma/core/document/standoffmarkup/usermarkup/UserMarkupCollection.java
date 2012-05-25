@@ -7,35 +7,28 @@ import java.util.List;
 import java.util.Set;
 
 import de.catma.core.document.ContentInfoSet;
+import de.catma.core.tag.ITagLibrary;
 import de.catma.core.tag.TagDefinition;
-import de.catma.core.tag.TagLibrary;
 import de.catma.core.tag.TagsetDefinition;
 
-public class UserMarkupCollection {
-
+public class UserMarkupCollection implements IUserMarkupCollection {
+	
 	private String id;
 	private ContentInfoSet contentInfoSet;
-	private TagLibrary tagLibrary;
+	private ITagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
 	
 	public UserMarkupCollection(
-			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
+			String id, ContentInfoSet contentInfoSet, ITagLibrary tagLibrary,
 			List<TagReference> tagReferences) {
 		this.id = id;
 		this.contentInfoSet = contentInfoSet;
 		this.tagLibrary = tagLibrary;
 		this.tagReferences = tagReferences;
 	}
-	
-	public UserMarkupCollection(String id, ContentInfoSet contentInfoSet) {
-		this(id, contentInfoSet, 
-				new TagLibrary(id, contentInfoSet.getTitle()), 
-				new ArrayList<TagReference>());
-	}
 
 
-
-	public TagLibrary getTagLibrary() {
+	public ITagLibrary getTagLibrary() {
 		return tagLibrary;
 	}
 	
@@ -68,7 +61,7 @@ public class UserMarkupCollection {
 		return result;
 	}
 	
-	Set<String> getChildIDs(TagDefinition tagDefinition) {
+	public Set<String> getChildIDs(TagDefinition tagDefinition) {
 		return tagLibrary.getChildIDs(tagDefinition);
 	}
 
@@ -80,8 +73,9 @@ public class UserMarkupCollection {
 	public String toString() {
 		return contentInfoSet.getTitle();
 	}
-
-	void update(TagsetDefinition tagsetDefinition) {
+	
+	//FIXME: too naive 
+	public void update(TagsetDefinition tagsetDefinition) {
 		List<TagReference> toBeRemoved = new ArrayList<TagReference>();
 		for (TagReference tr : tagReferences) {
 			TagDefinition newTagDef = 
@@ -115,5 +109,13 @@ public class UserMarkupCollection {
 	
 	public boolean isEmpty() {
 		return tagReferences.isEmpty();
+	}
+	
+	public void setTagLibrary(ITagLibrary tagLibrary) {
+		this.tagLibrary = tagLibrary;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

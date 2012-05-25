@@ -11,9 +11,9 @@ import de.catma.core.document.Corpus;
 import de.catma.core.document.source.ISourceDocument;
 import de.catma.core.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
 import de.catma.core.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
-import de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollection;
+import de.catma.core.document.standoffmarkup.usermarkup.IUserMarkupCollection;
 import de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
-import de.catma.core.tag.TagLibrary;
+import de.catma.core.tag.ITagLibrary;
 import de.catma.core.tag.TagLibraryReference;
 import de.catma.core.user.User;
 
@@ -21,7 +21,8 @@ public interface Repository {
 	
 	public static enum PropertyChangeEvent {
 		sourceDocumentAdded,
-		userMarkupCollectionAdded,
+		userMarkupCollectionAdded, 
+		tagLibraryAdded,
 		;
 	}
 	
@@ -41,35 +42,37 @@ public interface Repository {
 	public Set<Corpus> getCorpora();
 	public Set<TagLibraryReference> getTagLibraryReferences();
 
-	public UserMarkupCollection getUserMarkupCollection(
+	public IUserMarkupCollection getUserMarkupCollection(
 			UserMarkupCollectionReference userMarkupCollectionReference);
 	
 	public StaticMarkupCollection getStaticMarkupCollection(
 			StaticMarkupCollectionReference staticMarkupCollectionReference);
 	
-	public TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference);
+	public ITagLibrary getTagLibrary(TagLibraryReference tagLibraryReference);
 	
 	public void delete(ISourceDocument sourceDocument);
-	public void delete(UserMarkupCollection userMarkupCollection);
+	public void delete(IUserMarkupCollection userMarkupCollection);
 	public void delete(StaticMarkupCollection staticMarkupCollection);
 	
 	public void update(ISourceDocument sourceDocument);
 	public void update(
-			UserMarkupCollection userMarkupCollection, 
+			IUserMarkupCollection userMarkupCollection, 
 			ISourceDocument sourceDocument) throws IOException;
 	public void update(StaticMarkupCollection staticMarkupCollection);
 
 	public void insert(ISourceDocument sourceDocument) throws IOException;
+	public StaticMarkupCollectionReference insert(
+			StaticMarkupCollection staticMarkupCollection);
 	
 	public void createUserMarkupCollection(String name, ISourceDocument sourceDocument) 
 			throws IOException;
-	
-	public StaticMarkupCollectionReference insert(
-			StaticMarkupCollection staticMarkupCollection);
+	public void createTagLibrary(String name) throws IOException;
 	
 	public String getIdFromURI(URI uri);
 	
 	public boolean isAuthenticationRequired();
 	
 	public User getUser();
+	
+	public void close();
 }

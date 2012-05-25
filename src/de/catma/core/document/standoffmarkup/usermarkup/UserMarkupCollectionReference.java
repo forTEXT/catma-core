@@ -1,21 +1,22 @@
 package de.catma.core.document.standoffmarkup.usermarkup;
 
+import de.catma.core.document.ContentInfoSet;
 import de.catma.core.document.standoffmarkup.MarkupCollectionReference;
 
 public class UserMarkupCollectionReference implements MarkupCollectionReference {
 	
 	private String id;
-	private String name;
+	private ContentInfoSet contentInfoSet;
 	
-	public UserMarkupCollectionReference(String id, String name) {
-		super();
+	public UserMarkupCollectionReference(String id,
+			ContentInfoSet contentInfoSet) {
 		this.id = id;
-		this.name = name;
+		this.contentInfoSet = contentInfoSet;
 	}
-	
+
 	@Override
 	public String toString() {
-		return name;
+		return contentInfoSet.getTitle();
 	}
 	
 	public String getId() {
@@ -23,6 +24,10 @@ public class UserMarkupCollectionReference implements MarkupCollectionReference 
 	}
 	
 	public String getName() {
-		return name;
+		return contentInfoSet.getTitle();
+	}
+	
+	public ContentInfoSet getContentInfoSet() {
+		return contentInfoSet;
 	}
 }

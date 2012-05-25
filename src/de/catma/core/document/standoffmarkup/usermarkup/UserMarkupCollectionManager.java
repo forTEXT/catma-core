@@ -8,22 +8,22 @@ import java.util.List;
 import de.catma.core.tag.TagManager;
 import de.catma.core.tag.TagsetDefinition;
 
-public class UserMarkupCollectionManager implements Iterable<UserMarkupCollection>{
+public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollection>{
 	
 
 	private TagManager tagManager;
-	private List<UserMarkupCollection> userMarkupCollections;
+	private List<IUserMarkupCollection> userMarkupCollections;
 
 	public UserMarkupCollectionManager(TagManager tagManager) {
 		this.tagManager = tagManager;
-		userMarkupCollections = new ArrayList<UserMarkupCollection>();
+		userMarkupCollections = new ArrayList<IUserMarkupCollection>();
 	}
 	
 
-	public List<UserMarkupCollection> updateUserMarkupCollections(
+	public List<IUserMarkupCollection> updateUserMarkupCollections(
 			TagsetDefinition tagsetDefinition) {
-		List<UserMarkupCollection> modified = new ArrayList<UserMarkupCollection>();
-		for (UserMarkupCollection userMarkupCollection : userMarkupCollections) {
+		List<IUserMarkupCollection> modified = new ArrayList<IUserMarkupCollection>();
+		for (IUserMarkupCollection userMarkupCollection : userMarkupCollections) {
 			
 			if (userMarkupCollection.getTagLibrary().contains(
 					tagsetDefinition)) {
@@ -39,24 +39,24 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	}
 	
 
-	public void add(UserMarkupCollection userMarkupCollection) {
+	public void add(IUserMarkupCollection userMarkupCollection) {
 		this.userMarkupCollections.add(userMarkupCollection);		
 	}
 	
 	@Override
-	public Iterator<UserMarkupCollection> iterator() {
+	public Iterator<IUserMarkupCollection> iterator() {
 		return userMarkupCollections.iterator();
 	}
 
 	public void addTagReferences(
 			List<TagReference> tagReferences,
-			UserMarkupCollection userMarkupCollection) {
+			IUserMarkupCollection userMarkupCollection) {
 	
 		userMarkupCollection.addTagReferences(tagReferences);
 	}
 
 
-	public List<UserMarkupCollection> getUserMarkupCollections() {
+	public List<IUserMarkupCollection> getUserMarkupCollections() {
 		return Collections.unmodifiableList(userMarkupCollections);
 	}
 }

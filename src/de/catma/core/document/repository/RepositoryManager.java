@@ -37,4 +37,16 @@ public class RepositoryManager {
 	public List<Repository> getRepositories() {
 		return Collections.unmodifiableList(repositories);
 	}
+
+	public void close() {
+		for (Repository r : repositories) {
+			try {
+				r.close();
+			}
+			catch (Throwable t) {
+				t.printStackTrace(); //TODO: log
+			}
+		}
+		repositories.clear();
+	}
 }
