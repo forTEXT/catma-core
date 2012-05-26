@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class IDGenerator {
 	public final static String ID_PREFIX = "CATMA_";
+	
 	public String generate() {
 		return ID_PREFIX + UUID.randomUUID().toString();
 	}
@@ -14,18 +15,27 @@ public class IDGenerator {
 	}
 	
 	public String uuidBytesToCatmaID(byte[] uuidBytes) {
+		if (uuidBytes == null) {
+			return null;
+		}
 		ByteBuffer bb = ByteBuffer.wrap(uuidBytes);
 		UUID id = new UUID(bb.getLong(0), bb.getLong(8));
 		return ID_PREFIX + id.toString();
 	}
 	
 	public UUID catmaIDToUUID(String catmaID) {
+		if (catmaID == null) {
+			return null;
+		}
 		int index = catmaID.indexOf(
 				IDGenerator.ID_PREFIX)+IDGenerator.ID_PREFIX.length();
 		return UUID.fromString(catmaID.substring(index));
 	}
 	
 	public byte[] catmaIDToUUIDBytes(String catmaID) {
+		if (catmaID == null) {
+			return null;
+		}
 		ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
 		UUID uuid = catmaIDToUUID(catmaID);
 		bb.putLong(uuid.getMostSignificantBits());

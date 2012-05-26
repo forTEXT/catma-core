@@ -19,6 +19,9 @@
 
 package de.catma.core.tag;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -36,40 +39,32 @@ import java.util.UUID;
  *
  */
 public class Version {
+	private static final SimpleDateFormat FORMAT = 
+			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	private Date version;
 	
-	private String version;
-	
-	public Version( String version ) {
+	public Version( Date version ) {
 		this.version = version;
 	}
 	
-	/**
-	 * Constructor.<br>
-	 * Version number is set to 1.
-	 */
 	public Version() {
-		version = "1";
+		version = new Date();
 	}
 	
-	public Version increment() {
-		return new Version(); //FIXME
+	public Version(String versionString) throws ParseException {
+		this.version = FORMAT.parse(versionString);
 	}
 	
-
 	/**
 	 * @return the string representation of this {@link Version}
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
-		return version;
+		return FORMAT.format(version);
 	}
 
-    /**
-     * @param other the version to compare with
-     * @return true if the given version number is greater than the this version number
-     */
     public boolean isNewer(Version other) {
-        return true; //FIXME
+        return this.version.before(other.version);
     }
 }

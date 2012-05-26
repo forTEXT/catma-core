@@ -48,7 +48,8 @@ public interface Repository {
 	public StaticMarkupCollection getStaticMarkupCollection(
 			StaticMarkupCollectionReference staticMarkupCollectionReference);
 	
-	public ITagLibrary getTagLibrary(TagLibraryReference tagLibraryReference);
+	public ITagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) 
+			throws IOException;
 	
 	public void delete(ISourceDocument sourceDocument);
 	public void delete(IUserMarkupCollection userMarkupCollection);

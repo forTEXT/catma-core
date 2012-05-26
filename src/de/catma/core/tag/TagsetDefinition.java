@@ -34,7 +34,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		return "TAGSET_DEF["+name+",#"+id+","+version+"]";
 	}
 
-	void addTagDefinition(TagDefinition tagDef) {
+	public void addTagDefinition(TagDefinition tagDef) {
 		tagDefinitions.put(tagDef.getID(),tagDef);
 		if (!tagDefinitionChildren.containsKey(tagDef.getParentID())) {
 			tagDefinitionChildren.put(

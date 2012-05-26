@@ -7,8 +7,6 @@ import java.util.Map;
 
 public class TagDefinition implements Versionable {
 	
-	// TODO: hier besser interface einziehen um Links als tagdefs abzubilden.
-	
 	private static enum SystemPropertyName {
 		catma_displaycolor,
 		;
