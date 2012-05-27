@@ -1,12 +1,22 @@
 package de.catma.core.tag;
 
 
+
 public class PropertyDefinition {
 	
 	public enum SystemPropertyName {
 		catma_displaycolor,
-		catma_author,
+		catma_markupauthor,
 		;
+		
+		public static boolean hasPropertyName(String name) {
+			for (SystemPropertyName sysPropName : values()) {
+				if (sysPropName.name().equals(name)) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 
 	private String name;
@@ -26,7 +36,7 @@ public class PropertyDefinition {
 		return "PROP#"+id+"["+name+"="+possibleValueList+"]";
 	}
 	
-	public String getId() {
+	public String getID() {
 		return id;
 	}
 

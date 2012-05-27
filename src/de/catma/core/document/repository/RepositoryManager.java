@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
+import de.catma.backgroundservice.BackgroundServiceProvider;
 import de.catma.core.tag.TagManager;
 
 
@@ -12,8 +13,10 @@ public class RepositoryManager {
 	
 	private List<Repository> repositories;
 	
-	public RepositoryManager(TagManager tagManager, Properties properties) 
-			throws Exception {
+	public RepositoryManager(
+			BackgroundServiceProvider backgroundServiceProvider, 
+			TagManager tagManager, Properties properties) throws Exception {
+		
 		repositories = new ArrayList<Repository>();
 		
 		int index=1;
@@ -25,7 +28,8 @@ public class RepositoryManager {
 					true, Thread.currentThread().getContextClassLoader()).newInstance();
 			
 			Repository repository = 
-				repositoryFactory.createRepository(tagManager, properties, index);
+				repositoryFactory.createRepository(
+						backgroundServiceProvider, tagManager, properties, index);
 			
 			repositories.add(repository);
 			

@@ -24,16 +24,18 @@ public class IDGenerator {
 	}
 	
 	public UUID catmaIDToUUID(String catmaID) {
+		
 		if (catmaID == null) {
 			return null;
 		}
+		
 		int index = catmaID.indexOf(
 				IDGenerator.ID_PREFIX)+IDGenerator.ID_PREFIX.length();
 		return UUID.fromString(catmaID.substring(index));
 	}
 	
 	public byte[] catmaIDToUUIDBytes(String catmaID) {
-		if (catmaID == null) {
+		if ((catmaID == null) || catmaID.isEmpty()) {
 			return null;
 		}
 		ByteBuffer bb = ByteBuffer.wrap(new byte[16]);

@@ -39,8 +39,11 @@ import java.util.UUID;
  *
  */
 public class Version {
+	
 	private static final SimpleDateFormat FORMAT = 
 			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+	private static final SimpleDateFormat SHORTFORMAT = 
+			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 	private Date version;
 	
 	public Version( Date version ) {
@@ -51,8 +54,17 @@ public class Version {
 		version = new Date();
 	}
 	
-	public Version(String versionString) throws ParseException {
-		this.version = FORMAT.parse(versionString);
+	public Version(String versionString) {
+		try {
+			if (versionString.length() == 24) {
+				this.version = SHORTFORMAT.parse(versionString);
+			}
+			else {
+				this.version = FORMAT.parse(versionString);
+			}
+		} catch (ParseException e) {
+			throw new IllegalArgumentException(e);
+		}
 	}
 	
 	/**
@@ -67,4 +79,9 @@ public class Version {
     public boolean isNewer(Version other) {
         return this.version.before(other.version);
     }
+    
+    public Date getDate() {
+    	return (Date)version.clone();
+    }
+    
 }

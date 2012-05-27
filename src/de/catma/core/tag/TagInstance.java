@@ -34,7 +34,7 @@ public class TagInstance {
 			Collection<PropertyDefinition> propertyDefinitions) {
 		for (PropertyDefinition pDef : propertyDefinitions) {
 			properties.put(
-			pDef.getId(), 
+			pDef.getID(), 
 			new Property(pDef, new PropertyValueList(pDef.getFirstValue())));
 		}
 	}
@@ -44,11 +44,11 @@ public class TagInstance {
 	}
 
 	public void addSystemProperty(Property property) {
-		systemProperties.put(property.getPropertyDefinition().getId(), property);
+		systemProperties.put(property.getPropertyDefinition().getID(), property);
 	}
 	
 	public void addUserDefinedProperty(Property property) {
-		userDefinedProperties.put(property.getPropertyDefinition().getId(), property);
+		userDefinedProperties.put(property.getPropertyDefinition().getID(), property);
 	}
 	
 	@Override
@@ -96,7 +96,7 @@ public class TagInstance {
 		for (Property p : properties.values()) {
 			PropertyDefinition incomingPropDef = 
 					tagDefinition.getPropertyDefinition(
-							p.getPropertyDefinition().getId());
+							p.getPropertyDefinition().getID());
 			if (incomingPropDef != null) {
 				p.setPropertyDefinition(incomingPropDef);
 				if (overwriteValues) {

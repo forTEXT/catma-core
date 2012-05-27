@@ -5,10 +5,10 @@ public class TagLibraryReference {
 	private String name;
 	private String id;
 	
-	public TagLibraryReference(String name, String id) {
+	public TagLibraryReference(String id, String name) {
 		super();
-		this.name = name;
 		this.id = id;
+		this.name = name;
 	}
 	
 	@Override

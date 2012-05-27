@@ -31,4 +31,8 @@ public interface ITagLibrary extends Iterable<TagsetDefinition> {
 	public boolean contains(TagsetDefinition tagsetDefinition);
 	
 	public String getTagPath(TagDefinition tagDefinition);
+	
+	public void setName(String name);
+	
+	public void setId(String id);
 }

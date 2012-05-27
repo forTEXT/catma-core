@@ -10,10 +10,7 @@ import de.catma.core.util.Pair;
 public class TagManager {
 	
 	public enum TagManagerEvent {
-		tagsetDefinitionAdded,
-		tagsetDefinitionNameChanged,
 		tagsetDefinitionChanged,
-		tagsetDefinitionRemoved,
 		tagDefinitionChanged,
 		;
 	}
@@ -40,7 +37,7 @@ public class TagManager {
 			ITagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
 		tagLibrary.add(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
-			TagManagerEvent.tagsetDefinitionAdded.name(),
+			TagManagerEvent.tagsetDefinitionChanged.name(),
 			null, 
 			new Pair<ITagLibrary, TagsetDefinition>(
 					tagLibrary, tagsetDefinition));
@@ -63,7 +60,7 @@ public class TagManager {
 		String oldName = tagsetDefinition.getName();
 		tagsetDefinition.setName(name);
 		this.propertyChangeSupport.firePropertyChange(
-				TagManagerEvent.tagsetDefinitionNameChanged.name(),
+				TagManagerEvent.tagsetDefinitionChanged.name(),
 				oldName,
 				tagsetDefinition);
 	}
@@ -72,7 +69,7 @@ public class TagManager {
 			ITagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
 		tagLibrary.remove(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
-				TagManagerEvent.tagsetDefinitionRemoved.name(),
+				TagManagerEvent.tagsetDefinitionChanged.name(),
 				new Pair<ITagLibrary, TagsetDefinition>(tagLibrary, tagsetDefinition),
 				null);
 	}
@@ -103,7 +100,7 @@ public class TagManager {
 		String oldRgb =tagDefinition.getColor();
 		boolean tagDefChanged = false;
 		if (!oldType.equals(type)) {
-			tagDefinition.setType(type);
+			tagDefinition.setName(type);
 			tagDefChanged = true;
 		}
 		

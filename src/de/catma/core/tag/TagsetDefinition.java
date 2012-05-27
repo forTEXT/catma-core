@@ -108,6 +108,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 
 	void setName(String name) {
 		this.name = name;
+		this.version = new Version();
 	}
 
 	public void remove(TagDefinition tagDefinition) {
@@ -126,7 +127,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		builder.append(tagDefinition.getName());
 		String baseID = tagDefinition.getParentID();
 		
-		while (!baseID.equals(TagDefinition.CATMA_BASE_TAG.getID())) {
+		while (!baseID.isEmpty()) {
 			TagDefinition parentDef = getTagDefinition(baseID);
 			builder.insert(0, parentDef.getName());
 			builder.insert(0, "/");

@@ -6,24 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TagDefinition implements Versionable {
-	
-	private static enum SystemPropertyName {
-		catma_displaycolor,
-		;
-		
-		public static boolean hasPropertyName(String name) {
-			for (SystemPropertyName sysPropName : values()) {
-				if (sysPropName.name().equals(name)) {
-					return true;
-				}
-			}
-			return false;
-		}
-	}
-	
-	public final static TagDefinition CATMA_BASE_TAG = 
+	//TODO: may be obsolete, should we consider it for exports?
+	private final static TagDefinition CATMA_BASE_TAG = 
 			new TagDefinition(
-				"CATMA_BASE_TAG", "CATMA_BASE_TAG", new Version("1"), null);
+				"CATMA_BASE_TAG", "CATMA_BASE_TAG",
+				new Version("2012-05-27T16:49:34.776+0200"), null);
 	
 	private String id;
 	private String name;
@@ -60,11 +47,11 @@ public class TagDefinition implements Versionable {
 	}
 
 	public void addSystemPropertyDefinition(PropertyDefinition propertyDefinition) {
-		systemPropertyDefinitions.put(propertyDefinition.getId(), propertyDefinition);
+		systemPropertyDefinitions.put(propertyDefinition.getID(), propertyDefinition);
 	}
 	
 	public void addUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		userDefinedPropertyDefinitions.put(propertyDefinition.getId(), propertyDefinition);
+		userDefinedPropertyDefinitions.put(propertyDefinition.getID(), propertyDefinition);
 	}	
 	
 	public String getID() {
@@ -81,7 +68,7 @@ public class TagDefinition implements Versionable {
 	}
 	
 	public PropertyDefinition getPropertyDefinitionByName(String propertyName) {
-		if (SystemPropertyName.hasPropertyName(propertyName)) {
+		if (PropertyDefinition.SystemPropertyName.hasPropertyName(propertyName)) {
 			for (PropertyDefinition pd : systemPropertyDefinitions.values()) {
 				if (pd.getName().equals(propertyName)) {
 					return pd;
@@ -104,7 +91,7 @@ public class TagDefinition implements Versionable {
 	
 	/**
 	 * @return the ID of the parent TagDefinition or an empty String if this is
-	 * 			the {@link #CATMA_BASE_TAG}. This method never returns <code>null</code>.
+	 * 			a toplevel TagDefinittion. This method never returns <code>null</code>.
 	 */
 	public String getParentID() {
 		return parentID;
@@ -116,7 +103,12 @@ public class TagDefinition implements Versionable {
 	
 	public String getColor() {
 		return getPropertyDefinitionByName(
-				SystemPropertyName.catma_displaycolor.name()).getFirstValue();
+			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).getFirstValue();
+	}
+	
+	public String getAuthor() {
+		return getPropertyDefinitionByName(
+			PropertyDefinition.SystemPropertyName.catma_markupauthor.name()).getFirstValue();
 	}
 
 	public Collection<PropertyDefinition> getSystemPropertyDefinitions() {
@@ -124,14 +116,20 @@ public class TagDefinition implements Versionable {
 				systemPropertyDefinitions.values());
 	}
 	
-	void setType(String type) {
-		this.name = type;
+	void setName(String name) {
+		this.name = name;
 	}
 	
 	void setColor(String colorAsRgbInt) {
 		getPropertyDefinitionByName(
-			SystemPropertyName.catma_displaycolor.name()).
+			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).
 				getPossibleValueList().setValue(colorAsRgbInt);
+	}
+	
+	void setAuthor(String author) {
+		getPropertyDefinitionByName(
+			PropertyDefinition.SystemPropertyName.catma_markupauthor.name()).
+				getPossibleValueList().setValue(author);
 	}
 	
 }

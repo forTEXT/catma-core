@@ -11,17 +11,17 @@ public class TagLibrary implements ITagLibrary {
 
 	private String id;
 	private String name;
-	private Map<String,TagsetDefinition> tagsetDefinitions;
+	private Map<String,TagsetDefinition> tagsetDefinitionsByID;
 	
 	public TagLibrary(String id, String name) {
 		super();
 		this.id = id;
 		this.name = name;
-		tagsetDefinitions = new HashMap<String, TagsetDefinition>();
+		tagsetDefinitionsByID = new HashMap<String, TagsetDefinition>();
 	}
 
 	public void add(TagsetDefinition tagsetDefinition) {
-		tagsetDefinitions.put(tagsetDefinition.getID(),tagsetDefinition);
+		tagsetDefinitionsByID.put(tagsetDefinition.getID(),tagsetDefinition);
 	}
 
 	public void replace(TagsetDefinition tagsetDefinition) {
@@ -29,7 +29,7 @@ public class TagLibrary implements ITagLibrary {
 	}
 	
 	public TagDefinition getTagDefinition(String tagDefinitionID) {
-		for(TagsetDefinition tagsetDefiniton : tagsetDefinitions.values()) {
+		for(TagsetDefinition tagsetDefiniton : tagsetDefinitionsByID.values()) {
 			if (tagsetDefiniton.hasTagDefinition(tagDefinitionID)) {
 				return tagsetDefiniton.getTagDefinition(tagDefinitionID);
 			}
@@ -38,11 +38,11 @@ public class TagLibrary implements ITagLibrary {
 	}
 	
 	public Iterator<TagsetDefinition> iterator() {
-		return Collections.unmodifiableCollection(tagsetDefinitions.values()).iterator();
+		return Collections.unmodifiableCollection(tagsetDefinitionsByID.values()).iterator();
 	}
 
 	public TagsetDefinition getTagsetDefinition(String tagsetDefinitionID) {
-		return tagsetDefinitions.get(tagsetDefinitionID);
+		return tagsetDefinitionsByID.get(tagsetDefinitionID);
 	}
 	
 	public String getName() {
@@ -77,7 +77,7 @@ public class TagLibrary implements ITagLibrary {
 	}
 
 	public void remove(TagsetDefinition tagsetDefinition) {
-		tagsetDefinitions.remove(tagsetDefinition.getID());
+		tagsetDefinitionsByID.remove(tagsetDefinition.getID());
 	}
 	
 	public String getId() {
@@ -85,7 +85,7 @@ public class TagLibrary implements ITagLibrary {
 	}
 
 	public boolean contains(TagsetDefinition tagsetDefinition) {
-		return tagsetDefinitions.containsKey(tagsetDefinition.getID());
+		return tagsetDefinitionsByID.containsKey(tagsetDefinition.getID());
 	}
 	
 	public String getTagPath(TagDefinition tagDefinition) {

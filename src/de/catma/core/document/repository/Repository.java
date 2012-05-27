@@ -2,6 +2,7 @@ package de.catma.core.document.repository;
 
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Map;
@@ -19,28 +20,34 @@ import de.catma.core.user.User;
 
 public interface Repository {
 	
-	public static enum PropertyChangeEvent {
+	public static enum RepositoryChangeEvent {
 		sourceDocumentAdded,
 		userMarkupCollectionAdded, 
 		tagLibraryAdded,
+		exceptionOccurred,
 		;
 	}
+	public void open(Map<String,String> userIdentification) throws Exception;
 	
 	public void addPropertyChangeListener(
-			PropertyChangeEvent propertyChangeEvent, 
+			RepositoryChangeEvent propertyChangeEvent, 
 			PropertyChangeListener propertyChangeListener);
 	
 	public void removePropertyChangeListener(
-			PropertyChangeEvent propertyChangeEvent, 
+			RepositoryChangeEvent propertyChangeEvent, 
 			PropertyChangeListener propertyChangeListener);
 	
 	public String getName();
-	public void open(Map<String,String> userIdentification) throws Exception;
+	public String getIdFromURI(URI uri);
 
 	public Collection<ISourceDocument> getSourceDocuments();
 	public ISourceDocument getSourceDocument(String id);
+	
 	public Set<Corpus> getCorpora();
+
 	public Set<TagLibraryReference> getTagLibraryReferences();
+	public ITagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) 
+			throws IOException;
 
 	public IUserMarkupCollection getUserMarkupCollection(
 			UserMarkupCollectionReference userMarkupCollectionReference);
@@ -48,8 +55,6 @@ public interface Repository {
 	public StaticMarkupCollection getStaticMarkupCollection(
 			StaticMarkupCollectionReference staticMarkupCollectionReference);
 	
-	public ITagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) 
-			throws IOException;
 	
 	public void delete(ISourceDocument sourceDocument);
 	public void delete(IUserMarkupCollection userMarkupCollection);
@@ -67,9 +72,9 @@ public interface Repository {
 	
 	public void createUserMarkupCollection(String name, ISourceDocument sourceDocument) 
 			throws IOException;
-	public void createTagLibrary(String name) throws IOException;
 	
-	public String getIdFromURI(URI uri);
+	public void createTagLibrary(String name) throws IOException;
+	public void importTagLibrary(InputStream inputStream) throws IOException;
 	
 	public boolean isAuthenticationRequired();
 	
