@@ -21,7 +21,7 @@ public class TagLibrary implements ITagLibrary {
 	}
 
 	public void add(TagsetDefinition tagsetDefinition) {
-		tagsetDefinitionsByID.put(tagsetDefinition.getID(),tagsetDefinition);
+		tagsetDefinitionsByID.put(tagsetDefinition.getUuid(),tagsetDefinition);
 	}
 
 	public void replace(TagsetDefinition tagsetDefinition) {
@@ -77,7 +77,7 @@ public class TagLibrary implements ITagLibrary {
 	}
 
 	public void remove(TagsetDefinition tagsetDefinition) {
-		tagsetDefinitionsByID.remove(tagsetDefinition.getID());
+		tagsetDefinitionsByID.remove(tagsetDefinition.getUuid());
 	}
 	
 	public String getId() {
@@ -85,7 +85,7 @@ public class TagLibrary implements ITagLibrary {
 	}
 
 	public boolean contains(TagsetDefinition tagsetDefinition) {
-		return tagsetDefinitionsByID.containsKey(tagsetDefinition.getID());
+		return tagsetDefinitionsByID.containsKey(tagsetDefinition.getUuid());
 	}
 	
 	public String getTagPath(TagDefinition tagDefinition) {

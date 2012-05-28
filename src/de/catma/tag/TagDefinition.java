@@ -7,22 +7,29 @@ import java.util.Map;
 
 public class TagDefinition implements Versionable {
 
-	private String id;
+	private Integer id;
+	private Integer parentId;
+	
+	private String uuid;
 	private String name;
 	private Version version;
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
-	private String parentID;
+	private String parentUuid;
 
 
-	public TagDefinition(String id, String name, Version version, String parentID) {
-		super();
+	public TagDefinition(
+			Integer id, String uuid, 
+			String name, Version version,  
+			Integer parentId, String parentUuid) {
 		this.id = id;
+		this.uuid = uuid;
 		this.name = name;
 		this.version = version;
-		this.parentID = parentID;
-		if (this.parentID == null) {
-			this.parentID = "";
+		this.parentId = parentId;
+		this.parentUuid = parentUuid;
+		if (this.parentUuid == null) {
+			this.parentUuid = "";
 		}
 		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
@@ -36,21 +43,21 @@ public class TagDefinition implements Versionable {
 	@Override
 	public String toString() {
 		return "TAG_DEF[" + name 
-				+ ",#" + id +","
+				+ ",#" + uuid +","
 				+version
-				+((parentID.isEmpty()) ? "]" : (",#"+parentID+"]"));
+				+((parentUuid.isEmpty()) ? "]" : (",#"+parentUuid+"]"));
 	}
 
 	public void addSystemPropertyDefinition(PropertyDefinition propertyDefinition) {
-		systemPropertyDefinitions.put(propertyDefinition.getID(), propertyDefinition);
+		systemPropertyDefinitions.put(propertyDefinition.getUuid(), propertyDefinition);
 	}
 	
 	public void addUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		userDefinedPropertyDefinitions.put(propertyDefinition.getID(), propertyDefinition);
+		userDefinedPropertyDefinitions.put(propertyDefinition.getUuid(), propertyDefinition);
 	}	
 	
-	public String getID() {
-		return id;
+	public String getUuid() {
+		return uuid;
 	}
 	
 	public PropertyDefinition getPropertyDefinition(String id) {
@@ -88,8 +95,8 @@ public class TagDefinition implements Versionable {
 	 * @return the ID of the parent TagDefinition or an empty String if this is
 	 * 			a toplevel TagDefinittion. This method never returns <code>null</code>.
 	 */
-	public String getParentID() {
-		return parentID;
+	public String getParentUuid() {
+		return parentUuid;
 	}
 	
 	public String getName() {
@@ -102,8 +109,14 @@ public class TagDefinition implements Versionable {
 	}
 	
 	public String getAuthor() {
-		return getPropertyDefinitionByName(
-			PropertyDefinition.SystemPropertyName.catma_markupauthor.name()).getFirstValue();
+		PropertyDefinition authorPropertyDef =  getPropertyDefinitionByName(
+			PropertyDefinition.SystemPropertyName.catma_markupauthor.name());
+		if (authorPropertyDef != null) {
+			return authorPropertyDef.getFirstValue();
+		}
+		else {
+			return null;
+		}
 	}
 
 	public Collection<PropertyDefinition> getSystemPropertyDefinitions() {
@@ -125,6 +138,22 @@ public class TagDefinition implements Versionable {
 		getPropertyDefinitionByName(
 			PropertyDefinition.SystemPropertyName.catma_markupauthor.name()).
 				getPossibleValueList().setValue(author);
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setParentId(Integer parentId) {
+		this.parentId = parentId;
+	}
+	
+	public Integer getParentId() {
+		return parentId;
 	}
 	
 }

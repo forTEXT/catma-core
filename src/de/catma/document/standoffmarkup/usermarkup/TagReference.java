@@ -51,7 +51,7 @@ public class TagReference {
 	public String getColor() {
 		return tagInstance.getSystemProperty(
 			tagInstance.getTagDefinition().getPropertyDefinitionByName(
-					PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).getID()).
+					PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).getUuid()).
 				getPropertyValueList().getFirstValue();
 	}
 	

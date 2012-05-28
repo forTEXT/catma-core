@@ -11,14 +11,16 @@ import java.util.Set;
 
 public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	
-	private String id;
+	private Integer id;
+	private String uuid;
 	private String name;
 	private Version version;
 	private Map<String,TagDefinition> tagDefinitions;
 	private Map<String,Set<String>> tagDefinitionChildren;
 	
-	public TagsetDefinition(String id, String tagsetName, Version version) {
+	public TagsetDefinition(Integer id, String uuid, String tagsetName, Version version) {
 		this.id = id;
+		this.uuid = uuid;
 		this.name = tagsetName;
 		this.version = version;
 		this.tagDefinitions = new HashMap<String, TagDefinition>();
@@ -31,21 +33,21 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	
 	@Override
 	public String toString() {
-		return "TAGSET_DEF["+name+",#"+id+","+version+"]";
+		return "TAGSET_DEF["+name+",#"+uuid+","+version+"]";
 	}
 
 	public void addTagDefinition(TagDefinition tagDef) {
-		tagDefinitions.put(tagDef.getID(),tagDef);
-		if (!tagDefinitionChildren.containsKey(tagDef.getParentID())) {
+		tagDefinitions.put(tagDef.getUuid(),tagDef);
+		if (!tagDefinitionChildren.containsKey(tagDef.getParentUuid())) {
 			tagDefinitionChildren.put(
-					tagDef.getParentID(), new HashSet<String>());
+					tagDef.getParentUuid(), new HashSet<String>());
 		}
 		tagDefinitionChildren.get(
-				tagDef.getParentID()).add(tagDef.getID());
+				tagDef.getParentUuid()).add(tagDef.getUuid());
 	}
 	
-	public String getID() {
-		return id;
+	public String getUuid() {
+		return uuid;
 	}
 	
 	public boolean hasTagDefinition(String tagDefID) {
@@ -71,7 +73,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	public List<TagDefinition> getChildren(TagDefinition tagDefinition) {
 		List<TagDefinition> children = new ArrayList<TagDefinition>();
 		Set<String> directChildrenIDs = 
-				tagDefinitionChildren.get(tagDefinition.getID());
+				tagDefinitionChildren.get(tagDefinition.getUuid());
 		
 		if (directChildrenIDs == null) {
 			return Collections.emptyList();
@@ -90,7 +92,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	Set<String> getChildIDs(TagDefinition tagDefinition) {
 		Set<String> childIDs = new HashSet<String>();
 		Set<String> directChildrenIDs = 
-				tagDefinitionChildren.get(tagDefinition.getID());
+				tagDefinitionChildren.get(tagDefinition.getUuid());
 		
 		if (directChildrenIDs == null) {
 			return Collections.emptySet();
@@ -99,7 +101,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		
 		for (String childID : directChildrenIDs) {
 			TagDefinition child = getTagDefinition(childID); 
-			childIDs.add(child.getID());
+			childIDs.add(child.getUuid());
 			childIDs.addAll(getChildIDs(child));
 		}
 
@@ -112,11 +114,11 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	}
 
 	public void remove(TagDefinition tagDefinition) {
-		this.tagDefinitions.remove(tagDefinition.getID());
+		this.tagDefinitions.remove(tagDefinition.getUuid());
 		Set<String> childrenOfParent = this.tagDefinitionChildren.get(
-				tagDefinition.getParentID());
+				tagDefinition.getParentUuid());
 		if (childrenOfParent != null) {
-			childrenOfParent.remove(tagDefinition.getID());
+			childrenOfParent.remove(tagDefinition.getUuid());
 		}
 	}
 
@@ -125,16 +127,26 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		StringBuilder builder = new StringBuilder();
 		builder.append("/");
 		builder.append(tagDefinition.getName());
-		String baseID = tagDefinition.getParentID();
+		String baseID = tagDefinition.getParentUuid();
 		
 		while (!baseID.isEmpty()) {
 			TagDefinition parentDef = getTagDefinition(baseID);
 			builder.insert(0, parentDef.getName());
 			builder.insert(0, "/");
 			
-			baseID = parentDef.getParentID();
+			baseID = parentDef.getParentUuid();
 		}
 		
 		return builder.toString();
 	}
+
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 }
+

@@ -46,14 +46,14 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 		List<TagReference> result = new ArrayList<TagReference>();
 		
 		Set<String> tagDefinitionIDs = new HashSet<String>();
-		tagDefinitionIDs.add(tagDefinition.getID());
+		tagDefinitionIDs.add(tagDefinition.getUuid());
 		
 		if (withChildReferences) {
 			tagDefinitionIDs.addAll(getChildIDs(tagDefinition));
 		}
 		
 		for (TagReference tr : tagReferences) {
-			if (tagDefinitionIDs.contains(tr.getTagDefinition().getID())) {
+			if (tagDefinitionIDs.contains(tr.getTagDefinition().getUuid())) {
 				result.add(tr);
 			}
 		}
@@ -79,7 +79,7 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 		List<TagReference> toBeRemoved = new ArrayList<TagReference>();
 		for (TagReference tr : tagReferences) {
 			TagDefinition newTagDef = 
-					tagsetDefinition.getTagDefinition(tr.getTagDefinition().getID());
+					tagsetDefinition.getTagDefinition(tr.getTagDefinition().getUuid());
 			if (newTagDef != null) {
 				tr.getTagInstance().setTagDefinition(newTagDef);
 			}

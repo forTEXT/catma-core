@@ -18,14 +18,15 @@ public class PropertyDefinition {
 			return false;
 		}
 	}
-
+	private Integer id;
 	private String name;
-	private String id;
+	private String uuid;
 	private PropertyPossibleValueList possibleValueList;
 	
-	public PropertyDefinition(String id, String name,
+	public PropertyDefinition(Integer id, String uuid, String name,
 			PropertyPossibleValueList possibleValueList) {
 		this.id = id;
+		this.uuid = uuid;
 		this.name = name;
 		this.possibleValueList = possibleValueList;
 	}
@@ -33,11 +34,11 @@ public class PropertyDefinition {
 	
 	@Override
 	public String toString() {
-		return "PROP#"+id+"["+name+"="+possibleValueList+"]";
+		return "PROP#"+uuid+"["+name+"="+possibleValueList+"]";
 	}
 	
-	public String getID() {
-		return id;
+	public String getUuid() {
+		return uuid;
 	}
 
 	public String getName() {
@@ -51,5 +52,12 @@ public class PropertyDefinition {
 	public PropertyPossibleValueList getPossibleValueList() {
 		return possibleValueList;
 	}
-
+	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }
