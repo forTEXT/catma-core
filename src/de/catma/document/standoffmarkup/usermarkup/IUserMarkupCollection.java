@@ -35,4 +35,8 @@ public interface IUserMarkupCollection {
 	public ContentInfoSet getContentInfoSet();
 	
 	public boolean isEmpty();
+
+	public void setId(String id);
+
+	public void setTagLibrary(ITagLibrary tagLibrary);
 }

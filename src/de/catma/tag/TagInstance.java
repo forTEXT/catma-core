@@ -2,19 +2,20 @@ package de.catma.tag;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class TagInstance {
 
-	private String id;
+	private String uuid;
 	private TagDefinition tagDefinition;
 	private Map<String,Property> systemProperties;
 	private Map<String,Property> userDefinedProperties;
 	
-	public TagInstance(String id, TagDefinition tagDefinition) {
-		this.id = id;
+	public TagInstance(String uuid, TagDefinition tagDefinition) {
+		this.uuid = uuid;
 		this.tagDefinition = tagDefinition;
 
 		systemProperties = new HashMap<String, Property>();
@@ -53,21 +54,29 @@ public class TagInstance {
 	
 	@Override
 	public String toString() {
-		return "TAGINSTANCE[#"+id+","+tagDefinition+"]";
+		return "TAGINSTANCE[#"+uuid+","+tagDefinition+"]";
 	}
 	
-	public String getID() {
-		return id;
+	public String getUuid() {
+		return uuid;
 	}
 	
 	public Property getSystemProperty(String id) {
 		return systemProperties.get(id);
 	}
-
+	
 	public Property getUserDefinedProperty(String id) {
 		return userDefinedProperties.get(id);
 	}
 	
+	public Collection<Property> getSystemProperties() {
+		return Collections.unmodifiableCollection(systemProperties.values());
+	}
+	
+	public Collection<Property> getUserDefinedProperties() {
+		return Collections.unmodifiableCollection(userDefinedProperties.values());
+	}
+
 	public void setTagDefinition(TagDefinition tagDefinition) {
 		// update or delete existing properties
 		setTagDefinition(tagDefinition, systemProperties, true);

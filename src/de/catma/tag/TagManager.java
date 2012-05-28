@@ -27,6 +27,9 @@ public class TagManager {
 	
 	//TODO: taglibary events, tagLibraries are held to cover tagdef move operations between tagsetdefs, not implemented yet 
 	public void addTagLibrary(ITagLibrary tagLibrary) {
+		if (tagLibrary == null) {
+			throw new IllegalArgumentException("tagLibrary cannot be null!");
+		}
 		currentTagLibraries.add(tagLibrary);
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagLibraryChanged.name(),
@@ -34,6 +37,10 @@ public class TagManager {
 	}
 	
 	public void removeTagLibrary(ITagLibrary tagLibrary) {
+		if (tagLibrary == null) {
+			throw new IllegalArgumentException("tagLibrary cannot be null!");
+		}
+		
 		currentTagLibraries.remove(tagLibrary);
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagLibraryChanged.name(),

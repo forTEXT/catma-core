@@ -41,7 +41,7 @@ public class TagReference {
 	}
 	
 	public String getTagInstanceID() {
-		return tagInstance.getID();
+		return tagInstance.getUuid();
 	}
 	
 	public Range getRange() {
