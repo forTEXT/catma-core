@@ -136,9 +136,10 @@ public class TagManager {
 	}
 	
 	public void synchronize(TagsetDefinition td1, TagsetDefinition td2) {
+		Version oldVersion = td1.getVersion();
 		td1.synchronzizeWith(td2);
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagsetDefinitionSynchronized.name(),
-				null, td1);
+				oldVersion, td1);
 	}
 }

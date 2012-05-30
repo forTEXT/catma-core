@@ -30,6 +30,13 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		this.deletedTagDefinitions = new HashSet<Integer>();
 	}
 
+	public TagsetDefinition(TagsetDefinition toCopy) {
+		this (null, toCopy.uuid, toCopy.name, new Version(toCopy.version));
+		for (TagDefinition tagDefinition : toCopy) {
+			addTagDefinition(new TagDefinition(tagDefinition));
+		}
+	}
+
 	public Version getVersion() {
 		return version;
 	}

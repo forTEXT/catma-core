@@ -20,24 +20,16 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 	}
 	
 
-	public List<IUserMarkupCollection> updateUserMarkupCollections(
-			TagsetDefinition tagsetDefinition) {
-		List<IUserMarkupCollection> modified = new ArrayList<IUserMarkupCollection>();
-		for (IUserMarkupCollection userMarkupCollection : userMarkupCollections) {
+	public void updateUserMarkupCollections(
+			List<IUserMarkupCollection> outOfSynchCollections, TagsetDefinition tagsetDefinition) {
+		for (IUserMarkupCollection userMarkupCollection : outOfSynchCollections) {
+			tagManager.synchronize(
+				userMarkupCollection.getTagLibrary().getTagsetDefinition(
+						tagsetDefinition.getUuid()),
+				tagsetDefinition);
 			
-			if (userMarkupCollection.getTagLibrary().contains(
-					tagsetDefinition)) {
-				modified.add(userMarkupCollection);
-				tagManager.synchronize(
-					userMarkupCollection.getTagLibrary().getTagsetDefinition(
-							tagsetDefinition.getUuid()),
-					tagsetDefinition);
-				
-				userMarkupCollection.synchronizeTagInstances(false);
-			}
+			userMarkupCollection.synchronizeTagInstances(false);
 		}
-		
-		return modified;
 	}
 	
 
@@ -60,5 +52,29 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 
 	public List<IUserMarkupCollection> getUserMarkupCollections() {
 		return Collections.unmodifiableList(userMarkupCollections);
+	}
+
+
+	public List<IUserMarkupCollection> getUserMarkupCollections(
+			TagsetDefinition tagsetDefinition) {
+		
+		List<IUserMarkupCollection> result = 
+				new ArrayList<IUserMarkupCollection>();
+		
+		for (IUserMarkupCollection userMarkupCollection : userMarkupCollections) {
+			
+			if (userMarkupCollection.getTagLibrary().contains(
+					tagsetDefinition)) {
+				TagsetDefinition containedTagsetDef = 
+					userMarkupCollection.getTagLibrary().getTagsetDefinition(
+							tagsetDefinition.getUuid());
+				if (!containedTagsetDef.isSynchronized(tagsetDefinition)) {
+					result.add(userMarkupCollection);
+				}
+			}
+			
+		}
+		
+		return result;
 	}
 }
