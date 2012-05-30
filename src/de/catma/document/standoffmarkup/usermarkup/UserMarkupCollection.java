@@ -95,6 +95,11 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 		this.tagReferences.addAll(tagReferences);	
 	}
 	
+	@Override
+	public void addTagReference(TagReference tagReference) {
+		this.tagReferences.add(tagReference);
+	}
+	
 	public String getId() {
 		return id;
 	}

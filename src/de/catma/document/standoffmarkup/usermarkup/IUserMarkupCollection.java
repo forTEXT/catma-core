@@ -23,10 +23,11 @@ public interface IUserMarkupCollection {
 
 	public List<TagDefinition> getChildren(TagDefinition tagDefinition);
 
-
+	
 	void update(TagsetDefinition tagsetDefinition);
 
 	public void addTagReferences(List<TagReference> tagReferences);
+	public void addTagReference(TagReference tagReference);
 	
 	public String getId();
 	
