@@ -24,10 +24,6 @@ public class TagLibrary implements ITagLibrary {
 		tagsetDefinitionsByID.put(tagsetDefinition.getUuid(),tagsetDefinition);
 	}
 
-	public void replace(TagsetDefinition tagsetDefinition) {
-		add(tagsetDefinition);
-	}
-	
 	public TagDefinition getTagDefinition(String tagDefinitionID) {
 		for(TagsetDefinition tagsetDefiniton : tagsetDefinitionsByID.values()) {
 			if (tagsetDefiniton.hasTagDefinition(tagDefinitionID)) {

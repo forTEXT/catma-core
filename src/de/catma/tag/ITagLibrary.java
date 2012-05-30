@@ -8,8 +8,6 @@ public interface ITagLibrary extends Iterable<TagsetDefinition> {
 
 	public void add(TagsetDefinition tagsetDefinition);
 	
-	public void replace(TagsetDefinition tagsetDefinition);
-	
 	public TagDefinition getTagDefinition(String tagDefinitionID);
 	
 	public Iterator<TagsetDefinition> iterator();

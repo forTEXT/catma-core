@@ -40,4 +40,6 @@ public interface IUserMarkupCollection {
 	public void setId(String id);
 
 	public void setTagLibrary(ITagLibrary tagLibrary);
+	
+	public void synchronizeTagInstances(boolean withUserDefinedPropertyValues);
 }

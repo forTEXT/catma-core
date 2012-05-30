@@ -11,8 +11,9 @@ public class TagManager {
 	
 	public enum TagManagerEvent {
 		tagsetDefinitionChanged,
+		tagsetDefinitionSynchronized,
 		tagDefinitionChanged,
-		tagLibraryChanged,
+		tagLibraryChanged, 
 		;
 	}
 	
@@ -73,6 +74,7 @@ public class TagManager {
 			TagsetDefinition tagsetDefinition, String name) {
 		String oldName = tagsetDefinition.getName();
 		tagsetDefinition.setName(name);
+		tagsetDefinition.setVersion();
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagsetDefinitionChanged.name(),
 				oldName,
@@ -91,6 +93,7 @@ public class TagManager {
 	public void addTagDefintion(TagsetDefinition tagsetDefinition,
 			TagDefinition tagDefinition) {
 		tagsetDefinition.addTagDefinition(tagDefinition);
+		tagsetDefinition.setVersion();
 		this.propertyChangeSupport.firePropertyChange(
 			TagManagerEvent.tagDefinitionChanged.name(),
 			null,
@@ -100,8 +103,8 @@ public class TagManager {
 
 	public void removeTagDefinition(TagsetDefinition tagsetDefinition,
 			TagDefinition tagDefinition) {
-	
 		tagsetDefinition.remove(tagDefinition);
+		tagsetDefinition.setVersion();
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagDefinitionChanged.name(),
 				new Pair<TagsetDefinition, TagDefinition>(tagsetDefinition, tagDefinition),
@@ -111,7 +114,7 @@ public class TagManager {
 	public void setTagDefinitionTypeAndColor(
 			TagDefinition tagDefinition, String type, String colorRgbAsString) {
 		String oldType = tagDefinition.getName();
-		String oldRgb =tagDefinition.getColor();
+		String oldRgb = tagDefinition.getColor();
 		boolean tagDefChanged = false;
 		if (!oldType.equals(type)) {
 			tagDefinition.setName(type);
@@ -124,15 +127,18 @@ public class TagManager {
 		}
 		
 		if (tagDefChanged) {
+			tagDefinition.setVersion();
 			this.propertyChangeSupport.firePropertyChange(
 					TagManagerEvent.tagDefinitionChanged.name(),
 					new Pair<String, String>(oldType, oldRgb),
 					tagDefinition);
 		}
 	}
-
-	public void update(ITagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
-		tagLibrary.replace(tagsetDefinition);
+	
+	public void synchronize(TagsetDefinition td1, TagsetDefinition td2) {
+		td1.synchronzizeWith(td2);
+		this.propertyChangeSupport.firePropertyChange(
+				TagManagerEvent.tagsetDefinitionSynchronized.name(),
+				null, td1);
 	}
-
 }

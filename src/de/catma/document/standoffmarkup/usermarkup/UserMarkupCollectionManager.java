@@ -28,10 +28,12 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 			if (userMarkupCollection.getTagLibrary().contains(
 					tagsetDefinition)) {
 				modified.add(userMarkupCollection);
-				userMarkupCollection.update(tagsetDefinition);
-				tagManager.update(
-						userMarkupCollection.getTagLibrary(), 
-						tagsetDefinition);
+				tagManager.synchronize(
+					userMarkupCollection.getTagLibrary().getTagsetDefinition(
+							tagsetDefinition.getUuid()),
+					tagsetDefinition);
+				
+				userMarkupCollection.synchronizeTagInstances(false);
 			}
 		}
 		

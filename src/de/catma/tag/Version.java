@@ -44,29 +44,33 @@ public class Version {
 			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 	private static final SimpleDateFormat SHORTFORMAT = 
 			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
-	private Date version;
+	private long version;
 	
 	public Version( Date version ) {
-		this.version = version;
+		this.version = version.getTime();
 	}
 	
 	public Version() {
-		version = new Date();
+		version = new Date().getTime();
 	}
 	
 	public Version(String versionString) {
 		try {
 			if (versionString.length() == 24) {
-				this.version = SHORTFORMAT.parse(versionString);
+				this.version = SHORTFORMAT.parse(versionString).getTime();
 			}
 			else {
-				this.version = FORMAT.parse(versionString);
+				this.version = FORMAT.parse(versionString).getTime();
 			}
 		} catch (ParseException e) {
 			throw new IllegalArgumentException(e);
 		}
 	}
 	
+	public Version(Version toCopy) {
+		this.version = toCopy.version;
+	}
+
 	/**
 	 * @return the string representation of this {@link Version}
 	 * @see java.lang.Object#toString()
@@ -77,11 +81,37 @@ public class Version {
 	}
 
     public boolean isNewer(Version other) {
-        return this.version.before(other.version);
+        return this.version < other.version;
     }
     
     public Date getDate() {
-    	return (Date)version.clone();
+    	return new Date(version);
     }
-    
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (version ^ (version >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (!(obj instanceof Version)) {
+			return false;
+		}
+		Version other = (Version) obj;
+		if (version != other.version) {
+			return false;
+		}
+		return true;
+	}
+
 }

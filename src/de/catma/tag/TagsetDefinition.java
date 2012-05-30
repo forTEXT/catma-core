@@ -17,14 +17,17 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	private Version version;
 	private Map<String,TagDefinition> tagDefinitions;
 	private Map<String,Set<String>> tagDefinitionChildren;
+	private Set<Integer> deletedTagDefinitions;
 	
-	public TagsetDefinition(Integer id, String uuid, String tagsetName, Version version) {
+	public TagsetDefinition(
+			Integer id, String uuid, String tagsetName, Version version) {
 		this.id = id;
 		this.uuid = uuid;
 		this.name = tagsetName;
 		this.version = version;
 		this.tagDefinitions = new HashMap<String, TagDefinition>();
 		this.tagDefinitionChildren = new HashMap<String, Set<String>>();
+		this.deletedTagDefinitions = new HashSet<Integer>();
 	}
 
 	public Version getVersion() {
@@ -110,7 +113,6 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 
 	void setName(String name) {
 		this.name = name;
-		this.version = new Version();
 	}
 
 	public void remove(TagDefinition tagDefinition) {
@@ -148,5 +150,74 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		this.id = id;
 	}
 
+	
+	void synchronzizeWith(
+			TagsetDefinition tagsetDefinition) throws IllegalArgumentException {
+		if (!this.getUuid().equals(tagsetDefinition)) {
+			throw new IllegalArgumentException(
+				"can only synch between different versions of the same uuid, this uuid #" 
+				+ uuid + " incoming uuid #" + tagsetDefinition.getUuid());
+		}
+		
+		if (!tagsetDefinition.getVersion().equals(this.getVersion())) {
+			this.setName(tagsetDefinition.getName());
+		}
+		
+		Iterator<TagDefinition> iterator = this.iterator();
+		while(iterator.hasNext()) {
+			TagDefinition td = iterator.next();
+			
+			if (tagsetDefinition.hasTagDefinition(td.getUuid())) {
+				TagDefinition other = 
+						tagsetDefinition.getTagDefinition(td.getUuid());
+				if (!td.getVersion().equals(other.getVersion())) {
+					td.synchronizeWith(other, this);
+				}
+			}
+			else {
+				if (td.getId() != null) {
+					deletedTagDefinitions.add(td.getId());
+				}
+				iterator.remove();
+				tagDefinitionChildren.remove(td.getUuid());
+			}
+			
+		}
+		for (TagDefinition td : tagsetDefinition) {
+			if (!this.hasTagDefinition(td.getUuid())) {
+				addTagDefinition(new TagDefinition(td));
+			}
+		}
+	}
+	
+	public boolean isSynchronized(TagsetDefinition tagsetDefinition) {
+		
+		if (this.getVersion().equals(tagsetDefinition.getVersion())) {
+			for (TagDefinition td : this) {
+				if (tagsetDefinition.hasTagDefinition(td.getUuid())) {
+					if (!td.getVersion().equals(
+							tagsetDefinition.getTagDefinition(
+									td.getUuid()).getVersion())) {
+						return false;
+					}
+				}
+				else {
+					return false;
+				}
+			}
+			
+			for (TagDefinition td : tagsetDefinition) {
+				if (!this.hasTagDefinition(td.getUuid())) {
+					return false; 
+				}
+			}
+			
+			return true;
+		}
+		return false;
+	}
+	
+	void setVersion() {
+		this.version = new Version();
+	}
 }
-

@@ -9,6 +9,7 @@ import java.util.Set;
 import de.catma.document.ContentInfoSet;
 import de.catma.tag.ITagLibrary;
 import de.catma.tag.TagDefinition;
+import de.catma.tag.TagInstance;
 import de.catma.tag.TagsetDefinition;
 
 public class UserMarkupCollection implements IUserMarkupCollection {
@@ -122,5 +123,16 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	
+	public void synchronizeTagInstances(boolean withUserDefinedPropertyValues) {
+		HashSet<TagInstance> tagInstances = new HashSet<TagInstance>();
+		for (TagReference tr : tagReferences) {
+			tagInstances.add(tr.getTagInstance());
+		}
+		
+		for (TagInstance ti : tagInstances) {
+			ti.synchronizeProperties(withUserDefinedPropertyValues);
+		}
 	}
 }

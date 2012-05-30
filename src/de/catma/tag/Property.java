@@ -32,4 +32,9 @@ public class Property {
 	public void setPropertyValueList(PropertyValueList propertyValueList) {
 		this.propertyValueList = propertyValueList;
 	}
+
+	public void synchronize() {
+		setPropertyValueList(
+			propertyDefinition.getPossibleValueList().getPropertyValueList());
+	}
 }

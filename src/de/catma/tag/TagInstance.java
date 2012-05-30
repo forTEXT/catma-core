@@ -123,4 +123,16 @@ public class TagInstance {
 		}
 		
 	}
+
+	public void synchronizeProperties(boolean withUserDefinedPropertyValues) {
+	
+		for (Property p : systemProperties.values()) {
+			p.synchronize();
+		}
+		if (withUserDefinedPropertyValues) {
+			for (Property p : userDefinedProperties.values()) {
+				p.synchronize();
+			}
+		}
+	}
 }

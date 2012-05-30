@@ -1,6 +1,7 @@
 package de.catma.tag;
 
-
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class PropertyDefinition {
 	
@@ -32,6 +33,20 @@ public class PropertyDefinition {
 	}
 	
 	
+	public PropertyDefinition(PropertyDefinition toCopy) {
+		this.uuid = toCopy.uuid;
+		this.name = toCopy.name;
+		ArrayList<String> copiedPossibleValues = new ArrayList<String>();
+		Collections.copy(
+				copiedPossibleValues, 
+				toCopy.possibleValueList.getPropertyValueList().getValues());
+		this.possibleValueList = 
+			new PropertyPossibleValueList(
+				copiedPossibleValues, 
+				toCopy.possibleValueList.isSingleSelect());
+	}
+
+
 	@Override
 	public String toString() {
 		return "PROP#"+uuid+"["+name+"="+possibleValueList+"]";
@@ -60,4 +75,16 @@ public class PropertyDefinition {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public void synchronizeWith(PropertyDefinition pd) {
+		this.uuid = pd.uuid;
+		this.name = pd.name;
+		ArrayList<String> copiedPossibleValues = new ArrayList<String>();
+		Collections.copy(
+				copiedPossibleValues, 
+				pd.possibleValueList.getPropertyValueList().getValues());
+		this.possibleValueList = 
+			new PropertyPossibleValueList(
+				copiedPossibleValues, 
+				pd.possibleValueList.isSingleSelect());	}
 }

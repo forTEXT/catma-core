@@ -3,7 +3,10 @@ package de.catma.tag;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 
 public class TagDefinition implements Versionable {
 
@@ -16,7 +19,7 @@ public class TagDefinition implements Versionable {
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
 	private String parentUuid;
-
+	private Set<Integer> deletedProperties;
 
 	public TagDefinition(
 			Integer id, String uuid, 
@@ -33,6 +36,20 @@ public class TagDefinition implements Versionable {
 		}
 		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
+		deletedProperties = new HashSet<Integer>();
+	}
+
+	public TagDefinition(TagDefinition toCopy) {
+		this(null, toCopy.uuid, 
+				toCopy.name, new Version(toCopy.version), 
+				null, toCopy.parentUuid);
+		
+		for (PropertyDefinition pd : toCopy.getSystemPropertyDefinitions()) {
+			addSystemPropertyDefinition(new PropertyDefinition(pd));
+		}
+		for (PropertyDefinition pd : toCopy.getUserDefinedPropertyDefinitions()) {
+			addUserDefinedPropertyDefinition(new PropertyDefinition(pd));
+		}	
 	}
 
 	public Version getVersion() {
@@ -155,5 +172,49 @@ public class TagDefinition implements Versionable {
 	public Integer getParentId() {
 		return parentId;
 	}
-	
+
+	void synchronizeWith(TagDefinition other, TagsetDefinition thisTagsetDefinition) {
+		if (!this.getVersion().equals(other.getVersion())) {
+			this.name = other.name;
+			this.parentUuid = other.parentUuid;
+			if (parentUuid != null) {
+				this.parentId = 
+					thisTagsetDefinition.getTagDefinition(this.parentUuid).getId();
+			}
+			
+			synchPropertyDefinitions(systemPropertyDefinitions, other);
+			synchPropertyDefinitions(userDefinedPropertyDefinitions, other);
+
+			for (PropertyDefinition pd : other.getUserDefinedPropertyDefinitions()) {
+				if (this.getPropertyDefinition(pd.getUuid()) == null) {
+					addUserDefinedPropertyDefinition(
+							new PropertyDefinition(pd));
+				}
+			}
+			
+		}
+	}
+
+	private void synchPropertyDefinitions(
+			Map<String, PropertyDefinition> propertyDefinitions,
+			TagDefinition other) {
+		
+		Iterator<PropertyDefinition> pdIterator =
+				propertyDefinitions.values().iterator();
+		
+		while (pdIterator.hasNext()) {
+			PropertyDefinition pd  = pdIterator.next();
+			if (other.getPropertyDefinition(pd.getUuid()) != null) {
+				pd.synchronizeWith(pd);
+			}
+			else {
+				deletedProperties.add(pd.getId());
+				pdIterator.remove();
+			}
+		}	
+	}
+
+	void setVersion() {
+		this.version = new Version();
+	}
 }
