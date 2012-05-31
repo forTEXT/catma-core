@@ -8,9 +8,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	
+	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private Integer id;
 	private String uuid;
 	private String name;
@@ -160,10 +162,10 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	
 	void synchronzizeWith(
 			TagsetDefinition tagsetDefinition) throws IllegalArgumentException {
-		if (!this.getUuid().equals(tagsetDefinition)) {
+		if (!this.getUuid().equals(tagsetDefinition.getUuid())) {
 			throw new IllegalArgumentException(
-				"can only synch between different versions of the same uuid, this uuid #" 
-				+ uuid + " incoming uuid #" + tagsetDefinition.getUuid());
+				"can only synch between different versions of the same uuid, this! uuid #" 
+				+ this.getUuid() + " incoming uuid #" + tagsetDefinition.getUuid());
 		}
 		
 		if (!tagsetDefinition.getVersion().equals(this.getVersion())) {
@@ -178,10 +180,12 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 				TagDefinition other = 
 						tagsetDefinition.getTagDefinition(td.getUuid());
 				if (!td.getVersion().equals(other.getVersion())) {
+					logger.info("synching " + td + " with " + other);
 					td.synchronizeWith(other, this);
 				}
 			}
 			else {
+				logger.info("marking " + td + " in " + this + " as deleted");
 				if (td.getId() != null) {
 					deletedTagDefinitions.add(td.getId());
 				}
@@ -192,6 +196,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		}
 		for (TagDefinition td : tagsetDefinition) {
 			if (!this.hasTagDefinition(td.getUuid())) {
+				logger.info("adding " + td + " to " + this + " because of synch");
 				addTagDefinition(new TagDefinition(td));
 			}
 		}

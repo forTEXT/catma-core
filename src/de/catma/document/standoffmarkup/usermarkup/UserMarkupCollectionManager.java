@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
 
 public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollection>{
 	
-
+	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private TagManager tagManager;
 	private List<IUserMarkupCollection> userMarkupCollections;
 
@@ -23,6 +24,7 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 	public void updateUserMarkupCollections(
 			List<IUserMarkupCollection> outOfSynchCollections, TagsetDefinition tagsetDefinition) {
 		for (IUserMarkupCollection userMarkupCollection : outOfSynchCollections) {
+			logger.info("synching " + userMarkupCollection);
 			tagManager.synchronize(
 				userMarkupCollection.getTagLibrary().getTagsetDefinition(
 						tagsetDefinition.getUuid()),
@@ -56,7 +58,7 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 
 
 	public List<IUserMarkupCollection> getUserMarkupCollections(
-			TagsetDefinition tagsetDefinition) {
+			TagsetDefinition tagsetDefinition, boolean inSynch) {
 		
 		List<IUserMarkupCollection> result = 
 				new ArrayList<IUserMarkupCollection>();
@@ -68,7 +70,7 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 				TagsetDefinition containedTagsetDef = 
 					userMarkupCollection.getTagLibrary().getTagsetDefinition(
 							tagsetDefinition.getUuid());
-				if (!containedTagsetDef.isSynchronized(tagsetDefinition)) {
+				if (containedTagsetDef.isSynchronized(tagsetDefinition) == inSynch) {
 					result.add(userMarkupCollection);
 				}
 			}

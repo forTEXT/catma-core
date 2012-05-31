@@ -4,6 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import de.catma.util.Pair;
 
@@ -17,6 +18,7 @@ public class TagManager {
 		;
 	}
 	
+	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private List<ITagLibrary> currentTagLibraries;
 	
 	private PropertyChangeSupport propertyChangeSupport;
@@ -136,6 +138,7 @@ public class TagManager {
 	}
 	
 	public void synchronize(TagsetDefinition td1, TagsetDefinition td2) {
+		logger.info("synching " + td1 + " with " + td2);
 		Version oldVersion = td1.getVersion();
 		td1.synchronzizeWith(td2);
 		this.propertyChangeSupport.firePropertyChange(

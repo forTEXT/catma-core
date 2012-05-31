@@ -26,6 +26,13 @@ public interface ITagLibrary extends Iterable<TagsetDefinition> {
 	
 	public String getId();
 
+	/**
+	 * @param tagsetDefinition the tagsetDefinition is tested by {@link TagsetDefinition#getUuid()} only,
+	 * so even if this TagLibrary contains another instance with the same uuid this method
+	 * will return <code>true</code>! 
+	 * @return true, if this TagLibrary contains a TagsetDefinition that has
+	 * uuid equality with the given tagsetDefinition, else false.
+	 */
 	public boolean contains(TagsetDefinition tagsetDefinition);
 	
 	public String getTagPath(TagDefinition tagDefinition);

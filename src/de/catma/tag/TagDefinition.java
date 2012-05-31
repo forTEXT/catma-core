@@ -7,9 +7,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class TagDefinition implements Versionable {
 
+	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private Integer id;
 	private Integer parentId;
 	
@@ -177,7 +179,7 @@ public class TagDefinition implements Versionable {
 		if (!this.getVersion().equals(other.getVersion())) {
 			this.name = other.name;
 			this.parentUuid = other.parentUuid;
-			if (parentUuid != null) {
+			if (!parentUuid.isEmpty()) {
 				this.parentId = 
 					thisTagsetDefinition.getTagDefinition(this.parentUuid).getId();
 			}
@@ -204,10 +206,14 @@ public class TagDefinition implements Versionable {
 		
 		while (pdIterator.hasNext()) {
 			PropertyDefinition pd  = pdIterator.next();
-			if (other.getPropertyDefinition(pd.getUuid()) != null) {
-				pd.synchronizeWith(pd);
+			PropertyDefinition otherPd = other.getPropertyDefinition(pd.getUuid());
+			
+			if (otherPd != null) {
+				logger.info("synching " + pd + " with "  + otherPd);
+				pd.synchronizeWith(otherPd);
 			}
 			else {
+				logger.info("deleting " + pd + " from " + this);
 				deletedProperties.add(pd.getId());
 				pdIterator.remove();
 			}

@@ -80,6 +80,9 @@ public class TagLibrary implements ITagLibrary {
 		return id;
 	}
 
+	/* (non-Javadoc)
+	 * @see de.catma.tag.ITagLibrary#contains(de.catma.tag.TagsetDefinition)
+	 */
 	public boolean contains(TagsetDefinition tagsetDefinition) {
 		return tagsetDefinitionsByID.containsKey(tagsetDefinition.getUuid());
 	}

@@ -79,10 +79,11 @@ public class PropertyDefinition {
 	public void synchronizeWith(PropertyDefinition pd) {
 		this.uuid = pd.uuid;
 		this.name = pd.name;
-		ArrayList<String> copiedPossibleValues = new ArrayList<String>();
-		Collections.copy(
-				copiedPossibleValues, 
+		ArrayList<String> copiedPossibleValues = 
+				new ArrayList<String>();
+		copiedPossibleValues.addAll(
 				pd.possibleValueList.getPropertyValueList().getValues());
+
 		this.possibleValueList = 
 			new PropertyPossibleValueList(
 				copiedPossibleValues, 
