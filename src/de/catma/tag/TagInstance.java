@@ -135,4 +135,11 @@ public class TagInstance {
 			}
 		}
 	}
+
+	public Property getProperty(String uuid) {
+		if (systemProperties.containsKey(uuid)) {
+			return getSystemProperty(uuid);
+		}
+		return getUserDefinedProperty(uuid);
+	}
 }

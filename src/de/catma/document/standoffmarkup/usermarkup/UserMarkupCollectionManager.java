@@ -6,23 +6,28 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
+import de.catma.document.repository.Repository;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
 
 public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollection>{
-	
+
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private TagManager tagManager;
+	private Repository repository;
+			
 	private List<IUserMarkupCollection> userMarkupCollections;
 
-	public UserMarkupCollectionManager(TagManager tagManager) {
+	public UserMarkupCollectionManager(TagManager tagManager, Repository repository) {
 		this.tagManager = tagManager;
+		this.repository = repository;
 		userMarkupCollections = new ArrayList<IUserMarkupCollection>();
 	}
 	
-
 	public void updateUserMarkupCollections(
-			List<IUserMarkupCollection> outOfSynchCollections, TagsetDefinition tagsetDefinition) {
+			List<IUserMarkupCollection> outOfSynchCollections, 
+			TagsetDefinition tagsetDefinition) {
+		
 		for (IUserMarkupCollection userMarkupCollection : outOfSynchCollections) {
 			logger.info("synching " + userMarkupCollection);
 			tagManager.synchronize(
@@ -32,6 +37,8 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 			
 			userMarkupCollection.synchronizeTagInstances(false);
 		}
+
+		repository.update(outOfSynchCollections, tagsetDefinition);
 	}
 	
 
@@ -49,6 +56,9 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 			IUserMarkupCollection userMarkupCollection) {
 	
 		userMarkupCollection.addTagReferences(tagReferences);
+		
+		repository.update(userMarkupCollection, tagReferences);
+
 	}
 
 

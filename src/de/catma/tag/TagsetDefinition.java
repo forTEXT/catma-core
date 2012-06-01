@@ -160,7 +160,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	}
 
 	
-	void synchronzizeWith(
+	void synchronizeWith(
 			TagsetDefinition tagsetDefinition) throws IllegalArgumentException {
 		if (!this.getUuid().equals(tagsetDefinition.getUuid())) {
 			throw new IllegalArgumentException(

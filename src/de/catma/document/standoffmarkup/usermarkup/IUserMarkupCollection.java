@@ -6,6 +6,7 @@ import java.util.Set;
 import de.catma.document.ContentInfoSet;
 import de.catma.tag.ITagLibrary;
 import de.catma.tag.TagDefinition;
+import de.catma.tag.TagInstance;
 import de.catma.tag.TagsetDefinition;
 
 public interface IUserMarkupCollection {
@@ -19,6 +20,9 @@ public interface IUserMarkupCollection {
 	public List<TagReference> getTagReferences(
 			TagDefinition tagDefinition, boolean withChildReferences);
 	
+	public Set<TagReference> getTagReferences(TagInstance ti);
+	
+	//TODO: still necessary?
 	Set<String> getChildIDs(TagDefinition tagDefinition);
 
 	public List<TagDefinition> getChildren(TagDefinition tagDefinition);

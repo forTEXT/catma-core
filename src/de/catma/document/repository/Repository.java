@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,9 +14,11 @@ import de.catma.document.source.ISourceDocument;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
 import de.catma.document.standoffmarkup.usermarkup.IUserMarkupCollection;
+import de.catma.document.standoffmarkup.usermarkup.TagReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
 import de.catma.tag.ITagLibrary;
 import de.catma.tag.TagLibraryReference;
+import de.catma.tag.TagsetDefinition;
 import de.catma.user.User;
 
 public interface Repository {
@@ -57,7 +60,9 @@ public interface Repository {
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
 	public void update(
 			IUserMarkupCollection userMarkupCollection, 
-			ISourceDocument sourceDocument) throws IOException;
+			List<TagReference> tagReferences);
+	public void update(List<IUserMarkupCollection> userMarkupCollections,
+			TagsetDefinition tagsetDefinition);
 	public void delete(
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
 	

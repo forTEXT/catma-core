@@ -135,4 +135,17 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 			ti.synchronizeProperties(withUserDefinedPropertyValues);
 		}
 	}
+	
+
+	public Set<TagReference> getTagReferences(TagInstance ti) {
+		HashSet<TagReference> result = new HashSet<TagReference>();
+		
+		for (TagReference tr : getTagReferences()) {
+			if (tr.getTagInstanceID().equals(ti.getUuid())) {
+				result.add(tr);
+			}
+		}
+		
+		return result;
+	}
 }

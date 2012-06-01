@@ -12,7 +12,6 @@ public class TagManager {
 	
 	public enum TagManagerEvent {
 		tagsetDefinitionChanged,
-		tagsetDefinitionSynchronized,
 		tagDefinitionChanged,
 		tagLibraryChanged, 
 		;
@@ -139,10 +138,9 @@ public class TagManager {
 	
 	public void synchronize(TagsetDefinition td1, TagsetDefinition td2) {
 		logger.info("synching " + td1 + " with " + td2);
-		Version oldVersion = td1.getVersion();
-		td1.synchronzizeWith(td2);
-		this.propertyChangeSupport.firePropertyChange(
-				TagManagerEvent.tagsetDefinitionSynchronized.name(),
-				oldVersion, td1);
+		td1.synchronizeWith(td2);
+		// no event needed, since synchronization goes always along with
+		// modifications to UserMarkupCollections, we handle the two
+		// things together in the UserMarkupCollectionManager
 	}
 }
