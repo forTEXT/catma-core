@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import de.catma.document.repository.Repository;
@@ -88,5 +89,25 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 		}
 		
 		return result;
+	}
+
+	public void removeTagInstance(String instanceID) {
+		IUserMarkupCollection userMarkupCollection = 
+				getUserMarkupCollectionForTagInstance(instanceID); 
+		
+		Set<TagReference> tagReferences = 
+				userMarkupCollection.getTagReferences(instanceID);
+		userMarkupCollection.removeTagReferences(tagReferences);
+		repository.update(userMarkupCollection, tagReferences);
+	}
+
+	private IUserMarkupCollection getUserMarkupCollectionForTagInstance(
+			String instanceID) {
+		for (IUserMarkupCollection userMarkupCollection : userMarkupCollections) {
+			if (userMarkupCollection.hasTagInstance(instanceID)) {
+				return userMarkupCollection;
+			}
+		}
+		return null;
 	}
 }

@@ -27,7 +27,7 @@ public interface Repository {
 		sourceDocumentChanged,
 		userMarkupCollectionChanged, 
 		tagLibraryChanged,
-		exceptionOccurred,
+		exceptionOccurred, 
 		;
 	}
 	
@@ -60,7 +60,7 @@ public interface Repository {
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
 	public void update(
 			IUserMarkupCollection userMarkupCollection, 
-			List<TagReference> tagReferences);
+			Collection<TagReference> tagReferences);
 	public void update(List<IUserMarkupCollection> userMarkupCollections,
 			TagsetDefinition tagsetDefinition);
 	public void delete(

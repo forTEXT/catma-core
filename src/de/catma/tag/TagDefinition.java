@@ -21,7 +21,7 @@ public class TagDefinition implements Versionable {
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
 	private String parentUuid;
-	private Set<Integer> deletedProperties;
+	private Set<Integer> deletedPropertyDefinitions;
 
 	public TagDefinition(
 			Integer id, String uuid, 
@@ -38,7 +38,7 @@ public class TagDefinition implements Versionable {
 		}
 		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
-		deletedProperties = new HashSet<Integer>();
+		deletedPropertyDefinitions = new HashSet<Integer>();
 	}
 
 	public TagDefinition(TagDefinition toCopy) {
@@ -178,6 +178,7 @@ public class TagDefinition implements Versionable {
 	void synchronizeWith(TagDefinition other, TagsetDefinition thisTagsetDefinition) {
 		if (!this.getVersion().equals(other.getVersion())) {
 			this.name = other.name;
+			this.version = new Version(other.getVersion());
 			this.parentUuid = other.parentUuid;
 			if (!parentUuid.isEmpty()) {
 				this.parentId = 
@@ -214,7 +215,7 @@ public class TagDefinition implements Versionable {
 			}
 			else {
 				logger.info("deleting " + pd + " from " + this);
-				deletedProperties.add(pd.getId());
+				deletedPropertyDefinitions.add(pd.getId());
 				pdIterator.remove();
 			}
 		}	
@@ -222,5 +223,9 @@ public class TagDefinition implements Versionable {
 
 	void setVersion() {
 		this.version = new Version();
+	}
+	
+	public Set<Integer> getDeletedPropertyDefinitions() {
+		return deletedPropertyDefinitions;
 	}
 }

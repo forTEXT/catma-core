@@ -37,9 +37,9 @@ public class PropertyDefinition {
 		this.uuid = toCopy.uuid;
 		this.name = toCopy.name;
 		ArrayList<String> copiedPossibleValues = new ArrayList<String>();
-		Collections.copy(
-				copiedPossibleValues, 
-				toCopy.possibleValueList.getPropertyValueList().getValues());
+		copiedPossibleValues.addAll(
+			toCopy.possibleValueList.getPropertyValueList().getValues());
+
 		this.possibleValueList = 
 			new PropertyPossibleValueList(
 				copiedPossibleValues, 

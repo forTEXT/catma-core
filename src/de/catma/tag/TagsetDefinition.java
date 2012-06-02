@@ -170,6 +170,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		
 		if (!tagsetDefinition.getVersion().equals(this.getVersion())) {
 			this.setName(tagsetDefinition.getName());
+			this.version = new Version(tagsetDefinition.getVersion());
 		}
 		
 		Iterator<TagDefinition> iterator = this.iterator();
@@ -231,5 +232,9 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	
 	void setVersion() {
 		this.version = new Version();
+	}
+	
+	public Set<Integer> getDeletedTagDefinitions() {
+		return deletedTagDefinitions;
 	}
 }

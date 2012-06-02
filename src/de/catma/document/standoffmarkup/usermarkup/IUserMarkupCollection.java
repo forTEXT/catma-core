@@ -21,6 +21,8 @@ public interface IUserMarkupCollection {
 			TagDefinition tagDefinition, boolean withChildReferences);
 	
 	public Set<TagReference> getTagReferences(TagInstance ti);
+	public Set<TagReference> getTagReferences(String tagInstanceID);
+	public boolean hasTagInstance(String instanceID);
 	
 	//TODO: still necessary?
 	Set<String> getChildIDs(TagDefinition tagDefinition);
@@ -46,4 +48,7 @@ public interface IUserMarkupCollection {
 	public void setTagLibrary(ITagLibrary tagLibrary);
 	
 	public void synchronizeTagInstances(boolean withUserDefinedPropertyValues);
+
+	public void removeTagReferences(Set<TagReference> tagReferences);
+
 }
