@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class TagLibrary implements ITagLibrary {
+public class TagLibrary implements Iterable<TagsetDefinition> {
 
 	private String id;
 	private String name;
 	private Map<String,TagsetDefinition> tagsetDefinitionsByID;
 	
 	public TagLibrary(String id, String name) {
-		super();
 		this.id = id;
 		this.name = name;
 		tagsetDefinitionsByID = new HashMap<String, TagsetDefinition>();
@@ -80,8 +79,12 @@ public class TagLibrary implements ITagLibrary {
 		return id;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.catma.tag.ITagLibrary#contains(de.catma.tag.TagsetDefinition)
+	/**
+	 * @param tagsetDefinition the tagsetDefinition is tested by {@link TagsetDefinition#getUuid()} only,
+	 * so even if this TagLibrary contains another instance with the same uuid this method
+	 * will return <code>true</code>! 
+	 * @return true, if this TagLibrary contains a TagsetDefinition that has
+	 * uuid equality with the given tagsetDefinition, else false.
 	 */
 	public boolean contains(TagsetDefinition tagsetDefinition) {
 		return tagsetDefinitionsByID.containsKey(tagsetDefinition.getUuid());
@@ -96,5 +99,4 @@ public class TagLibrary implements ITagLibrary {
 	public String toString() {
 		return (name==null) ? id : name;
 	}
-
 }

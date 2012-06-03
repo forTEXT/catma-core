@@ -35,7 +35,7 @@ import de.catma.document.source.contenthandler.SourceContentHandler;
 import de.catma.document.source.contenthandler.StandardContentHandler;
 
 /**
- * Handles the creation of {@link ISourceDocument}s.<br>
+ * Handles the creation of {@link SourceDocument}s.<br>
  *
  *
  * @author Marco Petris

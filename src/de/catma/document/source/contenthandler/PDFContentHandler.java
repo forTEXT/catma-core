@@ -26,7 +26,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
 
 /**
- * A content handler for PDF based {@link de.catma.document.source.ISourceDocument}s.
+ * A content handler for PDF based {@link de.catma.document.source.SourceDocument}s.
  *
  * @author Marco Petris
  *

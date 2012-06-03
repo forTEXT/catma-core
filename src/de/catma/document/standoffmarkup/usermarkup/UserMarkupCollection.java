@@ -7,20 +7,20 @@ import java.util.List;
 import java.util.Set;
 
 import de.catma.document.ContentInfoSet;
-import de.catma.tag.ITagLibrary;
+import de.catma.tag.TagLibrary;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagsetDefinition;
 
-public class UserMarkupCollection implements IUserMarkupCollection {
-	
+public class UserMarkupCollection {
+
 	private String id;
 	private ContentInfoSet contentInfoSet;
-	private ITagLibrary tagLibrary;
+	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
 	
 	public UserMarkupCollection(
-			String id, ContentInfoSet contentInfoSet, ITagLibrary tagLibrary,
+			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
 			List<TagReference> tagReferences) {
 		this.id = id;
 		this.contentInfoSet = contentInfoSet;
@@ -29,7 +29,7 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 	}
 
 
-	public ITagLibrary getTagLibrary() {
+	public TagLibrary getTagLibrary() {
 		return tagLibrary;
 	}
 	
@@ -75,8 +75,8 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 		return contentInfoSet.getTitle();
 	}
 	
-	//FIXME: too naive 
-	public void update(TagsetDefinition tagsetDefinition) {
+	//FIXME: obsolete
+	private void update(TagsetDefinition tagsetDefinition) {
 		List<TagReference> toBeRemoved = new ArrayList<TagReference>();
 		for (TagReference tr : tagReferences) {
 			TagDefinition newTagDef = 
@@ -96,7 +96,6 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 		this.tagReferences.addAll(tagReferences);	
 	}
 	
-	@Override
 	public void addTagReference(TagReference tagReference) {
 		this.tagReferences.add(tagReference);
 	}
@@ -117,7 +116,7 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 		return tagReferences.isEmpty();
 	}
 	
-	public void setTagLibrary(ITagLibrary tagLibrary) {
+	public void setTagLibrary(TagLibrary tagLibrary) {
 		this.tagLibrary = tagLibrary;
 	}
 
@@ -153,7 +152,6 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 		return getTagReferences(ti.getUuid());
 	}
 	
-	@Override
 	public boolean hasTagInstance(String instanceID) {
 		for (TagReference tr : getTagReferences()) {
 			if (tr.getTagInstanceID().equals(instanceID)) {
@@ -163,7 +161,6 @@ public class UserMarkupCollection implements IUserMarkupCollection {
 		return false;
 	}
 	
-	@Override
 	public void removeTagReferences(Set<TagReference> tagReferences) {
 		this.tagReferences.removeAll(tagReferences);
 	}

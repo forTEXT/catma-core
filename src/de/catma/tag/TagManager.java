@@ -18,17 +18,17 @@ public class TagManager {
 	}
 	
 	private Logger logger = Logger.getLogger(this.getClass().getName());
-	private List<ITagLibrary> currentTagLibraries;
+	private List<TagLibrary> currentTagLibraries;
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
 	public TagManager() {
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
-		currentTagLibraries = new ArrayList<ITagLibrary>();
+		currentTagLibraries = new ArrayList<TagLibrary>();
 	}
 	
 	//TODO: taglibary events, tagLibraries are held to cover tagdef move operations between tagsetdefs, not implemented yet 
-	public void addTagLibrary(ITagLibrary tagLibrary) {
+	public void addTagLibrary(TagLibrary tagLibrary) {
 		if (tagLibrary == null) {
 			throw new IllegalArgumentException("tagLibrary cannot be null!");
 		}
@@ -38,7 +38,7 @@ public class TagManager {
 				null, tagLibrary);
 	}
 	
-	public void removeTagLibrary(ITagLibrary tagLibrary) {
+	public void removeTagLibrary(TagLibrary tagLibrary) {
 		if (tagLibrary == null) {
 			throw new IllegalArgumentException("tagLibrary cannot be null!");
 		}
@@ -50,12 +50,12 @@ public class TagManager {
 	}
 	
 	public void addTagsetDefinition(
-			ITagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
+			TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
 		tagLibrary.add(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
 			TagManagerEvent.tagsetDefinitionChanged.name(),
 			null, 
-			new Pair<ITagLibrary, TagsetDefinition>(
+			new Pair<TagLibrary, TagsetDefinition>(
 					tagLibrary, tagsetDefinition));
 	}
 
@@ -83,11 +83,11 @@ public class TagManager {
 	}
 
 	public void removeTagsetDefinition(
-			ITagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
+			TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
 		tagLibrary.remove(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagsetDefinitionChanged.name(),
-				new Pair<ITagLibrary, TagsetDefinition>(tagLibrary, tagsetDefinition),
+				new Pair<TagLibrary, TagsetDefinition>(tagLibrary, tagsetDefinition),
 				null);
 	}
 

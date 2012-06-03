@@ -10,13 +10,13 @@ import java.util.Map;
 import java.util.Set;
 
 import de.catma.document.Corpus;
-import de.catma.document.source.ISourceDocument;
+import de.catma.document.source.SourceDocument;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
-import de.catma.document.standoffmarkup.usermarkup.IUserMarkupCollection;
+import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
 import de.catma.document.standoffmarkup.usermarkup.TagReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
-import de.catma.tag.ITagLibrary;
+import de.catma.tag.TagLibrary;
 import de.catma.tag.TagLibraryReference;
 import de.catma.tag.TagsetDefinition;
 import de.catma.user.User;
@@ -45,23 +45,23 @@ public interface Repository {
 	public String getName();
 	public String getIdFromURI(URI uri);
 
-	public void insert(ISourceDocument sourceDocument) throws IOException;
-	public Collection<ISourceDocument> getSourceDocuments();
-	public ISourceDocument getSourceDocument(String id);
-	public void delete(ISourceDocument sourceDocument);
+	public void insert(SourceDocument sourceDocument) throws IOException;
+	public Collection<SourceDocument> getSourceDocuments();
+	public SourceDocument getSourceDocument(String id);
+	public void delete(SourceDocument sourceDocument);
 	
 	public Set<Corpus> getCorpora();
 
-	public void createUserMarkupCollection(String name, ISourceDocument sourceDocument) 
+	public void createUserMarkupCollection(String name, SourceDocument sourceDocument) 
 			throws IOException;
 	public void importUserMarkupCollection(
-			InputStream inputStream, ISourceDocument sourceDocument) throws IOException;
-	public IUserMarkupCollection getUserMarkupCollection(
+			InputStream inputStream, SourceDocument sourceDocument) throws IOException;
+	public UserMarkupCollection getUserMarkupCollection(
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
 	public void update(
-			IUserMarkupCollection userMarkupCollection, 
+			UserMarkupCollection userMarkupCollection, 
 			Collection<TagReference> tagReferences);
-	public void update(List<IUserMarkupCollection> userMarkupCollections,
+	public void update(List<UserMarkupCollection> userMarkupCollections,
 			TagsetDefinition tagsetDefinition);
 	public void delete(
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
@@ -76,7 +76,7 @@ public interface Repository {
 	public void createTagLibrary(String name) throws IOException;
 	public void importTagLibrary(InputStream inputStream) throws IOException;
 	public Set<TagLibraryReference> getTagLibraryReferences();
-	public ITagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) 
+	public TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) 
 			throws IOException;
 	public void delete(TagLibraryReference tagLibraryReference) throws IOException;
 	

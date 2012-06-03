@@ -11,25 +11,25 @@ import de.catma.document.repository.Repository;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
 
-public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollection>{
+public class UserMarkupCollectionManager implements Iterable<UserMarkupCollection>{
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private TagManager tagManager;
 	private Repository repository;
 			
-	private List<IUserMarkupCollection> userMarkupCollections;
+	private List<UserMarkupCollection> userMarkupCollections;
 
 	public UserMarkupCollectionManager(TagManager tagManager, Repository repository) {
 		this.tagManager = tagManager;
 		this.repository = repository;
-		userMarkupCollections = new ArrayList<IUserMarkupCollection>();
+		userMarkupCollections = new ArrayList<UserMarkupCollection>();
 	}
 	
 	public void updateUserMarkupCollections(
-			List<IUserMarkupCollection> outOfSynchCollections, 
+			List<UserMarkupCollection> outOfSynchCollections, 
 			TagsetDefinition tagsetDefinition) {
 		
-		for (IUserMarkupCollection userMarkupCollection : outOfSynchCollections) {
+		for (UserMarkupCollection userMarkupCollection : outOfSynchCollections) {
 			logger.info("synching " + userMarkupCollection);
 			tagManager.synchronize(
 				userMarkupCollection.getTagLibrary().getTagsetDefinition(
@@ -43,18 +43,18 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 	}
 	
 
-	public void add(IUserMarkupCollection userMarkupCollection) {
+	public void add(UserMarkupCollection userMarkupCollection) {
 		this.userMarkupCollections.add(userMarkupCollection);		
 	}
 	
 	@Override
-	public Iterator<IUserMarkupCollection> iterator() {
+	public Iterator<UserMarkupCollection> iterator() {
 		return userMarkupCollections.iterator();
 	}
 
 	public void addTagReferences(
 			List<TagReference> tagReferences,
-			IUserMarkupCollection userMarkupCollection) {
+			UserMarkupCollection userMarkupCollection) {
 	
 		userMarkupCollection.addTagReferences(tagReferences);
 		
@@ -63,18 +63,18 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 	}
 
 
-	public List<IUserMarkupCollection> getUserMarkupCollections() {
+	public List<UserMarkupCollection> getUserMarkupCollections() {
 		return Collections.unmodifiableList(userMarkupCollections);
 	}
 
 
-	public List<IUserMarkupCollection> getUserMarkupCollections(
+	public List<UserMarkupCollection> getUserMarkupCollections(
 			TagsetDefinition tagsetDefinition, boolean inSynch) {
 		
-		List<IUserMarkupCollection> result = 
-				new ArrayList<IUserMarkupCollection>();
+		List<UserMarkupCollection> result = 
+				new ArrayList<UserMarkupCollection>();
 		
-		for (IUserMarkupCollection userMarkupCollection : userMarkupCollections) {
+		for (UserMarkupCollection userMarkupCollection : userMarkupCollections) {
 			
 			if (userMarkupCollection.getTagLibrary().contains(
 					tagsetDefinition)) {
@@ -92,7 +92,7 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 	}
 
 	public void removeTagInstance(String instanceID) {
-		IUserMarkupCollection userMarkupCollection = 
+		UserMarkupCollection userMarkupCollection = 
 				getUserMarkupCollectionForTagInstance(instanceID); 
 		
 		Set<TagReference> tagReferences = 
@@ -101,9 +101,9 @@ public class UserMarkupCollectionManager implements Iterable<IUserMarkupCollecti
 		repository.update(userMarkupCollection, tagReferences);
 	}
 
-	private IUserMarkupCollection getUserMarkupCollectionForTagInstance(
+	private UserMarkupCollection getUserMarkupCollectionForTagInstance(
 			String instanceID) {
-		for (IUserMarkupCollection userMarkupCollection : userMarkupCollections) {
+		for (UserMarkupCollection userMarkupCollection : userMarkupCollections) {
 			if (userMarkupCollection.hasTagInstance(instanceID)) {
 				return userMarkupCollection;
 			}
