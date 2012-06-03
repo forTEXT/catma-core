@@ -90,7 +90,8 @@ public class TagInstance {
 			}
 		}
 		
-		
+		//TODO: this leaves us with orphan property definitions, maybe we should always delete and 
+		// just restrict p.synchronize to "withUserDefinedPropertyValues"
 		if (withUserDefinedPropertyValues) {
 			iterator = userDefinedProperties.entrySet().iterator();
 			while (iterator.hasNext()) {

@@ -143,4 +143,10 @@ public class TagManager {
 		// modifications to UserMarkupCollections, we handle the two
 		// things together in the UserMarkupCollectionManager
 	}
+
+	public void removeUserDefinedPropertyDefinition(
+			PropertyDefinition propertyDefinition, TagDefinition tagDefinition) {
+		tagDefinition.removeUserDefinedPropertyDefinition(propertyDefinition);
+		
+	}
 }

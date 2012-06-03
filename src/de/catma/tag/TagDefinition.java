@@ -179,10 +179,16 @@ public class TagDefinition implements Versionable {
 		if (!this.getVersion().equals(other.getVersion())) {
 			this.name = other.name;
 			this.version = new Version(other.getVersion());
+			if (!this.parentUuid.equals(other.uuid)) {
+				this.parentId = null;
+			}
 			this.parentUuid = other.parentUuid;
 			if (!parentUuid.isEmpty()) {
-				this.parentId = 
-					thisTagsetDefinition.getTagDefinition(this.parentUuid).getId();
+				TagDefinition parentDefinition = 
+						thisTagsetDefinition.getTagDefinition(this.parentUuid);
+				if (parentDefinition != null) {
+					this.parentId = parentDefinition.getId();
+				}
 			}
 			
 			synchPropertyDefinitions(systemPropertyDefinitions, other);
@@ -236,5 +242,9 @@ public class TagDefinition implements Versionable {
 	
 	public Set<Integer> getDeletedPropertyDefinitions() {
 		return deletedPropertyDefinitions;
+	}
+
+	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
+		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getUuid());
 	}
 }

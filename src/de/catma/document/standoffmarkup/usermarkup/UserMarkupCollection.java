@@ -20,6 +20,11 @@ public class UserMarkupCollection {
 	private List<TagReference> tagReferences;
 	
 	public UserMarkupCollection(
+			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
+		this(id, contentInfoSet, tagLibrary, new ArrayList<TagReference>());
+	}
+	
+	public UserMarkupCollection(
 			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
 			List<TagReference> tagReferences) {
 		this.id = id;
