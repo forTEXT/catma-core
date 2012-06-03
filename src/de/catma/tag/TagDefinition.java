@@ -188,8 +188,17 @@ public class TagDefinition implements Versionable {
 			synchPropertyDefinitions(systemPropertyDefinitions, other);
 			synchPropertyDefinitions(userDefinedPropertyDefinitions, other);
 
+			for (PropertyDefinition pd : other.getSystemPropertyDefinitions()) {
+				if (this.getPropertyDefinition(pd.getUuid()) == null) {
+					logger.info("adding system property " + pd + " to " + this + " because of synch");
+					addSystemPropertyDefinition(
+							new PropertyDefinition(pd));
+				}
+			}
+
 			for (PropertyDefinition pd : other.getUserDefinedPropertyDefinitions()) {
 				if (this.getPropertyDefinition(pd.getUuid()) == null) {
+					logger.info("adding user property " + pd + " to " + this + " because of synch");
 					addUserDefinedPropertyDefinition(
 							new PropertyDefinition(pd));
 				}

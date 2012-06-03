@@ -60,7 +60,7 @@ public interface Repository {
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
 	public void update(
 			UserMarkupCollection userMarkupCollection, 
-			Collection<TagReference> tagReferences);
+			List<TagReference> tagReferences);
 	public void update(List<UserMarkupCollection> userMarkupCollections,
 			TagsetDefinition tagsetDefinition);
 	public void delete(

@@ -1,10 +1,9 @@
 package de.catma.tag;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Map;
 
 public class TagInstance {
@@ -76,62 +75,33 @@ public class TagInstance {
 	public Collection<Property> getUserDefinedProperties() {
 		return Collections.unmodifiableCollection(userDefinedProperties.values());
 	}
-
-	public void setTagDefinition(TagDefinition tagDefinition) {
-		// update or delete existing properties
-		setTagDefinition(tagDefinition, systemProperties, true);
-		setTagDefinition(tagDefinition, userDefinedProperties, false);
-		
-		// new property definitions will be user defined 
-		// sys props will be added only by conversion mechanisms
-		for (PropertyDefinition pd : 
-			tagDefinition.getUserDefinedPropertyDefinitions()) {
-			if (!userDefinedProperties.containsKey(pd.getName())) {
-				PropertyValueList values = 
-						new PropertyValueList(
-								pd.getPossibleValueList().getPropertyValueList().getValues());
-				addUserDefinedProperty(new Property(pd, values));
-			}
-		}
-		this.tagDefinition = tagDefinition;
-	}
 	
-	private void setTagDefinition(
-			TagDefinition tagDefinition, 
-			Map<String,Property> properties, boolean overwriteValues) {
-	
-		List<Property> toBeRemoved = new ArrayList<Property>();
+	public void synchronizeProperties(boolean withUserDefinedPropertyValues) {
 		
-		for (Property p : properties.values()) {
-			PropertyDefinition incomingPropDef = 
-					tagDefinition.getPropertyDefinition(
-							p.getPropertyDefinition().getUuid());
-			if (incomingPropDef != null) {
-				p.setPropertyDefinition(incomingPropDef);
-				if (overwriteValues) {
-					p.setPropertyValueList(
-						incomingPropDef.getPossibleValueList().getPropertyValueList());
-				}
+		Iterator<Map.Entry<String, Property>> iterator = systemProperties.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<String, Property> entry = iterator.next();
+			Property p = entry.getValue();
+			if (getTagDefinition().getPropertyDefinition(entry.getKey())==null) {
+				iterator.remove();
 			}
 			else {
-				toBeRemoved.add(p);
+				p.synchronize();
 			}
 		}
 		
-		for (Property p : toBeRemoved) {
-			properties.remove(p.getName());
-		}
 		
-	}
-
-	public void synchronizeProperties(boolean withUserDefinedPropertyValues) {
-	
-		for (Property p : systemProperties.values()) {
-			p.synchronize();
-		}
 		if (withUserDefinedPropertyValues) {
-			for (Property p : userDefinedProperties.values()) {
-				p.synchronize();
+			iterator = userDefinedProperties.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Map.Entry<String, Property> entry = iterator.next();
+				Property p = entry.getValue();
+				if (getTagDefinition().getPropertyDefinition(entry.getKey())==null) {
+					iterator.remove();
+				}
+				else {
+					p.synchronize();
+				}
 			}
 		}
 	}

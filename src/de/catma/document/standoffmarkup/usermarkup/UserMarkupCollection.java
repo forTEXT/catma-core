@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Set;
 
 import de.catma.document.ContentInfoSet;
-import de.catma.tag.TagLibrary;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
+import de.catma.tag.TagLibrary;
 import de.catma.tag.TagsetDefinition;
 
 public class UserMarkupCollection {
@@ -75,23 +75,6 @@ public class UserMarkupCollection {
 		return contentInfoSet.getTitle();
 	}
 	
-	//FIXME: obsolete
-	private void update(TagsetDefinition tagsetDefinition) {
-		List<TagReference> toBeRemoved = new ArrayList<TagReference>();
-		for (TagReference tr : tagReferences) {
-			TagDefinition newTagDef = 
-					tagsetDefinition.getTagDefinition(tr.getTagDefinition().getUuid());
-			if (newTagDef != null) {
-				tr.getTagInstance().setTagDefinition(newTagDef);
-			}
-			else {
-				toBeRemoved.add(tr);
-			}
-		}
-		
-		tagReferences.removeAll(toBeRemoved);
-	}
-
 	public void addTagReferences(List<TagReference> tagReferences) {
 		this.tagReferences.addAll(tagReferences);	
 	}
@@ -131,13 +114,19 @@ public class UserMarkupCollection {
 		}
 		
 		for (TagInstance ti : tagInstances) {
-			ti.synchronizeProperties(withUserDefinedPropertyValues);
+			if (getTagLibrary().getTagsetDefinition(ti.getTagDefinition()) != null) {
+				//TODO: handle move between TagsetDefinitions
+				ti.synchronizeProperties(withUserDefinedPropertyValues);
+			}
+			else {
+				tagReferences.removeAll(getTagReferences(ti.getUuid()));
+			}
 		}
 	}
 
 	
-	public Set<TagReference> getTagReferences(String tagInstanceID) {
-		HashSet<TagReference> result = new HashSet<TagReference>();
+	public List<TagReference> getTagReferences(String tagInstanceID) {
+		List<TagReference> result = new ArrayList<TagReference>();
 		
 		for (TagReference tr : getTagReferences()) {
 			if (tr.getTagInstanceID().equals(tagInstanceID)) {
@@ -148,7 +137,7 @@ public class UserMarkupCollection {
 		return result;
 	}
 
-	public Set<TagReference> getTagReferences(TagInstance ti) {
+	public List<TagReference> getTagReferences(TagInstance ti) {
 		return getTagReferences(ti.getUuid());
 	}
 	
@@ -161,7 +150,22 @@ public class UserMarkupCollection {
 		return false;
 	}
 	
-	public void removeTagReferences(Set<TagReference> tagReferences) {
+	public void removeTagReferences(List<TagReference> tagReferences) {
 		this.tagReferences.removeAll(tagReferences);
+	}
+
+
+	public List<TagReference> getTagReferences(TagsetDefinition tagsetDefinition) {
+		ArrayList<TagReference> result = new ArrayList<TagReference>();
+		if (getTagLibrary().contains(tagsetDefinition)) {
+			for (TagDefinition td : getTagLibrary().getTagsetDefinition(
+					tagsetDefinition.getUuid())) {
+				
+				result.addAll(getTagReferences(td));
+				
+			}
+		}
+		
+		return result;
 	}
 }
