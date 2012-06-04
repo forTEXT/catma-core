@@ -8,6 +8,11 @@ public enum RepositoryPropertyKey {
 	RepositoryFolderPath,
 	RepositoryFactory, 
 	RepositoryAuthenticationRequired,
+	RepositoryUrl,
+	RepositoryUser,
+	RepositoryPass,
+	IndexerFactory, 
+	IndexerUrl,
 	;
 
 	public boolean isTrue(Properties properties, int index, boolean defaultValue) {
