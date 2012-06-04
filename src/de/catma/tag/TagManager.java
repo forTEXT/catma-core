@@ -27,7 +27,6 @@ public class TagManager {
 		currentTagLibraries = new ArrayList<TagLibrary>();
 	}
 	
-	//TODO: taglibary events, tagLibraries are held to cover tagdef move operations between tagsetdefs, not implemented yet 
 	public void addTagLibrary(TagLibrary tagLibrary) {
 		if (tagLibrary == null) {
 			throw new IllegalArgumentException("tagLibrary cannot be null!");

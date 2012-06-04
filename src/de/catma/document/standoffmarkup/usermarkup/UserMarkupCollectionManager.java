@@ -109,4 +109,19 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		}
 		return null;
 	}
+
+	public UserMarkupCollection getUserMarkupCollection(
+			UserMarkupCollectionReference userMarkupCollectionReference) {
+		for (UserMarkupCollection umc : userMarkupCollections) {
+			if (umc.getId().equals(userMarkupCollectionReference.getId())) {
+				return umc;
+			}
+		}
+		
+		return null;
+	}
+
+	public void remove(UserMarkupCollection userMarkupCollection) {
+		userMarkupCollections.remove(userMarkupCollection);
+	}
 }
