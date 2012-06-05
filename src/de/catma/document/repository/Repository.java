@@ -26,7 +26,9 @@ public interface Repository {
 	public static enum RepositoryChangeEvent {
 		sourceDocumentChanged,
 		userMarkupCollectionChanged, 
+		userMarkupCollectionReferenceChanged,
 		tagLibraryChanged,
+		tagLibraryReferenceChanged,
 		exceptionOccurred, 
 		;
 	}
@@ -46,6 +48,7 @@ public interface Repository {
 	public String getIdFromURI(URI uri);
 
 	public void insert(SourceDocument sourceDocument) throws IOException;
+	public void update(SourceDocument sourceDocument);
 	public Collection<SourceDocument> getSourceDocuments();
 	public SourceDocument getSourceDocument(String id);
 	public void delete(SourceDocument sourceDocument);
@@ -63,6 +66,7 @@ public interface Repository {
 			List<TagReference> tagReferences);
 	public void update(List<UserMarkupCollection> userMarkupCollections,
 			TagsetDefinition tagsetDefinition);
+	public void update(UserMarkupCollectionReference userMarkupCollectionReference);
 	public void delete(
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
 	
@@ -74,6 +78,7 @@ public interface Repository {
 	public void delete(StaticMarkupCollection staticMarkupCollection);
 	
 	public void createTagLibrary(String name) throws IOException;
+	public void update(TagLibraryReference tagLibraryReference);
 	public void importTagLibrary(InputStream inputStream) throws IOException;
 	public Set<TagLibraryReference> getTagLibraryReferences();
 	public TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) 

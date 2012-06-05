@@ -1,4 +1,4 @@
-package de.catma.document;
+package de.catma.util;
 
 
 public class ContentInfoSet {

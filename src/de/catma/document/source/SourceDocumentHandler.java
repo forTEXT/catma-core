@@ -26,13 +26,13 @@ import java.util.Map;
 
 import org.mozilla.universalchardet.UniversalDetector;
 
-import de.catma.document.ContentInfoSet;
 import de.catma.document.source.contenthandler.DOCContentHandler;
 import de.catma.document.source.contenthandler.HTMLContentHandler;
 import de.catma.document.source.contenthandler.PDFContentHandler;
 import de.catma.document.source.contenthandler.RTFContentHandler;
 import de.catma.document.source.contenthandler.SourceContentHandler;
 import de.catma.document.source.contenthandler.StandardContentHandler;
+import de.catma.util.ContentInfoSet;
 
 /**
  * Handles the creation of {@link SourceDocument}s.<br>

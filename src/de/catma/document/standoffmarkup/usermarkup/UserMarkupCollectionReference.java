@@ -1,9 +1,10 @@
 package de.catma.document.standoffmarkup.usermarkup;
 
-import de.catma.document.ContentInfoSet;
 import de.catma.document.standoffmarkup.MarkupCollectionReference;
+import de.catma.util.ContentInfoSet;
 
-public class UserMarkupCollectionReference implements MarkupCollectionReference {
+public class UserMarkupCollectionReference 
+	implements MarkupCollectionReference {
 	
 	private String id;
 	private ContentInfoSet contentInfoSet;

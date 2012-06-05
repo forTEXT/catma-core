@@ -1,22 +1,28 @@
 package de.catma.tag;
 
+import de.catma.util.ContentInfoSet;
+
 public class TagLibraryReference {
 
-	private String name;
+	private ContentInfoSet contentInfoSet;
 	private String id;
 	
-	public TagLibraryReference(String id, String name) {
+	public TagLibraryReference(String id, ContentInfoSet contentInfoSet) {
 		super();
 		this.id = id;
-		this.name = name;
+		this.contentInfoSet = contentInfoSet;
 	}
 	
 	@Override
 	public String toString() {
-		return name;
+		return contentInfoSet.getTitle();
 	}
 	
 	public String getId() {
 		return id;
+	}
+	
+	public ContentInfoSet getContentInfoSet() {
+		return contentInfoSet;
 	}
 }

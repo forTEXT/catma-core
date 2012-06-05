@@ -7,15 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import de.catma.util.ContentInfoSet;
+
 public class TagLibrary implements Iterable<TagsetDefinition> {
 
 	private String id;
-	private String name;
+	private ContentInfoSet contentInfoSet;
 	private Map<String,TagsetDefinition> tagsetDefinitionsByID;
 	
 	public TagLibrary(String id, String name) {
 		this.id = id;
-		this.name = name;
+		this.contentInfoSet = new ContentInfoSet(name);
 		tagsetDefinitionsByID = new HashMap<String, TagsetDefinition>();
 	}
 
@@ -41,11 +43,11 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	}
 	
 	public String getName() {
-		return name;
+		return contentInfoSet.getTitle();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.contentInfoSet.setTitle(name);
 	}
 	
 	public void setId(String id) {
@@ -97,6 +99,10 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 
 	@Override
 	public String toString() {
-		return (name==null) ? id : name;
+		return (contentInfoSet.getTitle()==null) ? id : contentInfoSet.getTitle();
+	}
+	
+	public ContentInfoSet getContentInfoSet() {
+		return contentInfoSet;
 	}
 }
