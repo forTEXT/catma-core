@@ -29,6 +29,7 @@ public interface Repository {
 		sourceDocumentChanged,
 		userMarkupCollectionChanged, 
 		tagLibraryChanged,
+		corpusChanged,
 		exceptionOccurred, 
 		repositoryChanged,
 		;
@@ -55,6 +56,16 @@ public interface Repository {
 	public void delete(SourceDocument sourceDocument);
 	
 	public Set<Corpus> getCorpora();
+	public void createCorpus(String name) throws IOException;
+	public void update(
+		Corpus corpus, SourceDocument sourceDocument) throws IOException;
+	public void update(
+		Corpus corpus, UserMarkupCollectionReference userMarkupCollectionReference)
+				throws IOException;
+	public void update(
+		Corpus corpus, StaticMarkupCollectionReference staticMarkupCollectionReference)
+				throws IOException;
+	public void delete(Corpus corpus) throws IOException;
 
 	public void createUserMarkupCollection(String name, SourceDocument sourceDocument) 
 			throws IOException;
@@ -90,5 +101,6 @@ public interface Repository {
 	public boolean isAuthenticationRequired();
 	public User getUser();
 	public TagManager getTagManager();
+	
 	
 }

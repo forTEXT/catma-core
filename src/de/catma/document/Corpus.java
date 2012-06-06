@@ -10,17 +10,23 @@ import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference
 
 public class Corpus {
 
+	private String id;
 	private String name;
 
 	private List<SourceDocument> sourceDocuments;
 	private List<StaticMarkupCollectionReference> staticMarkupCollectionRefs;
 	private List<UserMarkupCollectionReference> userMarkupCollectionRefs;
 	
-	public Corpus(String corpusName) {
+	public Corpus(String id, String corpusName) {
+		this.id = id;
 		this.name = corpusName;
 		this.sourceDocuments = new ArrayList<SourceDocument>();
 		this.staticMarkupCollectionRefs = new ArrayList<StaticMarkupCollectionReference>();
 		this.userMarkupCollectionRefs = new ArrayList<UserMarkupCollectionReference>();
+	}
+
+	public Corpus(String corpusName) {
+		this(null, corpusName);
 	}
 
 	public void addSourceDocument(SourceDocument sourceDocument) {
@@ -54,6 +60,8 @@ public class Corpus {
 		return Collections.unmodifiableList(userMarkupCollectionRefs);
 	}
 	
-	
+	public String getId() {
+		return id;
+	}
 	
 }
