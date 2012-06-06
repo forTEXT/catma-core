@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import de.catma.util.ContentInfoSet;
 import de.catma.util.Pair;
 
 public class TagManager {
@@ -36,7 +37,23 @@ public class TagManager {
 				TagManagerEvent.tagLibraryChanged.name(),
 				null, tagLibrary);
 	}
+
+	public void removeTagLibrary(TagLibraryReference tagLibraryReference) {
+		TagLibrary tagLibrary = getTagLibrary(tagLibraryReference);
+		if (tagLibrary != null) {
+			removeTagLibrary(tagLibrary);
+		}
+	}
 	
+	private TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) {
+		for (TagLibrary tagLibrary : currentTagLibraries) {
+			if (tagLibraryReference.getId().equals(tagLibrary.getId())) {
+				return tagLibrary;
+			}
+		}
+		return null;
+	}
+
 	public void removeTagLibrary(TagLibrary tagLibrary) {
 		if (tagLibrary == null) {
 			throw new IllegalArgumentException("tagLibrary cannot be null!");
@@ -147,5 +164,16 @@ public class TagManager {
 			PropertyDefinition propertyDefinition, TagDefinition tagDefinition) {
 		tagDefinition.removeUserDefinedPropertyDefinition(propertyDefinition);
 		
+	}
+	
+	public void updateTagLibrary(
+			TagLibraryReference tagLibraryReference, ContentInfoSet contentInfoSet) {
+		ContentInfoSet oldContentInfoSet = tagLibraryReference.getContentInfoSet();
+		tagLibraryReference.setContentInfoSet(contentInfoSet);
+		
+		this.propertyChangeSupport.firePropertyChange(
+			TagManagerEvent.tagLibraryChanged.name(),
+			oldContentInfoSet,
+			tagLibraryReference);
 	}
 }

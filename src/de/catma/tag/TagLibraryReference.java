@@ -25,4 +25,8 @@ public class TagLibraryReference {
 	public ContentInfoSet getContentInfoSet() {
 		return contentInfoSet;
 	}
+	
+	void setContentInfoSet(ContentInfoSet contentInfoSet) {
+		this.contentInfoSet = contentInfoSet;
+	}
 }

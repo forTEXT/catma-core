@@ -1,9 +1,12 @@
 package de.catma.document.repository;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
+import java.util.TreeSet;
 
 import de.catma.backgroundservice.BackgroundServiceProvider;
 import de.catma.tag.TagManager;
@@ -11,13 +14,28 @@ import de.catma.tag.TagManager;
 
 public class RepositoryManager {
 	
-	private List<Repository> repositories;
+	private BackgroundServiceProvider backgroundServiceProvider;
+	private TagManager tagManager;
+
+	private Set<RepositoryReference> repositoryReferences;
+	private Set<Repository> openRepositories;
 	
 	public RepositoryManager(
 			BackgroundServiceProvider backgroundServiceProvider, 
 			TagManager tagManager, Properties properties) throws Exception {
 		
-		repositories = new ArrayList<Repository>();
+		this.backgroundServiceProvider = backgroundServiceProvider;
+		this.tagManager = tagManager;
+		
+		repositoryReferences = new TreeSet<RepositoryReference>(
+				new Comparator<RepositoryReference>() {
+			@Override
+			public int compare(RepositoryReference o1, RepositoryReference o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		
+		openRepositories = new HashSet<Repository>();
 		
 		int index=1;
 		while(RepositoryPropertyKey.Repository.exists(properties, index)) {
@@ -27,23 +45,42 @@ public class RepositoryManager {
 					RepositoryPropertyKey.RepositoryFactory.getProperty(properties, index),
 					true, Thread.currentThread().getContextClassLoader()).newInstance();
 			
-			Repository repository = 
-				repositoryFactory.createRepository(
-						backgroundServiceProvider, tagManager, properties, index);
-			
-			repositories.add(repository);
+			repositoryReferences.add(
+					new RepositoryReference(
+						repositoryFactory, properties, index));
 			
 			index++;
 		}
 
 	}
 
-	public List<Repository> getRepositories() {
-		return Collections.unmodifiableList(repositories);
+	public Set<RepositoryReference> getRepositoryReferences() {
+		return Collections.unmodifiableSet(repositoryReferences);
 	}
 
+	public Repository openRepository(
+			RepositoryReference repositoryReference, 
+			Map<String, String> userIdentification) throws Exception {
+		Repository repository = 
+				repositoryReference.getRepositoryFactory().createRepository(
+				backgroundServiceProvider, tagManager,
+				repositoryReference.getProperties(),
+				repositoryReference.getIndex());
+		
+		repository.open(userIdentification);
+		
+		openRepositories.add(repository);
+		
+		return repository;
+	}
+	
+	public void close(Repository repository) {
+		openRepositories.remove(repository);
+		repository.close();
+	}
+	
 	public void close() {
-		for (Repository r : repositories) {
+		for (Repository r : openRepositories) {
 			try {
 				r.close();
 			}
@@ -51,6 +88,7 @@ public class RepositoryManager {
 				t.printStackTrace(); //TODO: log
 			}
 		}
-		repositories.clear();
+		openRepositories.clear();
+		repositoryReferences.clear();
 	}
 }

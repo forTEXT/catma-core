@@ -103,6 +103,11 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	}
 	
 	public ContentInfoSet getContentInfoSet() {
+		//TODO: unmodifiable copy
 		return contentInfoSet;
+	}
+	
+	void setContentInfoSet(ContentInfoSet contentInfoSet) {
+		this.contentInfoSet = contentInfoSet;
 	}
 }

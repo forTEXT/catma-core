@@ -28,6 +28,13 @@ public class ContentInfoSet {
 		this("", "", "",title);
 	}
 
+	public ContentInfoSet(ContentInfoSet contentInfoSet) {
+		this.author = (contentInfoSet.author==null)?"":contentInfoSet.author;
+		this.description = (contentInfoSet.description==null)?"":contentInfoSet.description;
+		this.publisher = (contentInfoSet.publisher==null)?"":contentInfoSet.publisher;
+		this.title = (contentInfoSet.title==null)?"":contentInfoSet.title;
+	}
+
 	public String getAuthor() {
 		return author;
 	}

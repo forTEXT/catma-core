@@ -31,4 +31,8 @@ public class UserMarkupCollectionReference
 	public ContentInfoSet getContentInfoSet() {
 		return contentInfoSet;
 	}
+	
+	public void setContentInfoSet(ContentInfoSet contentInfoSet) {
+		this.contentInfoSet = contentInfoSet;
+	}
 }

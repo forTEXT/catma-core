@@ -124,4 +124,16 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	public void remove(UserMarkupCollection userMarkupCollection) {
 		userMarkupCollections.remove(userMarkupCollection);
 	}
+
+	public UserMarkupCollection updateUserMarkupCollection(
+			UserMarkupCollectionReference userMarkupCollectionReference) {
+
+		UserMarkupCollection userMarkupCollection = 
+				getUserMarkupCollection(userMarkupCollectionReference);
+		
+		userMarkupCollection.setContentInfoSet(
+				userMarkupCollectionReference.getContentInfoSet());
+		
+		return userMarkupCollection;
+	}
 }

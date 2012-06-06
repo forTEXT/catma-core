@@ -173,4 +173,8 @@ public class UserMarkupCollection {
 		
 		return result;
 	}
+	
+	void setContentInfoSet(ContentInfoSet contentInfoSet) {
+		this.contentInfoSet = contentInfoSet;
+	}
 }
