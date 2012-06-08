@@ -15,6 +15,7 @@ public class SourceDocument {
 	private SourceContentHandler sourceContentHandler;
 	private List<StaticMarkupCollectionReference> staticMarkupCollectionRefs;
 	private List<UserMarkupCollectionReference> userMarkupCollectionRefs;
+	private Integer length = null;
 	
 	SourceDocument(String id, SourceContentHandler handler) {
 		this.id = id;
@@ -110,7 +111,10 @@ public class SourceDocument {
 	 * @see de.catma.core.document.source.ISourceDocument#getLength()
 	 */
 	public int getLength() throws IOException {
-		return getContent().length();
+		if (length == null) {
+			length = getContent().length();
+		}
+		return length;
 	}
 	
 	/* (non-Javadoc)
