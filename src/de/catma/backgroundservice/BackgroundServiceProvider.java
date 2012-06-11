@@ -4,6 +4,7 @@ public interface BackgroundServiceProvider {
 	public BackgroundService getBackgroundService();
 	
 	public <T> void submit( 
-			final ProgressCallable<T> callable, 
-			final ExecutionListener<T> listener);
+			String caption,
+			ProgressCallable<T> callable, 
+			ExecutionListener<T> listener);
 }
