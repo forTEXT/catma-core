@@ -53,7 +53,7 @@ public interface Repository {
 	public void update(SourceDocument sourceDocument, ContentInfoSet contentInfoSet);
 	public Collection<SourceDocument> getSourceDocuments();
 	public SourceDocument getSourceDocument(String id);
-	public void delete(SourceDocument sourceDocument);
+	public void delete(SourceDocument sourceDocument) throws IOException;
 	public SourceDocument getSourceDocument(UserMarkupCollectionReference umcRef);
 
 	public Set<Corpus> getCorpora();

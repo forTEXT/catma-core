@@ -57,22 +57,30 @@ public class ColorConverter {
 		return toHex(getRandomColor());
 	}
 	
-	
-	private static int[] getRandomColor() {
-		int i = new Random().nextInt(3);
-		switch(i) {
-			case 0 : {
-				return new int[] { 255, 0, 0};
-			}
-			case 1 : {
-				return new int[] { 0, 255, 0};
-			}
-			case 2 : {
-				return new int[] { 0, 0, 255};
-			}
-			default : {
-				return new int[] { 0, 0, 255};
-			}
+	public static int[] getRandomNonDarkColor() {
+		int r = getRandomNonDarkInt();
+		int g = getRandomNonDarkInt();
+		int b = getRandomNonDarkInt();
+		return new int[] {r, g, b};
+	}
+	private static int getRandomNonDarkInt() {
+		Random r = new Random();
+		
+		int i = r.nextInt(255);
+		while (i<20) {
+			i = r.nextInt(255);
 		}
+		return i;
+	}
+	
+	private static int getRandomInt() {
+		return new Random().nextInt(255);
+	}
+	
+	public static int[] getRandomColor() {
+		int r = getRandomInt();
+		int g = getRandomInt();
+		int b = getRandomInt();
+		return new int[] {r, g, b};
 	}
 }
