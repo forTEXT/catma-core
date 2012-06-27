@@ -11,6 +11,7 @@ import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
 import de.catma.tag.TagsetDefinition;
 import de.catma.util.ContentInfoSet;
+import de.catma.util.Pair;
 
 public class UserMarkupCollection {
 
@@ -176,5 +177,16 @@ public class UserMarkupCollection {
 	
 	void setContentInfoSet(ContentInfoSet contentInfoSet) {
 		this.contentInfoSet = contentInfoSet;
+	}
+
+	public Pair<String,TagInstance> getInstance(String instanceID) {
+		for (TagReference tr : tagReferences) {
+			if (tr.getTagInstanceID().equals(instanceID)) {
+				return new Pair<String,TagInstance>(
+						this.tagLibrary.getTagPath(tr.getTagDefinition()),
+						tr.getTagInstance());
+			}
+		}
+		return null;
 	}
 }

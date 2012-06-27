@@ -1,14 +1,19 @@
 package de.catma.document.standoffmarkup.usermarkup;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import de.catma.document.repository.Repository;
+import de.catma.tag.TagInstance;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
+import de.catma.util.Pair;
 
 public class UserMarkupCollectionManager implements Iterable<UserMarkupCollection>{
 
@@ -135,5 +140,39 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 				userMarkupCollectionReference.getContentInfoSet());
 		
 		return userMarkupCollection;
+	}
+
+	public List<Pair<String,TagInstance>> getTagInstances(List<String> instanceIDs) {
+		List<Pair<String,TagInstance>> result = 
+				new ArrayList<Pair<String,TagInstance>>();
+		for (String instanceID : instanceIDs) {
+			Pair<String,TagInstance> ti = getTagInstance(instanceID);
+			if (ti == null) {
+				 throw new IllegalStateException(
+					 "TagInstance #"+instanceID + 
+					 " could not be found in this UserMarkupCollectionManager!");
+			}
+			result.add(ti);
+		}
+		return result;
+	}
+
+	private Pair<String,TagInstance> getTagInstance(String instanceID) {
+		for (UserMarkupCollection umc : userMarkupCollections) {
+			if (umc.hasTagInstance(instanceID)) {
+				return umc.getInstance(instanceID);
+			}
+		}
+		return null;
+	}
+
+	public Collection<TagReference> getTagReferences(String tagInstanceID) {
+		Set<TagReference> result = new HashSet<TagReference>();
+		for (UserMarkupCollection umc : userMarkupCollections) {
+			if (umc.hasTagInstance(tagInstanceID)) {
+				result.addAll(umc.getTagReferences(tagInstanceID));
+			}
+		}
+		return result;
 	}
 }
