@@ -19,8 +19,12 @@
 
 package de.catma.document.source.contenthandler;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import nu.xom.Builder;
 import nu.xom.Document;
@@ -30,6 +34,8 @@ import nu.xom.Text;
 
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import de.catma.util.CloseSafe;
 
 /**
  * A content handler HTML based {@link de.catma.document.source.SourceDocument}s.
@@ -42,13 +48,40 @@ public class HTMLContentHandler extends AbstractSourceContentHandler {
 	public void load(InputStream is) throws IOException {
         XMLReader reader;
 		try {
+			Charset charset = 
+					getSourceDocumentInfo().getTechInfoSet().getCharset();
+				
+			BufferedInputStream bis = null;
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bis = new BufferedInputStream(is);
+            byte[] byteBuffer = new byte[65536];
+            int bCount = -1;
+            while ((bCount=bis.read(byteBuffer)) != -1) {
+                bos.write(byteBuffer, 0, bCount);
+            }
+
+            byte[] byteBuf = bos.toByteArray();
+            ByteArrayInputStream toCharBis = new ByteArrayInputStream(byteBuf);
+
+			InputStream fr = null; 
+			if (BOMFilterInputStream.hasBOM(byteBuf)) {
+				fr = new BOMFilterInputStream( toCharBis, charset );
+			}
+			else {
+				fr = toCharBis;
+			}
+			
 			reader = XMLReaderFactory.createXMLReader("org.ccil.cowan.tagsoup.Parser");
 	        Builder builder = new Builder(reader, false, new HTMLFilterFactory());
-	        Document document = builder.build(is);
+	        
+	        Document document = builder.build(fr);
 	        StringBuilder contentBuilder = new StringBuilder();
 	        processTextNodes(contentBuilder, document.getRootElement());
-	        setContent(contentBuilder.toString());		
+	        setContent(contentBuilder.toString());	
+			CloseSafe.close(is);
 		} catch (Exception e) {
+			CloseSafe.close(is);
 			throw new IOException(e);
 		}
 	}

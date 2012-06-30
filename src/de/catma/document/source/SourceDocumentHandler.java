@@ -67,6 +67,10 @@ public class SourceDocumentHandler {
 	
 	public String getMimeType(String fileName, URLConnection urlConnection, String defaultMimeType) {
 		String contentType = urlConnection.getContentType();
+		return getMimeType(fileName, contentType, defaultMimeType);
+	}
+	
+	public String getMimeType(String fileName, String contentType, String defaultMimeType) {
 		String mimeType = null;
 		if (contentType != null) {
 			String[] contentTypeAttributes = contentType.split(";");
@@ -86,7 +90,15 @@ public class SourceDocumentHandler {
 	public String getEncoding(URLConnection urlConnection, byte[] rawData, String defaultEncoding) {
 		String encoding = urlConnection.getContentEncoding();
 		if (encoding==null) {
-			String contentType = urlConnection.getContentType();
+			return getEncoding
+				(encoding, urlConnection.getContentType(), rawData, defaultEncoding);
+		}
+		return encoding;
+	}
+
+	public String getEncoding(
+			String encoding, String contentType, byte[] rawData, String defaultEncoding) {
+		if (encoding==null) {
 			if (contentType.contains("charset")) {
 				String[] contentTypeAttributes = contentType.split(";");
 				String charsetAttribute = null;
@@ -112,7 +124,7 @@ public class SourceDocumentHandler {
 		}
 		return encoding;
 	}
-
+	
 	/**
 	 * Registers the {@link SourceContentHandler} with the givent {@link FileType}.
 	 * @param type the type we want to register a handler for
