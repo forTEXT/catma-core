@@ -91,4 +91,13 @@ public class RepositoryManager {
 		openRepositories.clear();
 		repositoryReferences.clear();
 	}
+
+	public boolean isOpen(RepositoryReference repositoryReference) {
+		for (Repository r : openRepositories) {
+			if (r.getName().equals(repositoryReference.getName())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
