@@ -36,6 +36,7 @@ public enum FileType {
 	 * PDFs.
 	 */
 	PDF("application/pdf"), 
+	XPDF("application/x-pdf"),
 	/**
 	 * HTML-pages.
 	 */

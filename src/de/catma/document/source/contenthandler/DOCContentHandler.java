@@ -25,6 +25,8 @@ import java.io.InputStream;
 
 import org.apache.poi.hwpf.extractor.WordExtractor;
 
+import de.catma.document.source.FileOSType;
+
 /**
  * A content handler for MS Word Doc based {@link de.catma.document.source.SourceDocument}s.
  *
@@ -50,7 +52,14 @@ public class DOCContentHandler extends AbstractSourceContentHandler {
     }
 
     public void load(InputStream is) throws IOException {
-    	  WordExtractor we = new WordExtractor(is);
-          setContent(we.getText());
+    	WordExtractor we = new WordExtractor(is);
+    	String buf = we.getText();
+    	
+    	//it's still microsoft after all
+		if (FileOSType.getFileOSType(buf).equals(FileOSType.UNIX)) {
+			buf = FileOSType.convertUnixToDos(buf);
+		}
+		
+		setContent(buf);
     }
 }

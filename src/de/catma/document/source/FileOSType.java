@@ -134,4 +134,8 @@ public enum FileOSType {
 
         return converter.toString();
     }
+
+	public static String convertUnixToDos(String input) {
+        return input.replaceAll("\\n", DOS.getLineSeparator());
+	}
 }

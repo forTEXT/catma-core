@@ -175,4 +175,9 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		}
 		return result;
 	}
+
+	public boolean contains(UserMarkupCollectionReference umcRef) {
+		return getUserMarkupCollection(umcRef) != null;
+	}
+
 }

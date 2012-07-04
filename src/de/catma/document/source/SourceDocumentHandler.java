@@ -58,6 +58,8 @@ public class SourceDocumentHandler {
         registerSourceContentHandler(
                 FileType.PDF, PDFContentHandler.class );
         registerSourceContentHandler(
+                FileType.XPDF, PDFContentHandler.class );
+        registerSourceContentHandler(
                 FileType.HTML, HTMLContentHandler.class );
         registerSourceContentHandler(
                 FileType.HTM, HTMLContentHandler.class );
@@ -84,6 +86,7 @@ public class SourceDocumentHandler {
 				mimeType = defaultMimeType;
 			}
 		}
+		System.out.println("*****mimtype:" +mimeType);
 		return mimeType;
 	}
 	
