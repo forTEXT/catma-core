@@ -173,9 +173,11 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 			this.version = new Version(tagsetDefinition.getVersion());
 		}
 		
-		Iterator<TagDefinition> iterator = this.iterator();
+		Iterator<Map.Entry<String,TagDefinition>> iterator = 
+				tagDefinitions.entrySet().iterator();
+		
 		while(iterator.hasNext()) {
-			TagDefinition td = iterator.next();
+			TagDefinition td = iterator.next().getValue();
 			
 			if (tagsetDefinition.hasTagDefinition(td.getUuid())) {
 				TagDefinition other = 

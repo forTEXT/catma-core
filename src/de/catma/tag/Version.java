@@ -21,6 +21,7 @@ package de.catma.tag;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -47,17 +48,25 @@ public class Version {
 	private long version;
 	
 	public Version( Date version ) {
-		this.version = version.getTime();
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(version);
+		cal.set(Calendar.MILLISECOND, 0);
+		this.version = cal.getTimeInMillis();
 	}
 	
 	public Version() {
-		version = new Date().getTime();
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.MILLISECOND, 0);
+		this.version = cal.getTimeInMillis();
 	}
 	
 	public Version(String versionString) {
 		try {
 			if (versionString.length() == 24) {
-				this.version = SHORTFORMAT.parse(versionString).getTime();
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(SHORTFORMAT.parse(versionString));
+				calendar.set(Calendar.MILLISECOND, 0);
+				this.version = calendar.getTimeInMillis();
 			}
 			else {
 				this.version = FORMAT.parse(versionString).getTime();
