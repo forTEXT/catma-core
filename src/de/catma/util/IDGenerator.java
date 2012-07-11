@@ -7,11 +7,11 @@ public class IDGenerator {
 	public final static String ID_PREFIX = "CATMA_";
 	
 	public String generate() {
-		return ID_PREFIX + UUID.randomUUID().toString();
+		return ID_PREFIX + UUID.randomUUID().toString().toUpperCase();
 	}
 	
 	public String generate(String base) {
-		return ID_PREFIX + UUID.nameUUIDFromBytes(base.getBytes()).toString();
+		return ID_PREFIX + UUID.nameUUIDFromBytes(base.getBytes()).toString().toUpperCase();
 	}
 	
 	public String uuidBytesToCatmaID(byte[] uuidBytes) {
@@ -20,7 +20,7 @@ public class IDGenerator {
 		}
 		ByteBuffer bb = ByteBuffer.wrap(uuidBytes);
 		UUID id = new UUID(bb.getLong(0), bb.getLong(8));
-		return ID_PREFIX + id.toString();
+		return ID_PREFIX + id.toString().toUpperCase();
 	}
 	
 	public UUID catmaIDToUUID(String catmaID) {
