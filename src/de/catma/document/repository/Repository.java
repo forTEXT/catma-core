@@ -27,7 +27,8 @@ public interface Repository {
 	
 	public static enum RepositoryChangeEvent {
 		sourceDocumentChanged,
-		userMarkupCollectionChanged, 
+		userMarkupCollectionChanged,
+		userMarkupCollectionTagLibraryChanged,
 		tagLibraryChanged,
 		corpusChanged,
 		exceptionOccurred, 

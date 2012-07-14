@@ -43,7 +43,7 @@ public class BackgroundService {
 	 * setup the worker thread
 	 */
 	public BackgroundService(Object lock) {
-		this(lock, true);
+		this(lock, false);
 	}
 
 	public BackgroundService(Object lock, boolean background) {
@@ -82,12 +82,16 @@ public class BackgroundService {
                         }
                     } catch (Throwable t) {
                         try {
-                        	listener.error(t);
                         	Logger.getLogger(
-                        		getClass().getName()).log(
-                        				Level.SEVERE, "error", t);
+                        			getClass().getName()).log(
+                        					Level.SEVERE, "error", t);
+                            synchronized(lock) {
+                            	listener.error(t);
+                            }
                         }
-                        catch(Throwable ignored) {}
+                        catch(Throwable t2) {
+                        	t2.printStackTrace();
+                        }
                     }
                 }
             } );
