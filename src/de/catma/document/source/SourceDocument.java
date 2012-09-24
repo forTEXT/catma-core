@@ -2,6 +2,7 @@ package de.catma.document.source;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import de.catma.document.Range;
@@ -78,14 +79,14 @@ public class SourceDocument {
 	 * @see de.catma.core.document.source.ISourceDocument#getStaticMarkupCollectionRefs()
 	 */
 	public List<StaticMarkupCollectionReference> getStaticMarkupCollectionRefs() {
-		return staticMarkupCollectionRefs;
+		return Collections.unmodifiableList(staticMarkupCollectionRefs);
 	}
 	
 	/* (non-Javadoc)
 	 * @see de.catma.core.document.source.ISourceDocument#getUserMarkupCollectionRefs()
 	 */
 	public List<UserMarkupCollectionReference> getUserMarkupCollectionRefs() {
-		return userMarkupCollectionRefs;
+		return Collections.unmodifiableList(userMarkupCollectionRefs);
 	}
 	
 	/* (non-Javadoc)
@@ -98,6 +99,11 @@ public class SourceDocument {
 			}
 		}
 		return null;
+	}
+	
+	public boolean removeUserMarkupCollectionReference(
+			UserMarkupCollectionReference uRef) {
+		return this.userMarkupCollectionRefs.remove(uRef);
 	}
 	
 	/* (non-Javadoc)
