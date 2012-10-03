@@ -180,4 +180,26 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return getUserMarkupCollection(umcRef) != null;
 	}
 
+	public boolean contains(String userMarkupCollectionId) {
+		for (UserMarkupCollection umc : userMarkupCollections) {
+			if (umc.getId().equals(userMarkupCollectionId)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public UserMarkupCollection getUserMarkupCollection(
+			String userMarkupCollectionId) {
+		for (UserMarkupCollection umc : userMarkupCollections) {
+			if (umc.getId().equals(userMarkupCollectionId)) {
+				return umc;
+			}
+		}
+		
+		return null;
+	}
+	
+	
+
 }

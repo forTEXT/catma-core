@@ -74,7 +74,7 @@ public class SourceDocumentHandler {
 	
 	public String getMimeType(String fileName, String contentType, String defaultMimeType) {
 		String mimeType = null;
-		if (contentType != null) {
+		if ((contentType != null) && (!contentType.equals("content/unknown"))) {
 			String[] contentTypeAttributes = contentType.split(";");
 			if (contentTypeAttributes.length > 0) {
 				mimeType  = contentTypeAttributes[0];
@@ -86,7 +86,15 @@ public class SourceDocumentHandler {
 				mimeType = defaultMimeType;
 			}
 		}
-		System.out.println("*****mimtype:" +mimeType);
+		return mimeType;
+	}
+	
+	public String getMimeType(String fileName, String defaultMimeType) {
+		String mimeType = URLConnection.getFileNameMap().getContentTypeFor(fileName);
+		if (mimeType == null) {
+			mimeType = defaultMimeType;
+		}
+		
 		return mimeType;
 	}
 	

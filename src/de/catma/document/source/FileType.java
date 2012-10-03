@@ -48,7 +48,7 @@ public enum FileType {
     /**
      * RTF-docs.
      */
-    RTF("text/rtf"),
+    RTF("application/rtf"),
 	/**
 	 * everything which is not one of the other possibilities
 	 */
