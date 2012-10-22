@@ -87,6 +87,8 @@ public interface Repository {
 	public void delete(
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
 	
+	public List<UserMarkupCollectionReference> getWritableUserMarkupCollectionRefs(SourceDocument sd) throws IOException;
+	
 	public StaticMarkupCollectionReference insert(
 			StaticMarkupCollection staticMarkupCollection);
 	public StaticMarkupCollection getStaticMarkupCollection(
