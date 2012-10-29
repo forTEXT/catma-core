@@ -67,4 +67,17 @@ public class Corpus {
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	public List<UserMarkupCollectionReference> getUserMarkupCollectionRefs(
+			SourceDocument sd) {
+		List<UserMarkupCollectionReference> result = 
+				new ArrayList<UserMarkupCollectionReference>();
+		
+		for (UserMarkupCollectionReference ref : sd.getUserMarkupCollectionRefs()) {
+			if (userMarkupCollectionRefs.contains(ref)) {
+				result.add(ref);
+			}
+		}
+		return result;
+	}
 }
