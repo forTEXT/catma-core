@@ -12,6 +12,7 @@ import de.catma.util.Pair;
 public class TagManager {
 	
 	public enum TagManagerEvent {
+		userPropertyDefinitionChanged,
 		tagsetDefinitionChanged,
 		tagDefinitionChanged,
 		tagLibraryChanged, 
@@ -107,7 +108,7 @@ public class TagManager {
 				null);
 	}
 
-	public void addTagDefintion(TagsetDefinition tagsetDefinition,
+	public void addTagDefinition(TagsetDefinition tagsetDefinition,
 			TagDefinition tagDefinition) {
 		tagsetDefinition.addTagDefinition(tagDefinition);
 		tagsetDefinition.setVersion();
@@ -156,7 +157,7 @@ public class TagManager {
 		logger.info("synching " + td1 + " with " + td2);
 		td1.synchronizeWith(td2);
 		// no event needed, since synchronization goes always along with
-		// modifications to UserMarkupCollections, we handle the two
+		// modifications of UserMarkupCollections, we handle the two
 		// things together in the UserMarkupCollectionManager
 	}
 
@@ -175,5 +176,26 @@ public class TagManager {
 			TagManagerEvent.tagLibraryChanged.name(),
 			oldContentInfoSet,
 			tagLibraryReference);
+	}
+
+	public void addUserDefinedPropertyDefinition(TagDefinition td,
+			PropertyDefinition propertyDefinition) {
+		td.addUserDefinedPropertyDefinition(propertyDefinition);
+		td.setVersion();
+		this.propertyChangeSupport.firePropertyChange(
+				TagManagerEvent.userPropertyDefinitionChanged.name(),
+				null,
+				new Pair<PropertyDefinition, TagDefinition>(propertyDefinition, td));
+	}
+
+	public void updateUserDefinedPropertyDefinition(
+			TagDefinition td,
+			PropertyDefinition propertyDefinition) {
+		td.setVersion();
+		
+		this.propertyChangeSupport.firePropertyChange(
+				TagManagerEvent.userPropertyDefinitionChanged.name(),
+				td,
+				propertyDefinition);
 	}
 }

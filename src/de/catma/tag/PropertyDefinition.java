@@ -1,7 +1,6 @@
 package de.catma.tag;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public class PropertyDefinition {
 	
@@ -60,12 +59,20 @@ public class PropertyDefinition {
 		return name;
 	}
 	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	public String getFirstValue() {
 		return possibleValueList.getFirstValue();
 	}
 	
 	public PropertyPossibleValueList getPossibleValueList() {
 		return possibleValueList;
+	}
+	
+	public void setPossibleValueList(PropertyPossibleValueList possibleValueList) {
+		this.possibleValueList = possibleValueList;
 	}
 	
 	public Integer getId() {

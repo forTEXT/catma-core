@@ -26,7 +26,7 @@ public class PropertyValueList {
 		StringBuilder sb = new StringBuilder();
 		
 		for (int i=0; i<values.size(); i++) {
-			if (i>1) {
+			if (i>0) {
 				sb.append(",");
 			}
 			sb.append(values.get(i));
