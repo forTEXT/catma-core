@@ -164,7 +164,14 @@ public class TagManager {
 	public void removeUserDefinedPropertyDefinition(
 			PropertyDefinition propertyDefinition, TagDefinition tagDefinition) {
 		tagDefinition.removeUserDefinedPropertyDefinition(propertyDefinition);
-		
+		tagDefinition.setVersion();
+		this.propertyChangeSupport.firePropertyChange(
+				TagManagerEvent.userPropertyDefinitionChanged.name(),
+				new Pair<PropertyDefinition, TagDefinition>(
+						propertyDefinition, tagDefinition),
+				null);
+		//TODO: check if this event has the correct arguments and its effect on 
+		// Property - entries and implement indexing!
 	}
 	
 	public void updateTagLibrary(

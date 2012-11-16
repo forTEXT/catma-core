@@ -9,7 +9,7 @@ public class PropertyValueList {
 	private List<String> values;
 
 	public PropertyValueList(String value) {
-		values = new ArrayList<String>();
+		this();
 		values.add(value);
 	}
 
@@ -17,6 +17,10 @@ public class PropertyValueList {
 		this.values = values;
 	}
 	
+	public PropertyValueList() {
+		values = new ArrayList<String>();
+	}
+
 	void setValues(List<String> values) {
 		this.values = values; 
 	}

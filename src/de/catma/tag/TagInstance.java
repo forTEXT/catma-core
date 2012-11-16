@@ -20,22 +20,24 @@ public class TagInstance {
 		systemProperties = new HashMap<String, Property>();
 		setDefaultValues(
 				systemProperties, 
-				tagDefinition.getSystemPropertyDefinitions());
+				tagDefinition.getSystemPropertyDefinitions(), true);
 
 		userDefinedProperties = new HashMap<String, Property>();
 		setDefaultValues(
 			userDefinedProperties, 
-			tagDefinition.getUserDefinedPropertyDefinitions());
+			tagDefinition.getUserDefinedPropertyDefinitions(), false);
 
 	}
 	
 	private void setDefaultValues(
 			Map<String,Property> properties,
-			Collection<PropertyDefinition> propertyDefinitions) {
+			Collection<PropertyDefinition> propertyDefinitions, boolean useFirstValue) {
 		for (PropertyDefinition pDef : propertyDefinitions) {
 			properties.put(
 			pDef.getUuid(), 
-			new Property(pDef, new PropertyValueList(pDef.getFirstValue())));
+			new Property(pDef, 
+					useFirstValue?new PropertyValueList(pDef.getFirstValue()):
+						new PropertyValueList()));
 		}
 	}
 
