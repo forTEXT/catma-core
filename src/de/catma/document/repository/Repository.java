@@ -13,9 +13,11 @@ import de.catma.document.Corpus;
 import de.catma.document.source.SourceDocument;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
-import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
 import de.catma.document.standoffmarkup.usermarkup.TagReference;
+import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
+import de.catma.tag.Property;
+import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
 import de.catma.tag.TagLibraryReference;
 import de.catma.tag.TagManager;
@@ -79,6 +81,8 @@ public interface Repository {
 	public void update(
 			UserMarkupCollection userMarkupCollection, 
 			List<TagReference> tagReferences);
+	public void update(
+			TagInstance tagInstance, Property property) throws IOException;
 	public void update(List<UserMarkupCollection> userMarkupCollections,
 			TagsetDefinition tagsetDefinition);
 	public void update(

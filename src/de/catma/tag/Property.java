@@ -25,7 +25,6 @@ public class Property {
 	}
 
 	void setPropertyDefinition(PropertyDefinition propertyDefinition) {
-		//FIXME: check current values against possible values
 		this.propertyDefinition = propertyDefinition;
 	}
 	

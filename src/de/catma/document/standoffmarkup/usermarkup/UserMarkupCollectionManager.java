@@ -1,5 +1,6 @@
 package de.catma.document.standoffmarkup.usermarkup;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import de.catma.document.repository.Repository;
+import de.catma.tag.Property;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
@@ -198,6 +200,10 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		}
 		
 		return null;
+	}
+
+	public void updateProperty(TagInstance tagInstance, Property property) throws IOException {
+		repository.update(tagInstance, property);
 	}
 	
 	
