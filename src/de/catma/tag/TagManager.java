@@ -167,11 +167,8 @@ public class TagManager {
 		tagDefinition.setVersion();
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.userPropertyDefinitionChanged.name(),
-				new Pair<PropertyDefinition, TagDefinition>(
-						propertyDefinition, tagDefinition),
+				propertyDefinition,
 				null);
-		//TODO: check if this event has the correct arguments and its effect on 
-		// Property - entries and implement indexing!
 	}
 	
 	public void updateTagLibrary(
