@@ -35,6 +35,7 @@ public interface Repository {
 		corpusChanged,
 		exceptionOccurred, 
 		repositoryChanged,
+		propertyValueChanged,
 		;
 	}
 	

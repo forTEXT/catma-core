@@ -79,6 +79,10 @@ public class TagDefinition implements Versionable {
 		return uuid;
 	}
 	
+	/**
+	 * @param id {@link #getUuid() uuid} of the PropertyDefinition
+	 * @return the corresponding PropertyDefinition or <code>null</code> 
+	 */
 	public PropertyDefinition getPropertyDefinition(String id) {
 		if (systemPropertyDefinitions.containsKey(id)) {
 			return systemPropertyDefinitions.get(id);

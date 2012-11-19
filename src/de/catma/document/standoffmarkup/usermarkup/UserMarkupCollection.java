@@ -179,6 +179,11 @@ public class UserMarkupCollection {
 		this.contentInfoSet = contentInfoSet;
 	}
 
+	/**
+	 * @param instanceID the {@link TagInstance#getUuid() uuid} of the TagInstance
+	 * @return a {@link Pair} with the {@link TagLibrary#getTagPath(TagDefinition) Tag path} 
+	 * and the corresponding {@link TagInstance}.
+	 */
 	public Pair<String,TagInstance> getInstance(String instanceID) {
 		for (TagReference tr : tagReferences) {
 			if (tr.getTagInstanceID().equals(instanceID)) {

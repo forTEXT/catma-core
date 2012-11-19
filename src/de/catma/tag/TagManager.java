@@ -167,7 +167,8 @@ public class TagManager {
 		tagDefinition.setVersion();
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.userPropertyDefinitionChanged.name(),
-				propertyDefinition,
+				new Pair<PropertyDefinition, TagDefinition>(
+						propertyDefinition, tagDefinition),
 				null);
 	}
 	

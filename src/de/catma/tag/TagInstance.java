@@ -66,6 +66,10 @@ public class TagInstance {
 		return systemProperties.get(id);
 	}
 	
+	/**
+	 * @param id uuid of the {@link PropertyDefinition}
+	 * @return the {@link Property} that belongs to the given {@link PropertyDefinition}
+	 */
 	public Property getUserDefinedProperty(String id) {
 		return userDefinedProperties.get(id);
 	}
@@ -92,19 +96,22 @@ public class TagInstance {
 			}
 		}
 		
-		//TODO: this leaves us with orphan property definitions, maybe we should always delete and 
-		// just restrict p.synchronize to "withUserDefinedPropertyValues"
-		if (withUserDefinedPropertyValues) {
-			iterator = userDefinedProperties.entrySet().iterator();
-			while (iterator.hasNext()) {
-				Map.Entry<String, Property> entry = iterator.next();
-				Property p = entry.getValue();
-				if (getTagDefinition().getPropertyDefinition(entry.getKey())==null) {
-					iterator.remove();
-				}
-				else {
-					p.synchronize();
-				}
+		// we do not update Property values, therefore we handle only ...
+		
+		// ... deletion and ...
+		iterator = userDefinedProperties.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry<String, Property> entry = iterator.next();
+			
+			if (getTagDefinition().getPropertyDefinition(entry.getKey())==null) {
+				iterator.remove();
+			}
+		}
+		
+		// ... addition of properties
+		for (PropertyDefinition pd : getTagDefinition().getUserDefinedPropertyDefinitions()) {
+			if (!userDefinedProperties.containsKey(pd.getUuid())) {
+				addUserDefinedProperty(new Property(pd, new PropertyValueList()));
 			}
 		}
 	}

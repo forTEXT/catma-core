@@ -25,8 +25,8 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 			
 	private List<UserMarkupCollection> userMarkupCollections;
 
-	public UserMarkupCollectionManager(TagManager tagManager, Repository repository) {
-		this.tagManager = tagManager;
+	public UserMarkupCollectionManager(Repository repository) {
+		this.tagManager = repository.getTagManager();
 		this.repository = repository;
 		userMarkupCollections = new ArrayList<UserMarkupCollection>();
 	}
