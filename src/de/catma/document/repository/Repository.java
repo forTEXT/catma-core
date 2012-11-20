@@ -36,6 +36,7 @@ public interface Repository {
 		exceptionOccurred, 
 		repositoryChanged,
 		propertyValueChanged,
+		tagReferencesChanged,
 		;
 	}
 	
