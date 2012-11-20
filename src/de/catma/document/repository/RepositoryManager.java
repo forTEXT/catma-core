@@ -1,5 +1,7 @@
 package de.catma.document.repository;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -13,17 +15,21 @@ import de.catma.tag.TagManager;
 
 
 public class RepositoryManager {
-	
+	public static enum RepositoryManagerEvent {
+		repositoryStateChange,
+		;
+	}
 	private BackgroundServiceProvider backgroundServiceProvider;
 	private TagManager tagManager;
 
 	private Set<RepositoryReference> repositoryReferences;
 	private Set<Repository> openRepositories;
+	private PropertyChangeSupport propertyChangeSupport;
 	
 	public RepositoryManager(
 			BackgroundServiceProvider backgroundServiceProvider, 
 			TagManager tagManager, Properties properties) throws Exception {
-		
+		propertyChangeSupport = new PropertyChangeSupport(this);
 		this.backgroundServiceProvider = backgroundServiceProvider;
 		this.tagManager = tagManager;
 		
@@ -53,6 +59,23 @@ public class RepositoryManager {
 		}
 
 	}
+	
+	
+
+	public void addPropertyChangeListener(RepositoryManagerEvent propertyName,
+			PropertyChangeListener listener) {
+		propertyChangeSupport.addPropertyChangeListener(propertyName.name(), listener);
+	}
+
+
+
+	public void removePropertyChangeListener(RepositoryManagerEvent propertyName,
+			PropertyChangeListener listener) {
+		propertyChangeSupport.removePropertyChangeListener(propertyName.name(),
+				listener);
+	}
+
+
 
 	public Set<RepositoryReference> getRepositoryReferences() {
 		return Collections.unmodifiableSet(repositoryReferences);
@@ -70,13 +93,16 @@ public class RepositoryManager {
 		repository.open(userIdentification);
 		
 		openRepositories.add(repository);
-		
+		propertyChangeSupport.firePropertyChange(
+				RepositoryManagerEvent.repositoryStateChange.name(), null, repository);
 		return repository;
 	}
 	
 	public void close(Repository repository) {
 		openRepositories.remove(repository);
 		repository.close();
+		propertyChangeSupport.firePropertyChange(
+				RepositoryManagerEvent.repositoryStateChange.name(), repository, null);
 	}
 	
 	public void close() {
@@ -99,5 +125,9 @@ public class RepositoryManager {
 			}
 		}
 		return false;
+	}
+
+	public boolean hasOpenRepository() {
+		return !openRepositories.isEmpty();
 	}
 }
