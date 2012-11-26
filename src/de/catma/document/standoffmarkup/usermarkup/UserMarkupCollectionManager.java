@@ -42,7 +42,7 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 						tagsetDefinition.getUuid()),
 				tagsetDefinition);
 			
-			userMarkupCollection.synchronizeTagInstances(false);
+			userMarkupCollection.synchronizeTagInstances();
 		}
 
 		repository.update(outOfSynchCollections, tagsetDefinition);

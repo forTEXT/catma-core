@@ -126,11 +126,16 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 
 	public void remove(TagDefinition tagDefinition) {
 		this.tagDefinitions.remove(tagDefinition.getUuid());
+		removeFromChildrenCache(tagDefinition);
+	}
+	
+	private void removeFromChildrenCache(TagDefinition tagDefinition) {
 		Set<String> childrenOfParent = this.tagDefinitionChildren.get(
 				tagDefinition.getParentUuid());
 		if (childrenOfParent != null) {
 			childrenOfParent.remove(tagDefinition.getUuid());
 		}
+		this.tagDefinitionChildren.remove(tagDefinition.getUuid());
 	}
 
 	public String getTagPath(TagDefinition tagDefinition) {
@@ -193,7 +198,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 					deletedTagDefinitions.add(td.getId());
 				}
 				iterator.remove();
-				tagDefinitionChildren.remove(td.getUuid());
+				removeFromChildrenCache(td);
 			}
 			
 		}

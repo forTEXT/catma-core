@@ -113,7 +113,7 @@ public class UserMarkupCollection {
 		this.id = id;
 	}
 	
-	public void synchronizeTagInstances(boolean withUserDefinedPropertyValues) {
+	public void synchronizeTagInstances() {
 		HashSet<TagInstance> tagInstances = new HashSet<TagInstance>();
 		for (TagReference tr : tagReferences) {
 			tagInstances.add(tr.getTagInstance());
@@ -122,7 +122,7 @@ public class UserMarkupCollection {
 		for (TagInstance ti : tagInstances) {
 			if (getTagLibrary().getTagsetDefinition(ti.getTagDefinition()) != null) {
 				//TODO: handle move between TagsetDefinitions
-				ti.synchronizeProperties(withUserDefinedPropertyValues);
+				ti.synchronizeProperties();
 			}
 			else {
 				tagReferences.removeAll(getTagReferences(ti.getUuid()));

@@ -48,7 +48,7 @@ public class PropertyDefinition {
 
 	@Override
 	public String toString() {
-		return "PROP#"+uuid+"["+name+"="+possibleValueList+"]";
+		return "PROP#" + id + "u#"+uuid+"["+name+"="+possibleValueList+"]";
 	}
 	
 	public String getUuid() {

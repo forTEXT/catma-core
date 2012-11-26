@@ -82,7 +82,7 @@ public class TagInstance {
 		return Collections.unmodifiableCollection(userDefinedProperties.values());
 	}
 	
-	public void synchronizeProperties(boolean withUserDefinedPropertyValues) {
+	public void synchronizeProperties() {
 		
 		Iterator<Map.Entry<String, Property>> iterator = systemProperties.entrySet().iterator();
 		while (iterator.hasNext()) {

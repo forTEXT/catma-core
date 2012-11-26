@@ -62,7 +62,7 @@ public class TagDefinition implements Versionable {
 	@Override
 	public String toString() {
 		return "TAG_DEF[" + name 
-				+ ",#" + uuid +","
+				+ ",#"+id+"u#" + uuid +","
 				+version
 				+((parentUuid.isEmpty()) ? "]" : (",#"+parentUuid+"]"));
 	}
