@@ -53,6 +53,7 @@ public interface Repository {
 	
 	public String getName();
 	public String getIdFromURI(URI uri);
+	public String getFileURL(String sourceDocumentID, String... path);
 
 	public void insert(SourceDocument sourceDocument) throws IOException;
 	public void update(SourceDocument sourceDocument, ContentInfoSet contentInfoSet);

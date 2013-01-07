@@ -13,6 +13,11 @@
 	<classpathentry exported="true" kind="lib" path="lib/fontbox-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/jempbox-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/pdfbox-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/dom4j-1.6.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/poi-ooxml-3.8-20120326.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/poi-ooxml-schemas-3.8-20120326.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/stax-api-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/xmlbeans-2.3.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.server.core.container/org.eclipse.jst.server.jetty.runtimeTarget/Jetty v7.4.5">
 		<attributes>

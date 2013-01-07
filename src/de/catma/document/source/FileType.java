@@ -53,7 +53,8 @@ public enum FileType {
 	 * everything which is not one of the other possibilities
 	 */
 	TEXT("text/plain"), 
-	XML("text/xml"),
+	XML("text/xml"), 
+	DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
 	;
 	
 	private String mimeType;

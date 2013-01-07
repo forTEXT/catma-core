@@ -12,7 +12,8 @@ public enum RepositoryPropertyKey {
 	RepositoryUser,
 	RepositoryPass,
 	IndexerFactory, 
-	IndexerUrl,
+	IndexerUrl, 
+	TempDir,
 	;
 
 	public boolean isTrue(Properties properties, int index, boolean defaultValue) {

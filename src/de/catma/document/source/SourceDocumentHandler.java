@@ -27,6 +27,7 @@ import java.util.Map;
 import org.mozilla.universalchardet.UniversalDetector;
 
 import de.catma.document.source.contenthandler.DOCContentHandler;
+import de.catma.document.source.contenthandler.DOCXContentHandler;
 import de.catma.document.source.contenthandler.HTMLContentHandler;
 import de.catma.document.source.contenthandler.PDFContentHandler;
 import de.catma.document.source.contenthandler.RTFContentHandler;
@@ -65,6 +66,7 @@ public class SourceDocumentHandler {
                 FileType.HTM, HTMLContentHandler.class );
         registerSourceContentHandler(
                 FileType.DOC, DOCContentHandler.class );
+        registerSourceContentHandler(FileType.DOCX, DOCXContentHandler.class);
 	}
 	
 	public String getMimeType(String fileName, URLConnection urlConnection, String defaultMimeType) {
