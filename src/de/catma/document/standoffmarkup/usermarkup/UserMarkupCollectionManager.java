@@ -100,11 +100,15 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	public void removeTagInstance(String instanceID) {
 		UserMarkupCollection userMarkupCollection = 
 				getUserMarkupCollectionForTagInstance(instanceID); 
-		
-		List<TagReference> tagReferences = 
-				userMarkupCollection.getTagReferences(instanceID);
-		userMarkupCollection.removeTagReferences(tagReferences);
-		repository.update(userMarkupCollection, tagReferences);
+		// the instance may be deleted alred but can still be in a stale Analyzer-Window
+		// so we silently assume that the instance has been deleted already if the
+		// umc can not be found
+		if (userMarkupCollection != null) {
+			List<TagReference> tagReferences = 
+					userMarkupCollection.getTagReferences(instanceID);
+			userMarkupCollection.removeTagReferences(tagReferences);
+			repository.update(userMarkupCollection, tagReferences);
+		}
 	}
 
 	private UserMarkupCollection getUserMarkupCollectionForTagInstance(
