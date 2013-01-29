@@ -81,7 +81,7 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 				new ArrayList<UserMarkupCollection>();
 		
 		for (UserMarkupCollection userMarkupCollection : userMarkupCollections) {
-			
+			// FIXME: regardless of tagsetdef containment, check tagdef containment as well to support old standard tagsets and move operations
 			if (userMarkupCollection.getTagLibrary().contains(
 					tagsetDefinition)) {
 				TagsetDefinition containedTagsetDef = 

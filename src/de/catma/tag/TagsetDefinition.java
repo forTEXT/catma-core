@@ -125,6 +125,9 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	}
 
 	public void remove(TagDefinition tagDefinition) {
+		for (TagDefinition child : getChildren(tagDefinition)) {
+			remove(child);
+		}
 		this.tagDefinitions.remove(tagDefinition.getUuid());
 		removeFromChildrenCache(tagDefinition);
 	}

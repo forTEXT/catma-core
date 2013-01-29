@@ -25,6 +25,11 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		tagsetDefinitionsByID.put(tagsetDefinition.getUuid(),tagsetDefinition);
 	}
 
+	//FIXME: this assumes that there is only one tagsetdef that can contain a
+	// tagdef identified by id, this is not true in all cases for incoming tagsetdefs
+	// of older CATMA versions since move operations between tagsets were possible and
+	// the conversion algorithm of the standard tagset can in certain cases generate distinct IDs as well  
+	// supporting move in CATMA 4 would certainly break this assumption as well!!!
 	public TagDefinition getTagDefinition(String tagDefinitionID) {
 		for(TagsetDefinition tagsetDefiniton : tagsetDefinitionsByID.values()) {
 			if (tagsetDefiniton.hasTagDefinition(tagDefinitionID)) {
