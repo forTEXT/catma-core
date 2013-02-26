@@ -68,7 +68,9 @@ public class PDFContentHandler extends AbstractSourceContentHandler {
             finally {
             	w.close();
             }
-            setContent(os.toString());
+            // some pdfs seem to include hex 2 and this causes problems when converting text to HTML
+            // for GUI delivery 
+            setContent(os.toString().replaceAll("\\x02", "?"));
         }
         finally {
             if (document != null) {
