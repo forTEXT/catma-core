@@ -25,7 +25,6 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import de.catma.document.Corpus;
 import de.catma.document.source.SourceDocument;
@@ -59,6 +58,7 @@ public interface Repository {
 	}
 	
 	public void open(Map<String,String> userIdentification) throws Exception;
+	public void reload() throws IOException;
 	public void close();
 	
 	public void addPropertyChangeListener(
@@ -79,8 +79,12 @@ public interface Repository {
 	public SourceDocument getSourceDocument(String id);
 	public void delete(SourceDocument sourceDocument) throws IOException;
 	public SourceDocument getSourceDocument(UserMarkupCollectionReference umcRef);
-
-	public Set<Corpus> getCorpora();
+	public void share(
+			SourceDocument sourceDocument, 
+			String userIdentification,
+			AccessMode accessMode) throws IOException;
+	
+	public Collection<Corpus> getCorpora();
 	public void createCorpus(String name) throws IOException;
 	public void update(
 		Corpus corpus, SourceDocument sourceDocument) throws IOException;
@@ -92,6 +96,7 @@ public interface Repository {
 				throws IOException;
 	public void delete(Corpus corpus) throws IOException;
 	public void update(Corpus corpus, String name) throws IOException;
+	public void share(Corpus corpus, String userIdentification, AccessMode accessMode) throws IOException;
 
 	public void createUserMarkupCollection(String name, SourceDocument sourceDocument) 
 			throws IOException;
@@ -99,6 +104,8 @@ public interface Repository {
 			InputStream inputStream, SourceDocument sourceDocument) throws IOException;
 	public UserMarkupCollection getUserMarkupCollection(
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
+	public UserMarkupCollection getUserMarkupCollection(
+			UserMarkupCollectionReference userMarkupCollectionReference, boolean refresh) throws IOException;
 	public void update(
 			UserMarkupCollection userMarkupCollection, 
 			List<TagReference> tagReferences);
@@ -111,6 +118,8 @@ public interface Repository {
 			ContentInfoSet contentInfoSet);
 	public void delete(
 			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
+	public void share(UserMarkupCollectionReference userMarkupCollectionRef, 
+			String userIdentification, AccessMode accessMode) throws IOException;
 	
 	public List<UserMarkupCollectionReference> getWritableUserMarkupCollectionRefs(SourceDocument sd) throws IOException;
 	
@@ -123,10 +132,15 @@ public interface Repository {
 	
 	public void createTagLibrary(String name) throws IOException;
 	public void importTagLibrary(InputStream inputStream) throws IOException;
-	public Set<TagLibraryReference> getTagLibraryReferences();
+	public Collection<TagLibraryReference> getTagLibraryReferences();
 	public TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) 
 			throws IOException;
 	public void delete(TagLibraryReference tagLibraryReference) throws IOException;
+	public void share(
+			TagLibraryReference tagLibraryReference, 
+			String userIdentification,
+			AccessMode accessMode) throws IOException;
+
 	
 	public boolean isAuthenticationRequired();
 	public User getUser();
