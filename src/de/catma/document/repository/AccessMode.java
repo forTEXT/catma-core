@@ -18,6 +18,13 @@
  */
 package de.catma.document.repository;
 
+/**
+ * Flags that indicates read or read/write access to shareable items of the 
+ * {@link Repository}.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public enum AccessMode {
 	READ(0),
 	WRITE(1)
@@ -25,6 +32,9 @@ public enum AccessMode {
 	
 	private int numericRepresentation;
 
+	/**
+	 * @param numericRepresentation has to be unique
+	 */
 	private AccessMode(int numericRepresentation) {
 		this.numericRepresentation = numericRepresentation;
 	}
