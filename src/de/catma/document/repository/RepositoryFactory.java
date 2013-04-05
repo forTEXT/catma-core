@@ -23,8 +23,22 @@ import java.util.Properties;
 import de.catma.backgroundservice.BackgroundServiceProvider;
 import de.catma.tag.TagManager;
 
+/**
+ * Creates a repository.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public interface RepositoryFactory {
 
+	/**
+	 * @param backgroundServiceProvider 
+	 * @param tagManager
+	 * @param properties Properties with keys from see {@link RepositoryPropertyKey}.
+	 * @param index the index of the index-based properties, see {@link RepositoryPropertyKey}. 
+	 * @return the new Repository
+	 * @throws Exception
+	 */
 	Repository createRepository(
 		BackgroundServiceProvider backgroundServiceProvider, TagManager tagManager, 
 		Properties properties, int index) throws Exception;
