@@ -23,12 +23,25 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Metadata concerning indexing of a {@link SourceDocument}.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class IndexInfoSet {
 
     private List<String> unseparableCharacterSequences;
     private List<Character> userDefinedSeparatingCharacters;
     private Locale locale;
     
+    /**
+     * @param unseparableCharacterSequences a list of character sequences that should be treated as single tokens
+     * although a tokenizer would probably detect them as individual tokens. 
+     * @param userDefinedSeparatingCharacters a list of characters that seperate tokens (in addition to the characters
+     * that usually separate tokens like whitespace characters)
+     * @param locale the main locale of the text to be indexed
+     */
     public IndexInfoSet(List<String> unseparableCharacterSequences,
 			List<Character> userDefinedSeparatingCharacters,
 			Locale locale) {
@@ -38,15 +51,25 @@ public class IndexInfoSet {
 		this.locale = locale;
 	}
 
+	/**
+	 * Constructor with default locale, no special unseparable character sequences 
+	 * and no user defined separating characters.
+	 */
 	public IndexInfoSet() {
 		this.unseparableCharacterSequences = new ArrayList<String>();
 		this.userDefinedSeparatingCharacters = new ArrayList<Character>();
 	}
 	
+    /**
+     * @return the locale specified or {@link Locale#getDefault()}.
+     */
     public Locale getLocale() {
         return (locale==null) ? Locale.getDefault() : locale;
     }
     
+	/**
+	 * @param locale the main locale of the text to be indexed 
+	 */
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
@@ -69,6 +92,9 @@ public class IndexInfoSet {
                 Collections.<Character>emptyList() : userDefinedSeparatingCharacters;
     }
     
+    /**
+     * @param character a user defined separating character (null is not allowed)
+     */
     public void addUserDefinedSeparatingCharacter(Character character) {
     	if (userDefinedSeparatingCharacters == null) {
     		userDefinedSeparatingCharacters = new ArrayList<Character>();
@@ -76,6 +102,9 @@ public class IndexInfoSet {
     	userDefinedSeparatingCharacters.add(character);
     }
     
+    /**
+     * @param ucs null is not allowed
+     */
     public void addUnseparableCharacterSequence(String ucs) {
     	if (unseparableCharacterSequences == null) {
     		unseparableCharacterSequences = new ArrayList<String>();
@@ -83,12 +112,18 @@ public class IndexInfoSet {
     	unseparableCharacterSequences.add(ucs);
     }
 
+    /**
+     * @param character null is not allowed
+     */
     public void removeUserDefinedSeparatingCharacter(Character character) {
     	if (userDefinedSeparatingCharacters != null) {
     		userDefinedSeparatingCharacters.remove(character);
     	}
     }
     
+    /**
+     * @param ucs null is not allowed
+     */
     public void removeUnseparableCharacterSequence(String ucs) {
     	if (unseparableCharacterSequences != null) {
     		unseparableCharacterSequences.remove(ucs);

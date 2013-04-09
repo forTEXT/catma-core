@@ -23,33 +23,56 @@ package de.catma.document.source.contenthandler;
 import java.io.IOException;
 import java.io.InputStream;
 
-import de.catma.document.source.FileType;
 import de.catma.document.source.SourceDocumentInfo;
-
 
 /**
  * A content handler for a Source Document. The content handler is responsible for 
- * loading content from a Source Document. It uses the proper encoding and 
- * {@link FileType}. 
+ * loading content from a Source Document and keeping it in memory. 
+ * It uses the proper encoding and {@link de.catma.document.source.FileType FileType}. 
  * <br><br>
- * <b> SourceContentHandler need to have a default no arg constructor!</b>
+ * <b> SourceContentHandlers need to have a default no arg constructor!</b>
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public interface SourceContentHandler {
 
+	/**
+	 * @param sourceDocumentInfo all the metadata for the {@link SourceDocument}, has
+	 * to be set right after instance creation completed
+	 */
 	public void setSourceDocumentInfo(
-			SourceDocumentInfo sourceDocumentInfo );
+			SourceDocumentInfo sourceDocumentInfo);
 	
+	/**
+	 * @return all the metadata for the {@link SourceDocument}
+	 */
 	public SourceDocumentInfo getSourceDocumentInfo();
 	
+	/**
+	 * @param is the {@link SourceDocument} as raw data.
+	 * @throws IOException error accessing the input stream.
+	 */
 	public void load(InputStream is) throws IOException;
+	/**
+	 * Loading via {@link de.catma.document.source.TechInfoSet#getURI()} of the {@link SourceDocumentInfo}.
+	 * @throws IOException error accessing {@link de.catma.document.source.TechInfoSet#getURI()}.
+	 */
 	public void load() throws IOException;
 	
+	/**
+	 * @return the extracted text of the {@link SourceDocument}.
+	 * @throws IOException
+	 */
 	public String getContent() throws IOException;
 	
+	/**
+	 * Discards the content.
+	 */
 	public void unload();
 	
+	/**
+	 * @return <code>true</code> if the content has been loaded and not yet unloaded, else <code>false</code>.
+	 */
 	public boolean isLoaded();
 }

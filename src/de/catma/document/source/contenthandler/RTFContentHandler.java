@@ -32,12 +32,15 @@ import javax.swing.text.rtf.RTFEditorKit;
 /**
  * A content handler for RTF based {@link de.catma.document.source.SourceDocument}s.
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public class RTFContentHandler extends AbstractSourceContentHandler {
 
 
+	/* (non-Javadoc)
+	 * @see de.catma.document.source.contenthandler.SourceContentHandler#load(java.io.InputStream)
+	 */
 	public void load(InputStream is) throws IOException {
 	      RTFEditorKit rtf = new RTFEditorKit();
 
@@ -70,6 +73,9 @@ public class RTFContentHandler extends AbstractSourceContentHandler {
         }		
 	}
 	
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#load()
+     */
     public void load() throws IOException {
         BufferedInputStream bis = null;
         try {

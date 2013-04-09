@@ -32,7 +32,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import de.catma.backgroundservice.BackgroundServiceProvider;
-import de.catma.document.source.SourceDocument;
 import de.catma.tag.TagManager;
 
 

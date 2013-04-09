@@ -29,7 +29,7 @@ import java.util.Locale;
 /**
  * Facility to guess the language of content.
  * 
- * @author Marco Petris
+ * @author marco.petris@web.de
  * 
  * @see com.aliasi.classify.BaseClassifier
  */

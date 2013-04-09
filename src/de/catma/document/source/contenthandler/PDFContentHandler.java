@@ -32,11 +32,14 @@ import org.apache.pdfbox.util.PDFTextStripper;
 /**
  * A content handler for PDF based {@link de.catma.document.source.SourceDocument}s.
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public class PDFContentHandler extends AbstractSourceContentHandler {
 
+	/* (non-Javadoc)
+	 * @see de.catma.document.source.contenthandler.SourceContentHandler#load(java.io.InputStream)
+	 */
 	public void load(InputStream is) throws IOException {
         PDDocument document = null;
         try {
@@ -79,6 +82,9 @@ public class PDFContentHandler extends AbstractSourceContentHandler {
         }		
 	}
 	
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#load()
+     */
     public void load() throws IOException {
     	
         try {

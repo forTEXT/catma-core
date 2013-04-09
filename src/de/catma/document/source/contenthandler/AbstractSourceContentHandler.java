@@ -22,19 +22,36 @@ import java.io.IOException;
 
 import de.catma.document.source.SourceDocumentInfo;
 
+/**
+ * Basic implementation that provides lazy loading.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public abstract class AbstractSourceContentHandler implements SourceContentHandler {
 
     private SourceDocumentInfo sourceDocumentInfo;
     private String content;
     
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#setSourceDocumentInfo(de.catma.document.source.SourceDocumentInfo)
+     */
     public void setSourceDocumentInfo(SourceDocumentInfo sourceDocumentInfo) {
 		this.sourceDocumentInfo = sourceDocumentInfo;
 	}
     
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#getSourceDocumentInfo()
+     */
     public SourceDocumentInfo getSourceDocumentInfo() {
 		return sourceDocumentInfo;
 	}
 
+	/**
+	 * Does lazy loading, first call will lead to a {@link #load()}.
+	 * 
+	 * @see de.catma.document.source.contenthandler.SourceContentHandler#getContent()
+	 */
 	public String getContent() throws IOException {
 		if (content == null) {
 			load();
@@ -42,15 +59,24 @@ public abstract class AbstractSourceContentHandler implements SourceContentHandl
 		return content;
 	}
 
-	public void setContent(String content) {
+	/**
+	 * @param content the content of the {@link Source Document}. To be used
+	 * by concrete implementations.
+	 */
+	protected void setContent(String content) {
 		this.content = content;
 	}
 	
+	/* (non-Javadoc)
+	 * @see de.catma.document.source.contenthandler.SourceContentHandler#unload()
+	 */
 	public void unload() {
 		content = null;
 	}
 
-    @Override
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#isLoaded()
+     */
     public boolean isLoaded() {
     	return (content != null);
     }

@@ -20,6 +20,13 @@ package de.catma.document.repository;
 
 import java.util.Properties;
 
+/**
+ * A reference to a {@link Repository}. A reference is a placeholder that knows some 
+ * basic things about a repository and how to create it via a {@link RepositoryFactory}.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class RepositoryReference {
 	
 	private RepositoryFactory repositoryFactory;
@@ -28,6 +35,12 @@ public class RepositoryReference {
 	private String name;
 	private boolean authenticationRequired;
 	
+	/**
+	 * @param repositoryFactory the factory to create the referenced repository
+	 * @param properties the properties used for the creation
+	 * @param index the index of the repository specification within the properties
+	 * @see RepositoryPropertyKey
+	 */
 	public RepositoryReference(RepositoryFactory repositoryFactory,
 			Properties properties, int index) {
 		this.repositoryFactory = repositoryFactory;
@@ -40,18 +53,31 @@ public class RepositoryReference {
 					properties, index, true);
 	}
 	
+	/**
+	 * @return the properties that contain the repository specification (see {@link RepositoryPropertyKey}).
+	 */
 	public Properties getProperties() {
 		return properties;
 	}
 	
+	/**
+	 * @return the factory to create the referenced {@link Repository}.
+	 */
 	public RepositoryFactory getRepositoryFactory() {
 		return repositoryFactory;
 	}
 	
+	/**
+	 * @return the index of the repository specification within the properties
+	 * (see {@link RepositoryPropertyKey}).
+	 */
 	public int getIndex() {
 		return index;
 	}
 	
+	/**
+	 * @return the name of the repository
+	 */
 	public String getName() {
 		return name;
 	}
@@ -61,6 +87,9 @@ public class RepositoryReference {
 		return name;
 	}
 	
+	/**
+	 * @return <code>true</code> if the referenced repository requires authentification else <code>false</code>.
+	 */
 	public boolean isAuthenticationRequired() {
 		return authenticationRequired;
 	}

@@ -24,7 +24,7 @@ import de.catma.document.Range;
 /**
  * A keyword and its context.
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public class KeywordInContext {

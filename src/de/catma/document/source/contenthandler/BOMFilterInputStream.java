@@ -31,11 +31,14 @@ import java.nio.charset.Charset;
  * A {@link java.io.FilterInputStream} which filters the UTF-ByteOrderMark (BOM). A call
  * to {@link java.io.FilterInputStream#read()} will return the first byte after the BOM.
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public class BOMFilterInputStream extends FilterInputStream {
 	
+	/**
+	 * UTF-8 Byte Order Mark
+	 */
 	public static final byte[] UTF_8_BOM = 
 			new byte[] {(byte)0xEF, (byte)0xBB, (byte)0xBF};
 
@@ -66,6 +69,11 @@ public class BOMFilterInputStream extends FilterInputStream {
         }
     }
 
+    /**
+     * @param uri the raw data
+     * @return <code>true</code> if a {@link #UTF_8_BOM} is present, else <code>false</code>.
+     * @throws IOException error accessing the stream behind the URI.
+     */
     public static boolean hasBOM(URI uri) throws IOException {
     	
 		URL url = uri.toURL();
@@ -84,7 +92,15 @@ public class BOMFilterInputStream extends FilterInputStream {
 		return false;
     }
     
+    /**
+     * @param buf the raw data
+     * @return <code>true</code> if a {@link #UTF_8_BOM} is present, else <code>false</code>.
+     * @throws IllegalArgumentException if buf is <code>null</code> or smaller than 3 bytes.
+     */
     public static boolean hasBOM(byte[] buf)  {
+    	if ((buf == null) || (buf.length<3)) {
+    		throw new IllegalArgumentException("buf needs to be at least 3 byte large");
+    	}
     	if ((buf[0]==UTF_8_BOM[0]) && (buf[1]==UTF_8_BOM[1]) && (buf[2]==UTF_8_BOM[2])) {
 			return true;
 		}

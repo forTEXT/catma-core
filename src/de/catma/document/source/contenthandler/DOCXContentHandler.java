@@ -27,8 +27,17 @@ import org.apache.poi.xwpf.usermodel.XWPFDocument;
 
 import de.catma.document.source.FileOSType;
 
+/**
+ * A content handler for MS Word Docx based {@link de.catma.document.source.SourceDocument}s.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class DOCXContentHandler extends AbstractSourceContentHandler {
 
+	/* (non-Javadoc)
+	 * @see de.catma.document.source.contenthandler.SourceContentHandler#load(java.io.InputStream)
+	 */
 	@Override
 	public void load(InputStream is) throws IOException {
 		XWPFDocument doc = new XWPFDocument(is);
@@ -43,6 +52,9 @@ public class DOCXContentHandler extends AbstractSourceContentHandler {
 		setContent(buf);
 	}
 
+	/* (non-Javadoc)
+	 * @see de.catma.document.source.contenthandler.SourceContentHandler#load()
+	 */
 	@Override
 	public void load() throws IOException {
 		BufferedInputStream bis = null;

@@ -33,13 +33,12 @@ import de.catma.document.source.contenthandler.PDFContentHandler;
 import de.catma.document.source.contenthandler.RTFContentHandler;
 import de.catma.document.source.contenthandler.SourceContentHandler;
 import de.catma.document.source.contenthandler.StandardContentHandler;
-import de.catma.util.ContentInfoSet;
 
 /**
  * Handles the creation of {@link SourceDocument}s.<br>
  *
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public class SourceDocumentHandler {
@@ -69,11 +68,25 @@ public class SourceDocumentHandler {
         registerSourceContentHandler(FileType.DOCX, DOCXContentHandler.class);
 	}
 	
+	/**
+	 * Retrieves a mime type for the specified file
+	 * @param fileName the name of the file
+	 * @param urlConnection a link to the file's raw data
+	 * @param defaultMimeType a default mime type if detection fails
+	 * @return a detected mime type or the default mime type
+	 */
 	public String getMimeType(String fileName, URLConnection urlConnection, String defaultMimeType) {
 		String contentType = urlConnection.getContentType();
 		return getMimeType(fileName, contentType, defaultMimeType);
 	}
 	
+	/**
+	 * Retrieves a mime type for the specified file
+	 * @param fileName the name of the file
+	 * @param contentType the content type of the file
+	 * @param defaultMimeType a default mime type if detection fails
+	 * @return a detected mime type or the default mime type
+	 */
 	public String getMimeType(String fileName, String contentType, String defaultMimeType) {
 		String mimeType = null;
 		if ((contentType != null) && (!contentType.equals("content/unknown"))) {
@@ -91,6 +104,12 @@ public class SourceDocumentHandler {
 		return mimeType;
 	}
 	
+	/**
+	 * Retrieves a mime type for the specified file
+	 * @param fileName the name of the file
+	 * @param defaultMimeType a default mime type if detection fails
+	 * @return a detected mime type or the default mime type
+	 */
 	public String getMimeType(String fileName, String defaultMimeType) {
 		String mimeType = URLConnection.getFileNameMap().getContentTypeFor(fileName);
 		if (mimeType == null) {
@@ -100,6 +119,13 @@ public class SourceDocumentHandler {
 		return mimeType;
 	}
 	
+	/**
+	 * Tries to detect the encoding of the specified file.
+	 * @param urlConnection a link to the file's raw data
+	 * @param rawData the raw data
+	 * @param defaultEncoding a default encoding
+	 * @return the detected encoding or the default encoding
+	 */
 	public String getEncoding(URLConnection urlConnection, byte[] rawData, String defaultEncoding) {
 		String encoding = urlConnection.getContentEncoding();
 		if (encoding==null) {
@@ -109,6 +135,14 @@ public class SourceDocumentHandler {
 		return encoding;
 	}
 
+	/**
+	 * Tries to detect the encoding of the specified file if the given encoding
+	 * is null.
+	 * @param encoding the given encoding
+	 * @param rawData the raw data
+	 * @param defaultEncoding a default encoding
+	 * @return the fiven endcoding, the detected encoding or the default encoding
+	 */
 	public String getEncoding(
 			String encoding, String contentType, byte[] rawData, String defaultEncoding) {
 		if (encoding==null) {
@@ -151,11 +185,9 @@ public class SourceDocumentHandler {
 	
 	/**
 	 * Constructs a Source Document.
-	 * 
-	 * @param sourceDocumentInfo the metat data for this document
-	 * @param fullPath the path to the Source Document.
-	 * @param progressListener a listener which may be notified about the construction progress
-	 * @return the Source Document instance
+	 * @param id the identifier of the source document
+	 * @param sourceDocumentInfo the meta data of the source document
+	 * @return the source document isntance
 	 * @throws IOException access failure
 	 * @throws InstantiationException {@link SourceContentHandler} instantiation failure
 	 * @throws IllegalAccessException {@link SourceContentHandler} instantiation failure
@@ -182,16 +214,4 @@ public class SourceDocumentHandler {
 		
 		return document;
 	}
-	
-	public SourceDocument createEmptySourceDocument() {
-		StandardContentHandler standardContentHandler =
-				new StandardContentHandler();
-		SourceDocumentInfo sourceDocumentInfo = new SourceDocumentInfo();
-		standardContentHandler.setSourceDocumentInfo(sourceDocumentInfo);
-		sourceDocumentInfo.setContentInfoSet(new ContentInfoSet());
-		sourceDocumentInfo.setIndexInfoSet(new IndexInfoSet());
-		sourceDocumentInfo.setTechInfoSet(new TechInfoSet(null, null));
-		return new SourceDocument(null, standardContentHandler);
-	}
-	
 }

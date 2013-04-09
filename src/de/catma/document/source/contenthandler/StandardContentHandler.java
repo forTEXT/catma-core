@@ -31,20 +31,21 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 
 /**
- * The standard content handler which handles text bases files.
+ * The standard content handler which handles plain text files.
  *
- * @author Marco Petris
- *
+ * @author marco.petris@web.de
+ * @see de.catma.document.source.TechInfoSet
  */
 public class StandardContentHandler extends AbstractSourceContentHandler {
 	
+	/* (non-Javadoc)
+	 * @see de.catma.document.source.contenthandler.SourceContentHandler#load(java.io.InputStream)
+	 */
 	public void load(InputStream is) throws IOException {
 		
 		Charset charset = 
 			getSourceDocumentInfo().getTechInfoSet().getCharset();
 		
-//        Log.text( "charset " + charset );
-
 		StringBuilder contentBuffer = new StringBuilder(); 
 		
 		BufferedInputStream bis = null;
@@ -88,6 +89,9 @@ public class StandardContentHandler extends AbstractSourceContentHandler {
 		
 	}
 
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#load()
+     */
     public void load() throws IOException {
         BufferedInputStream bis = null;
         try {

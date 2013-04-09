@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  * An enumeration of possible file's operating system types. A type provides the line 
  * separator of a file under the type's operating system.
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public enum FileOSType {
@@ -44,7 +44,7 @@ public enum FileOSType {
 	MAC("\r"),
 	/**
 	 * type for system independent files (pdf,html...). 
-	 * (line separator is the systems line separator)
+	 * (line separator is the system's line separator)
 	 */
 	INDEPENDENT(System.getProperty( "line.separator" ));
 	
@@ -97,7 +97,7 @@ public enum FileOSType {
 	}
 	
 	/**
-	 * counts the occurrences of the given  pattern in the given content
+	 * counts the occurrences of the given pattern in the given content
 	 * @param patternString the pattern to count
 	 * @param fileContent the content ot analyze
 	 * @return number of occurrences
@@ -135,6 +135,11 @@ public enum FileOSType {
         return converter.toString();
     }
 
+	/**
+	 * Converts all unix line terminators to DOS line terminators.
+	 * @param input the text to be converted
+	 * @return the converted text
+	 */
 	public static String convertUnixToDos(String input) {
         return input.replaceAll("\\n", DOS.getLineSeparator());
 	}

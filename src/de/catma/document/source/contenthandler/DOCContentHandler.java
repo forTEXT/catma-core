@@ -30,11 +30,14 @@ import de.catma.document.source.FileOSType;
 /**
  * A content handler for MS Word Doc based {@link de.catma.document.source.SourceDocument}s.
  *
- * @author Marco Petris
+ * @author marco.petris@web.des
  *
  */
 public class DOCContentHandler extends AbstractSourceContentHandler {
 
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#load()
+     */
     public void load() throws IOException {
         BufferedInputStream bis = null;
         try {
@@ -51,6 +54,9 @@ public class DOCContentHandler extends AbstractSourceContentHandler {
         }
     }
 
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#load(java.io.InputStream)
+     */
     public void load(InputStream is) throws IOException {
     	WordExtractor we = new WordExtractor(is);
     	String buf = we.getText();

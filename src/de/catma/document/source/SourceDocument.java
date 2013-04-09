@@ -28,6 +28,20 @@ import de.catma.document.source.contenthandler.SourceContentHandler;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
 
+/**
+ * A source document is a sequence of text loaded and managed by a {@link SourceContentHandler}.
+ * Markup can be attached to the source document.
+ * 
+ * @author marco.petris@web.de
+ * @see SourceContentHandler
+ * @see SourceDocumentHandler
+ * @see de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection
+ * @see de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection
+ */
+/**
+ * @author marco.petris@web.de
+ *
+ */
 public class SourceDocument {
 
 	private String id;
@@ -36,6 +50,11 @@ public class SourceDocument {
 	private List<UserMarkupCollectionReference> userMarkupCollectionRefs;
 	private Integer length = null;
 	
+	/**
+	 * @param id identifier for this document
+	 * @param handler the appropriate content handler
+	 * @see SourceDocumentHandler
+	 */
 	SourceDocument(String id, SourceContentHandler handler) {
 		this.id = id;
 		this.sourceContentHandler = handler;
@@ -44,7 +63,7 @@ public class SourceDocument {
 	}
 
 	/**
-	 * Displays the title of the document.
+	 * displays title or id
 	 */
 	@Override
 	public String toString() {
@@ -53,8 +72,10 @@ public class SourceDocument {
 		return ((title == null) || (title.isEmpty()))? id : title;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#getContent(de.catma.core.document.Range)
+	/**
+	 * @param range
+	 * @return the part of the content specified by range
+	 * @throws IOException error while accessing the content
 	 */
 	public String getContent( Range range ) throws IOException {
 		int length = getContent().length();
@@ -63,52 +84,57 @@ public class SourceDocument {
 				Math.min(range.getEndPoint(), length));
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#getContent()
+	/**
+	 * @return the full text of this document
+	 * @throws IOException error while accessing the content
 	 */
 	public String getContent() throws IOException {
 		return sourceContentHandler.getContent();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#addStaticMarkupCollectionReference(de.catma.core.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference)
+	/**
+	 * Attaches a collection of static markup to this document.
+	 * @param staticMarkupCollRef static markup
 	 */
 	public void addStaticMarkupCollectionReference(
 			StaticMarkupCollectionReference staticMarkupCollRef) {
 		staticMarkupCollectionRefs.add(staticMarkupCollRef);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#addUserMarkupCollectionReference(de.catma.core.document.standoffmarkup.usermarkup.UserMarkupCollectionReference)
+	/**
+	 * Attaches a collection of user defined markup to this document.
+	 * @param userMarkupCollRef user markup
 	 */
 	public void addUserMarkupCollectionReference(
 			UserMarkupCollectionReference userMarkupCollRef) {
 		userMarkupCollectionRefs.add(userMarkupCollRef);
 	}
 
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#getID()
+	/**
+	 * @return the identifier of this document, depending on the underlying repository
 	 */
 	public String getID() {
 		return id;
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#getStaticMarkupCollectionRefs()
+	/**
+	 * @return all static markup attached
 	 */
 	public List<StaticMarkupCollectionReference> getStaticMarkupCollectionRefs() {
 		return Collections.unmodifiableList(staticMarkupCollectionRefs);
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#getUserMarkupCollectionRefs()
+	/**
+	 * @return all user defined markup attached
 	 */
 	public List<UserMarkupCollectionReference> getUserMarkupCollectionRefs() {
 		return Collections.unmodifiableList(userMarkupCollectionRefs);
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#getUserMarkupCollectionReference(java.lang.String)
+	/**
+	 * @param id the identifier of the {@link UserMarkupCollection}
+	 * @return the reference to the user markup collection or <code>null</code> if
+	 * there is no such collection
 	 */
 	public UserMarkupCollectionReference getUserMarkupCollectionReference(String id) {
 		for (UserMarkupCollectionReference ref : userMarkupCollectionRefs) {
@@ -119,20 +145,25 @@ public class SourceDocument {
 		return null;
 	}
 	
+	/**
+	 * @param uRef to be removed
+	 * @return true if the uRef had been attached before
+	 */
 	public boolean removeUserMarkupCollectionReference(
 			UserMarkupCollectionReference uRef) {
 		return this.userMarkupCollectionRefs.remove(uRef);
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#getSourceContentHandler()
+	/**
+	 * @return the content handler of this document
 	 */
 	public SourceContentHandler getSourceContentHandler() {
 		return sourceContentHandler;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#getLength()
+	/**
+	 * @return length of the content of this document
+	 * @throws IOException error accessing the content
 	 */
 	public int getLength() throws IOException {
 		if (length == null) {
@@ -141,20 +172,23 @@ public class SourceDocument {
 		return length;
 	}
 	
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#unload()
+	/**
+	 * Unloads the content.
 	 */
 	public void unload() {
 		sourceContentHandler.unload();
 	}
 
-	/* (non-Javadoc)
-	 * @see de.catma.core.document.source.ISourceDocument#isLoaded()
+	/**
+	 * @return <code>true</code> if the content is loaded
 	 */
 	public boolean isLoaded() {
 		return sourceContentHandler.isLoaded();
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -163,6 +197,9 @@ public class SourceDocument {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {

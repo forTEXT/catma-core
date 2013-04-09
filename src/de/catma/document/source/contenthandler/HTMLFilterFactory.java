@@ -26,7 +26,7 @@ import nu.xom.Nodes;
 /**
  * A node factory that filters certain HTML elements.
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  * @see HTMLContentHandler
  */
@@ -37,11 +37,17 @@ public class HTMLFilterFactory extends NodeFactory {
     private Nodes emptyNodes = new Nodes();
     private int inScriptMode = 0;
 
+    /* (non-Javadoc)
+     * @see nu.xom.NodeFactory#makeComment(java.lang.String)
+     */
     @Override
     public Nodes makeComment(String data) {
         return emptyNodes;
     }
 
+    /* (non-Javadoc)
+     * @see nu.xom.NodeFactory#startMakingElement(java.lang.String, java.lang.String)
+     */
     @Override
     public Element startMakingElement(String name, String namespace) {
         if(name.toLowerCase().equals(SCRIPT)) {
@@ -50,6 +56,9 @@ public class HTMLFilterFactory extends NodeFactory {
         return super.startMakingElement(name, namespace);
     }
 
+    /* (non-Javadoc)
+     * @see nu.xom.NodeFactory#finishMakingElement(nu.xom.Element)
+     */
     @Override
     public Nodes finishMakingElement(Element element) {
         if(element.getQualifiedName().toLowerCase().equals(SCRIPT)) {
@@ -61,6 +70,9 @@ public class HTMLFilterFactory extends NodeFactory {
         return super.finishMakingElement(element);
     }
 
+    /* (non-Javadoc)
+     * @see nu.xom.NodeFactory#makeText(java.lang.String)
+     */
     @Override
     public Nodes makeText(String data) {
         if(inScriptMode>0) {

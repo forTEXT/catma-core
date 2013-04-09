@@ -39,7 +39,7 @@ import de.catma.ExceptionHandler;
  * <br>
  * This class is a singleton.
  * 
- * @author Marco Petris
+ * @author marco.petris@web.d
  *
  */
 public enum CharsetLanguageInfo {

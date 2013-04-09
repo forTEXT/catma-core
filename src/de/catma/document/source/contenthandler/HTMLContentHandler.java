@@ -40,11 +40,14 @@ import de.catma.util.CloseSafe;
 /**
  * A content handler HTML based {@link de.catma.document.source.SourceDocument}s.
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public class HTMLContentHandler extends AbstractSourceContentHandler {
 
+	/* (non-Javadoc)
+	 * @see de.catma.document.source.contenthandler.SourceContentHandler#load(java.io.InputStream)
+	 */
 	public void load(InputStream is) throws IOException {
         XMLReader reader;
 		try {
@@ -86,6 +89,9 @@ public class HTMLContentHandler extends AbstractSourceContentHandler {
 		}
 	}
     
+    /* (non-Javadoc)
+     * @see de.catma.document.source.contenthandler.SourceContentHandler#load()
+     */
     public void load() throws IOException {
     	
         try {

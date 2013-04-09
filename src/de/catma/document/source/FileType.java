@@ -24,12 +24,12 @@ import java.io.File;
 /**
  * The type of a file: pdf, html, text...
  *
- * @author Marco Petris
+ * @author marco.petris@web.de
  *
  */
 public enum FileType {
 	/**
-	 * MS-Word docs.
+	 * MS-Word DOCs.
 	 */
 	DOC("application/msword"), 
 	/**
@@ -52,8 +52,14 @@ public enum FileType {
 	/**
 	 * everything which is not one of the other possibilities
 	 */
-	TEXT("text/plain"), 
+	TEXT("text/plain"),
+	/**
+	 * XML files.
+	 */
 	XML("text/xml"), 
+	/**
+	 * MS-Word DOCX files.
+	 */
 	DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
 	;
 	
@@ -63,6 +69,9 @@ public enum FileType {
 		this.mimeType = mimeType;
 	}
 	
+	/**
+	 * @return the mime type of this file type.
+	 */
 	public String getMimeType() {
 		return mimeType;
 	}
@@ -88,6 +97,11 @@ public enum FileType {
 		return TEXT;
 	}
 	
+	/**
+	 * @param mimeType
+	 * @return the file type that corresponds to the given mime type or, if no specific
+	 * file type can be found, {@link #TEXT}.
+	 */
 	public static FileType getFileType(String mimeType) {
 		for (FileType type : values()) {
 			if (type.mimeType.equals(mimeType)) {
