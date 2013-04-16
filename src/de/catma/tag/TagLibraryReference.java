@@ -18,13 +18,23 @@
  */
 package de.catma.tag;
 
-import de.catma.util.ContentInfoSet;
+import de.catma.document.source.ContentInfoSet;
 
+/**
+ * A reference to a {@link TagLibrary}.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class TagLibraryReference {
 
 	private ContentInfoSet contentInfoSet;
 	private String id;
 	
+	/**
+	 * @param id repository dependent identifier
+	 * @param contentInfoSet bibliographical meta data
+	 */
 	public TagLibraryReference(String id, ContentInfoSet contentInfoSet) {
 		super();
 		this.id = id;

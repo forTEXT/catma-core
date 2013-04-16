@@ -26,11 +26,24 @@ import de.catma.document.Range;
 import de.catma.tag.PropertyDefinition;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
-import de.catma.tag.TargetText;
 
+/**
+ * A {@link Range} of text referenced by a {@link TagInstance}.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class TagReference {
 
+	/**
+	 * Compares TagReferences by their {@link Range}s.
+	 *
+	 */
 	public static class RangeComparator implements Comparator<TagReference> {
+		/**
+		 * uses {@link Range}s for comparison
+		 * @see java.util.Comparator#compare(java.lang.Object, java.lang.Object)
+		 */
 		@Override
 		public int compare(TagReference o1, TagReference o2) {
 			return o1.getRange().compareTo(o2.getRange());
@@ -40,8 +53,13 @@ public class TagReference {
 	private TagInstance tagInstance;
 	private Range range;
 	private URI target;
-	private TargetText targetText;
 
+	/**
+	 * @param tagInstance the referencing instance
+	 * @param uri a reference to the source document
+	 * @param range the referenced range of text
+	 * @throws URISyntaxException
+	 */
 	public TagReference(TagInstance tagInstance, String uri, Range range) 
 			throws URISyntaxException {
 		this.tagInstance = tagInstance;
@@ -54,18 +72,31 @@ public class TagReference {
 		return tagInstance + "@" + target + "#" + range;
 	}
 
+	/**
+	 * @return definition of the {@link TagInstance}'s tag 
+	 */
 	public TagDefinition getTagDefinition() {
 		return tagInstance.getTagDefinition();
 	}
 	
+	/**
+	 * @return uuid of the {@link TagInstance}.
+	 */
 	public String getTagInstanceID() {
 		return tagInstance.getUuid();
 	}
 	
+	/**
+	 * @return referenced text
+	 */
 	public Range getRange() {
 		return range;
 	}
 	
+	/**
+	 * @return {@link PropertyDefinition.SystemPropertyName#catma_displaycolor color property}
+	 *  of the underlying {@link TagDefinition}.
+	 */
 	public String getColor() {
 		return tagInstance.getSystemProperty(
 			tagInstance.getTagDefinition().getPropertyDefinitionByName(
@@ -73,10 +104,16 @@ public class TagReference {
 				getPropertyValueList().getFirstValue();
 	}
 	
+	/**
+	 * @return the referencing instance
+	 */
 	public TagInstance getTagInstance() {
 		return tagInstance;
 	}
 	
+	/**
+	 * @return link to source document
+	 */
 	public URI getTarget() {
 		return target;
 	}

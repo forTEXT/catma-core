@@ -28,6 +28,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+/**
+ * A set of {@link TagDefinition}s.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	
 	private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -39,6 +45,12 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	private Map<String,Set<String>> tagDefinitionChildren;
 	private Set<Integer> deletedTagDefinitions;
 	
+	/**
+	 * @param id a repository dependent identifier
+	 * @param uuid the CATMA uuid, see {@link de.catma.util.IDGenerator}
+	 * @param tagsetName the name of the tagset
+	 * @param version the version of the tagset
+	 */
 	public TagsetDefinition(
 			Integer id, String uuid, String tagsetName, Version version) {
 		this.id = id;
@@ -50,6 +62,10 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		this.deletedTagDefinitions = new HashSet<Integer>();
 	}
 
+	/**
+	 * Copy constructor
+	 * @param toCopy
+	 */
 	public TagsetDefinition(TagsetDefinition toCopy) {
 		this (null, toCopy.uuid, toCopy.name, new Version(toCopy.version));
 		for (TagDefinition tagDefinition : toCopy) {
@@ -80,10 +96,19 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		return uuid;
 	}
 	
+	/**
+	 * @param tagDefID CATMA uuid of the {@link TagDefinition}, see {@link de.catma.util.IDGenerator}
+	 * @return <code>true</code> if this tagset def contains the corresponding tag def
+	 */
 	public boolean hasTagDefinition(String tagDefID) {
 		return tagDefinitions.containsKey(tagDefID);
 	}
 	
+	/**
+	 * @param tagDefinitionID CATMA uuid of the {@link TagDefinition}, see {@link de.catma.util.IDGenerator}
+	 * @return the corresponding TagDefinition or <code>null</code> if there is no such definition in this
+	 * tagset def
+	 */
 	public TagDefinition getTagDefinition(String tagDefinitionID) {
 		return tagDefinitions.get(tagDefinitionID);
 	}
@@ -100,6 +125,11 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		return tagDefinitions.values().contains(tagDefinition);
 	}
 
+	/**
+	 * @param tagDefinition
+	 * @return an unmodifiable list of all child TagDefinitions of the given
+	 * TagDefinition (deep list)
+	 */
 	public List<TagDefinition> getChildren(TagDefinition tagDefinition) {
 		List<TagDefinition> children = new ArrayList<TagDefinition>();
 		Set<String> directChildrenIDs = 
@@ -119,6 +149,11 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		return Collections.unmodifiableList(children);
 	}
 
+	/**
+	 * @param tagDefinition
+	 * @return a set of the uuids of the child TagDefinitions of the given
+	 * TagDefinition
+	 */
 	Set<String> getChildIDs(TagDefinition tagDefinition) {
 		Set<String> childIDs = new HashSet<String>();
 		Set<String> directChildrenIDs = 
@@ -159,6 +194,10 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		this.tagDefinitionChildren.remove(tagDefinition.getUuid());
 	}
 
+	/**
+	 * @param tagDefinition
+	 * @return the path from the top level TagDefinition down to the given TagDefintion
+	 */
 	public String getTagPath(TagDefinition tagDefinition) {
 		
 		StringBuilder builder = new StringBuilder();
@@ -177,6 +216,9 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		return builder.toString();
 	}
 
+	/**
+	 * @return repository dependent identifier
+	 */
 	public Integer getId() {
 		return id;
 	}
@@ -186,6 +228,13 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	}
 
 	
+	/**
+	 * Synchronizes this definition with the given definition. Deletions resulting
+	 * from this synch can be retrieved via {@link #getDeletedTagDefinitions()}.
+	 * @param tagsetDefinition
+	 * @throws IllegalArgumentException if the {@link #getUuid() uuids} of the
+	 * definitions are not equal
+	 */
 	void synchronizeWith(
 			TagsetDefinition tagsetDefinition) throws IllegalArgumentException {
 		if (!this.getUuid().equals(tagsetDefinition.getUuid())) {
@@ -231,6 +280,11 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		}
 	}
 	
+	/**
+	 * @param tagsetDefinition
+	 * @return true if this definition and the given definition are in 
+	 * {@link #synchronizeWith(TagsetDefinition) synch}.
+	 */
 	public boolean isSynchronized(TagsetDefinition tagsetDefinition) {
 		
 		if (this.getVersion().equals(tagsetDefinition.getVersion())) {
@@ -262,6 +316,10 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		this.version = new Version();
 	}
 	
+	/**
+	 * @return the definitions deleted due to a {@link #synchronizeWith(TagsetDefinition) synch}.
+	 * the set has to be cleared externally (usually by the repository that persists the deletion). 
+	 */
 	public Set<Integer> getDeletedTagDefinitions() {
 		return deletedTagDefinitions;
 	}

@@ -24,13 +24,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.catma.document.source.ContentInfoSet;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
 import de.catma.tag.TagsetDefinition;
-import de.catma.util.ContentInfoSet;
 import de.catma.util.Pair;
 
+/**
+ * A collection of user generated markup in the form of {@link TagReference}s.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class UserMarkupCollection {
 
 	private String id;
@@ -38,11 +44,22 @@ public class UserMarkupCollection {
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
 	
+	/**
+	 * @param id the identifier of the collections (depends on the repository)
+	 * @param contentInfoSet the bibliographical metadata of this collection
+	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
+	 */
 	public UserMarkupCollection(
 			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
 		this(id, contentInfoSet, tagLibrary, new ArrayList<TagReference>());
 	}
 	
+	/**
+	 * @param id the identifier of the collections (depends on the repository)
+	 * @param contentInfoSet the bibliographical metadata of this collection
+	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
+	 * @param tagReferences referenced text ranges and referencing {@link TagInstance}s.
+	 */
 	public UserMarkupCollection(
 			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
 			List<TagReference> tagReferences) {
@@ -53,18 +70,37 @@ public class UserMarkupCollection {
 	}
 
 
+	/**
+	 * @return the internal library with all relevant {@link TagsetDefinition}s.
+	 */
 	public TagLibrary getTagLibrary() {
 		return tagLibrary;
 	}
 	
+	/**
+	 * @return unmodifiable version of referenced text ranges and referencing {@link TagInstance}s.
+	 */
 	public List<TagReference> getTagReferences() {
 		return Collections.unmodifiableList(tagReferences);
 	}
 
+	/**
+	 * @param tagDefinition return all references with this tagdefinition (<b>excluding</b>
+	 * all references that have a tag definition that is a child of the given definition, i. e.
+	 * this is not a deep list of references)
+	 * 
+	 * @return the matching references
+	 */
 	public List<TagReference> getTagReferences(TagDefinition tagDefinition) {
 		return getTagReferences(tagDefinition, false);
 	}
 	
+	/**
+	 * @param tagDefinition return all references with this tagdefinition 
+	 * @param withChildReferences <code>true</code> include child tag definitions as well (deep list) or <code>false</code> exclude
+	 * child tag definitions (shallow list)
+	 * @return a list of tag references
+	 */
 	public List<TagReference> getTagReferences(
 			TagDefinition tagDefinition, boolean withChildReferences) {
 		
@@ -86,10 +122,20 @@ public class UserMarkupCollection {
 		return result;
 	}
 	
+	/**
+	 * @param tagDefinition 
+	 * @return a set of {@link TagDefinition#getId() IDs} of tag definitions that
+	 * are children of the given definition (deep list)
+	 */
 	public Set<String> getChildIDs(TagDefinition tagDefinition) {
 		return tagLibrary.getChildIDs(tagDefinition);
 	}
 
+	/**
+	 * @param tagDefinition
+	 * @return a set of tag definitions that are children of the given 
+	 * definition (deep list)
+	 */
 	public List<TagDefinition> getChildren(TagDefinition tagDefinition) {
 		return tagLibrary.getChildren(tagDefinition);
 	}
@@ -107,22 +153,39 @@ public class UserMarkupCollection {
 		this.tagReferences.add(tagReference);
 	}
 	
+	/**
+	 * @return the identifier of this collection (depends on the repository) 
+	 */
 	public String getId() {
 		return id;
 	}
 	
+	/**
+	 * @return name of this collection
+	 */
 	public String getName() {
 		return contentInfoSet.getTitle();
 	}
 	
+	/**
+	 * @return metadata for this collection
+	 */
 	public ContentInfoSet getContentInfoSet() {
 		return contentInfoSet;
 	}
 	
+	/**
+	 * @return <code>true</code> if there are no tag references in this collection
+	 */
 	public boolean isEmpty() {
 		return tagReferences.isEmpty();
 	}
 	
+	/**
+	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s
+	 * must correspond to the tag definitions of the tag intances of the tag references 
+	 * of this collection
+	 */
 	public void setTagLibrary(TagLibrary tagLibrary) {
 		this.tagLibrary = tagLibrary;
 	}
@@ -132,6 +195,9 @@ public class UserMarkupCollection {
 		this.id = id;
 	}
 	
+	/**
+	 * {@link TagInstance#synchronizeProperties() Synchronizes} all the Tag Instances. 
+	 */
 	public void synchronizeTagInstances() {
 		HashSet<TagInstance> tagInstances = new HashSet<TagInstance>();
 		for (TagReference tr : tagReferences) {
@@ -150,6 +216,10 @@ public class UserMarkupCollection {
 	}
 
 	
+	/**
+	 * @param tagInstanceID
+	 * @return all references which belong to the {@link TagInstance} with the given ID
+	 */
 	public List<TagReference> getTagReferences(String tagInstanceID) {
 		List<TagReference> result = new ArrayList<TagReference>();
 		
@@ -162,10 +232,18 @@ public class UserMarkupCollection {
 		return result;
 	}
 
+	/**
+	 * @param ti
+	 * @return all references which belong to the given TagInstance
+	 */
 	public List<TagReference> getTagReferences(TagInstance ti) {
 		return getTagReferences(ti.getUuid());
 	}
 	
+	/**
+	 * @param instanceID
+	 * @return <code>true</code> if there is a TagReference with the given TagInstance's ID
+	 */
 	public boolean hasTagInstance(String instanceID) {
 		for (TagReference tr : getTagReferences()) {
 			if (tr.getTagInstanceID().equals(instanceID)) {
@@ -175,11 +253,18 @@ public class UserMarkupCollection {
 		return false;
 	}
 	
+	/**
+	 * @param tagReferences references to be removed
+	 */
 	public void removeTagReferences(List<TagReference> tagReferences) {
 		this.tagReferences.removeAll(tagReferences);
 	}
 
 
+	/**
+	 * @param tagsetDefinition
+	 * @return all references that have TagInstances with the given tag def
+	 */
 	public List<TagReference> getTagReferences(TagsetDefinition tagsetDefinition) {
 		ArrayList<TagReference> result = new ArrayList<TagReference>();
 		if (getTagLibrary().contains(tagsetDefinition)) {
@@ -194,6 +279,9 @@ public class UserMarkupCollection {
 		return result;
 	}
 	
+	/**
+	 * @param contentInfoSet Metadata for this collection
+	 */
 	void setContentInfoSet(ContentInfoSet contentInfoSet) {
 		this.contentInfoSet = contentInfoSet;
 	}

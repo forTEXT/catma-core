@@ -21,8 +21,6 @@ package de.catma.tag;
 
 /**
  * A thing that has a {@link Version version}.
- * <br>
- * The {@link Version} can mark its Versionable as deleted!
  *
  * @see Version
  *

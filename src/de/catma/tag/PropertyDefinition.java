@@ -20,13 +20,37 @@ package de.catma.tag;
 
 import java.util.ArrayList;
 
+/**
+ * A definition or type for a {@link Property}.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class PropertyDefinition {
 	
+	/**
+	 * Property names used for PropertyDefinitions of system properties.
+	 * System properties are obligatory properties present for all {@link TagDefinition}s.
+	 */
 	public enum SystemPropertyName {
+		/**
+		 * The color of the tag as a combined RGB integer value representing an
+		 * opaque sRGB color consisting of the red component in bits 16-23,
+		 * the green component in bits 8-15, and the blue component in bits 0-7
+		 * @see de.catma.util.ColorConverter
+		 */
 		catma_displaycolor,
+		/**
+		 * The author of the specific {@link TagInstance} that carries the
+		 * TagDefinition with this PropertyDefinition.
+		 */
 		catma_markupauthor,
 		;
 		
+		/**
+		 * @param name
+		 * @return <code>true</code> if ther is a system property with the given name 
+		 */
 		public static boolean hasPropertyName(String name) {
 			for (SystemPropertyName sysPropName : values()) {
 				if (sysPropName.name().equals(name)) {
@@ -41,6 +65,13 @@ public class PropertyDefinition {
 	private String uuid;
 	private PropertyPossibleValueList possibleValueList;
 	
+	/**
+	 * @param id the identifier of the definition (depends on the repository)
+	 * @param uuid a CATMA uuid see {@link de.catma.util.IDGenerator}.
+	 * @param name the name of the property
+	 * @param possibleValueList a list of possible values (this is more meant as an offer than
+	 * a restriction since adhoc values of {@link Property properties} are allowed explicitly).
+	 */
 	public PropertyDefinition(Integer id, String uuid, String name,
 			PropertyPossibleValueList possibleValueList) {
 		this.id = id;
@@ -50,6 +81,10 @@ public class PropertyDefinition {
 	}
 	
 	
+	/**
+	 * Copy constructor.
+	 * @param toCopy
+	 */
 	public PropertyDefinition(PropertyDefinition toCopy) {
 		this.uuid = toCopy.uuid;
 		this.name = toCopy.name;
@@ -69,6 +104,9 @@ public class PropertyDefinition {
 		return "PROP#" + id + "u#"+uuid+"["+name+"="+possibleValueList+"]";
 	}
 	
+	/**
+	 * @return a CATMA uuid see {@link de.catma.util.IDGenerator}.
+	 */
 	public String getUuid() {
 		return uuid;
 	}
@@ -81,6 +119,10 @@ public class PropertyDefinition {
 		this.name = name;
 	}
 	
+	/**
+	 * @return the first possible value or <code>null</code> if there are no
+	 * values specified yet
+	 */
 	public String getFirstValue() {
 		return possibleValueList.getFirstValue();
 	}
@@ -93,6 +135,9 @@ public class PropertyDefinition {
 		this.possibleValueList = possibleValueList;
 	}
 	
+	/**
+	 * @return a repository dependent identifier
+	 */
 	public Integer getId() {
 		return id;
 	}
@@ -101,6 +146,12 @@ public class PropertyDefinition {
 		this.id = id;
 	}
 
+	/**
+	 * Replaces this definition with the given definition. (The {@link #getId() id}
+	 * will not be overridden.
+	 * 
+	 * @param pd 
+	 */
 	public void synchronizeWith(PropertyDefinition pd) {
 		this.uuid = pd.uuid;
 		this.name = pd.name;

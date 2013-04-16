@@ -21,6 +21,12 @@ package de.catma.tag;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A list of possible values of a property.
+ * 
+ * @author marco.petris@web.de
+ * @see PropertyDefinition
+ */
 public class PropertyPossibleValueList {
 
 	private boolean singleSelect;
@@ -43,6 +49,9 @@ public class PropertyPossibleValueList {
 	}
 
 
+	/**
+	 * @return the first value or <code>null</code> if the list is empty
+	 */
 	public String getFirstValue() {
 		return propertyValueList.getFirstValue();
 	}

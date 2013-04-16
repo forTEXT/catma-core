@@ -22,6 +22,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * A list of values set for a {@link Property}.
+ * @author marco.petris@web.de
+ *
+ */
 public class PropertyValueList {
 
 	private List<String> values;
@@ -57,6 +62,9 @@ public class PropertyValueList {
 		return sb.toString();
 	}
 
+	/**
+	 * @return the first value in this list or <code>null</code> if the list is empty
+	 */
 	public String getFirstValue() {
 		if (values.size() > 0) {
 			return values.get(0);
@@ -64,6 +72,9 @@ public class PropertyValueList {
 		return null;
 	}
 	
+	/**
+	 * @return non modifiable list of the internal values
+	 */
 	public List<String> getValues() {
 		return Collections.unmodifiableList(values);
 	}

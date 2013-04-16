@@ -274,6 +274,10 @@ public class Range implements Comparable<Range> {
         return (getOverlappingRange(range) != null);
     }
     
+    /**
+     * @param rangeToTest
+     * @return true if the given range and this range are adjacent to each other
+     */
     public boolean isAdjacentTo(Range rangeToTest) {
     	return ((getStartPoint() == rangeToTest.getEndPoint()) 
     				|| (getEndPoint() == rangeToTest.getStartPoint()));
@@ -311,6 +315,10 @@ public class Range implements Comparable<Range> {
         return result;
     }
 
+    /**
+     * @param ranges
+     * @return a range that encloses all given ranges
+     */
     public static Range getEnclosingRange(List<Range> ranges) {
     	int startPoint = Integer.MAX_VALUE;
     	int endPoint = 0;

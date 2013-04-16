@@ -18,9 +18,24 @@
  */
 package de.catma.user;
 
+/**
+ * A user within the CATMA system.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public interface User {
+	/**
+	 * @return the name of the user
+	 */
 	public String getName();
+	/**
+	 * @return true if the user is locked
+	 */
 	public boolean isLocked();
+	/**
+	 * @return an identifier like an email address
+	 */
 	public String getIdentifier();
 }
 

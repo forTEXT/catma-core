@@ -23,16 +23,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * A version information of a {@link Versionable}. E.g. a {@link TagDefinition} or 
- * a {@link Tagset}.<br>
- * A version string has the format: 
- * {@link Integer versionNumber}_{@link UUID}<br>
- * A negative version number marks the {@link Versionable} as deleted.<br>
- * <br>
- * Note this class is immutable! Version changes return a new Version!
+ * a {@link TagsetDefinition}.<br>
  *
  * @see Versionable
  *
@@ -47,6 +41,10 @@ public class Version {
 			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 	private long version;
 	
+	/**
+	 * This version is based on the milliseconds of the given version date.
+	 * @param version 
+	 */
 	public Version( Date version ) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(version);
@@ -54,12 +52,18 @@ public class Version {
 		this.version = cal.getTimeInMillis();
 	}
 	
+	/**
+	 * New version.
+	 */
 	public Version() {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.MILLISECOND, 0);
 		this.version = cal.getTimeInMillis();
 	}
 	
+	/**
+	 * @param versionString a parseable date format see {@link #FORMAT} and {@link #SHORTFORMAT}.
+	 */
 	public Version(String versionString) {
 		try {
 			if (versionString.length() == 24) {
@@ -76,6 +80,10 @@ public class Version {
 		}
 	}
 	
+	/**
+	 * Copy constructor
+	 * @param toCopy
+	 */
 	public Version(Version toCopy) {
 		this.version = toCopy.version;
 	}
@@ -93,6 +101,9 @@ public class Version {
         return this.version < other.version;
     }
     
+    /**
+     * @return the version date
+     */
     public Date getDate() {
     	return new Date(version);
     }

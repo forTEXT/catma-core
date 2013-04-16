@@ -26,6 +26,13 @@ import de.catma.document.source.SourceDocument;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
 
+/**
+ * A corpus is a collection of {@link SourceDocument}s and a (sub-)set of the attached
+ * markup.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class Corpus {
 
 	private String id;
@@ -35,6 +42,10 @@ public class Corpus {
 	private List<StaticMarkupCollectionReference> staticMarkupCollectionRefs;
 	private List<UserMarkupCollectionReference> userMarkupCollectionRefs;
 	
+	/**
+	 * @param id identifier (depends on the repository)
+	 * @param corpusName
+	 */
 	public Corpus(String id, String corpusName) {
 		this.id = id;
 		this.name = corpusName;
@@ -43,6 +54,10 @@ public class Corpus {
 		this.userMarkupCollectionRefs = new ArrayList<UserMarkupCollectionReference>();
 	}
 
+	/**
+	 * Corpus with a <code>null</code>-identifier for non persistent corpora.
+	 * @param corpusName
+	 */
 	public Corpus(String corpusName) {
 		this(null, corpusName);
 	}
@@ -66,18 +81,30 @@ public class Corpus {
 		return name;
 	}
 
+	/**
+	 * @return non modifiable list
+	 */
 	public List<SourceDocument> getSourceDocuments() {
 		return Collections.unmodifiableList(sourceDocuments);
 	}
 
+	/**
+	 * @return non modifiable list
+	 */
 	public List<StaticMarkupCollectionReference> getStaticMarkupCollectionRefs() {
 		return Collections.unmodifiableList(staticMarkupCollectionRefs);
 	}
 
+	/**
+	 * @return non modifiable list
+	 */
 	public List<UserMarkupCollectionReference> getUserMarkupCollectionRefs() {
 		return Collections.unmodifiableList(userMarkupCollectionRefs);
 	}
 	
+	/**
+	 * @return the identifier or <code>null</code> if the corpus is not persistent
+	 */
 	public String getId() {
 		return id;
 	}
@@ -86,6 +113,12 @@ public class Corpus {
 		this.name = name;
 	}
 
+	/**
+	 * @param sd
+	 * @return a list of references of the user markup collections of the given
+	 * source document that are contained in this corpus (may be a subset of
+	 * all user markup collections of that source document).
+	 */
 	public List<UserMarkupCollectionReference> getUserMarkupCollectionRefs(
 			SourceDocument sd) {
 		List<UserMarkupCollectionReference> result = 

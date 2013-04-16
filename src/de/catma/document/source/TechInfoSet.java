@@ -21,6 +21,12 @@ package de.catma.document.source;
 import java.net.URI;
 import java.nio.charset.Charset;
 
+/**
+ * Technical metadata about the physical source.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class TechInfoSet {
 
 	private FileType fileType;
@@ -31,6 +37,13 @@ public class TechInfoSet {
 	private URI uri;
 	private String xsltDocumentLocalUri;
 	
+	/**
+	 * @param fileType the type of the file
+	 * @param charset the charset used in the file
+	 * @param fileOSType determines line endings 
+	 * @param checksum a checksum of the content
+	 * @param xsltDocumentLocalUri a reference to a xslt file for XML source files
+	 */
 	public TechInfoSet(FileType fileType, Charset charset,
 			FileOSType fileOSType, Long checksum, String xsltDocumentLocalUri) {
 		super();
@@ -41,6 +54,10 @@ public class TechInfoSet {
 		this.xsltDocumentLocalUri = xsltDocumentLocalUri;
 	}
 	
+	/**
+	 * @param mimeType mimetype of the file
+	 * @param uri source address
+	 */
 	public TechInfoSet(String mimeType, URI uri) {
 		this.mimeType = mimeType;
 		this.uri = uri;

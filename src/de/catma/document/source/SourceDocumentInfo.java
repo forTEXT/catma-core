@@ -18,9 +18,14 @@
  */
 package de.catma.document.source;
 
-import de.catma.util.ContentInfoSet;
 
 
+/**
+ * Metadata for a {@link SourceDocument}.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class SourceDocumentInfo {
 
 	private IndexInfoSet indexInfoSet;
@@ -30,6 +35,11 @@ public class SourceDocumentInfo {
 	public SourceDocumentInfo() {
 	}
 	
+	/**
+	 * @param indexInfoSet index metadata
+	 * @param contentInfoSet bibliographical info
+	 * @param techInfoSet technical metadata about the physical source
+	 */
 	public SourceDocumentInfo(IndexInfoSet indexInfoSet,
 			ContentInfoSet contentInfoSet, TechInfoSet techInfoSet) {
 		super();

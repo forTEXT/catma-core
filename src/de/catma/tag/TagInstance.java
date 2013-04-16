@@ -24,6 +24,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+/**
+ * An instance of a tag. The TagInstance has a {@link TagDefinition type}, a
+ * set of user defined {@link Property properties} and a set of system properties.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class TagInstance {
 
 	private String uuid;
@@ -31,6 +38,11 @@ public class TagInstance {
 	private Map<String,Property> systemProperties;
 	private Map<String,Property> userDefinedProperties;
 	
+	/**
+	 * System properties get the {@link PropertyDefinition#getFirstValue() default} value set.
+	 * @param uuid CATMA uuid of the instance (see {@link de.catma.util.IDGenerator}.
+	 * @param tagDefinition the type of this instance
+	 */
 	public TagInstance(String uuid, TagDefinition tagDefinition) {
 		this.uuid = uuid;
 		this.tagDefinition = tagDefinition;
@@ -76,30 +88,50 @@ public class TagInstance {
 		return "TAGINSTANCE[#"+uuid+","+tagDefinition+"]";
 	}
 	
+	/**
+	 * @return CATMA uuid of the instance (see {@link de.catma.util.IDGenerator}
+	 */
 	public String getUuid() {
 		return uuid;
 	}
 	
-	public Property getSystemProperty(String id) {
-		return systemProperties.get(id);
+	/**
+	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
+	 * @return the {@link Property} that belongs to the given {@link PropertyDefinition}
+	 * or <code>null</code> if there is no such property
+	 */
+	public Property getSystemProperty(String uuid) {
+		return systemProperties.get(uuid);
 	}
 	
 	/**
-	 * @param id uuid of the {@link PropertyDefinition}
+	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
 	 * @return the {@link Property} that belongs to the given {@link PropertyDefinition}
+	 * or <code>null</code> if there is no such property
 	 */
-	public Property getUserDefinedProperty(String id) {
-		return userDefinedProperties.get(id);
+	public Property getUserDefinedProperty(String uuid) {
+		return userDefinedProperties.get(uuid);
 	}
 	
+	/**
+	 * @return non modifiable collection of system properties 
+	 * @see PropertyDefinition.SystemPropertyName
+	 */
 	public Collection<Property> getSystemProperties() {
 		return Collections.unmodifiableCollection(systemProperties.values());
 	}
 	
+	/**
+	 * @return non modifiable list of user defined properties
+	 */
 	public Collection<Property> getUserDefinedProperties() {
 		return Collections.unmodifiableCollection(userDefinedProperties.values());
 	}
 	
+	/**
+	 * Sychnronizes the properties of this instance which the attached 
+	 * {@link PropertyDefinition}, property values don't get overridden 
+	 */
 	public void synchronizeProperties() {
 		
 		Iterator<Map.Entry<String, Property>> iterator = systemProperties.entrySet().iterator();
@@ -134,6 +166,10 @@ public class TagInstance {
 		}
 	}
 
+	/**
+	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
+	 * @return the property with the given uuid
+	 */
 	public Property getProperty(String uuid) {
 		if (systemProperties.containsKey(uuid)) {
 			return getSystemProperty(uuid);

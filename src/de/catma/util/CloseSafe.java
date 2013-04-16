@@ -20,8 +20,21 @@ package de.catma.util;
 
 import java.io.Closeable;
 
+import de.catma.ExceptionHandler;
+
+/**
+ * Utility for safe closing of {@link Closeable}s.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class CloseSafe {
 
+	/**
+	 * Does not throw exceptions.
+	 * 
+	 * @param closeable to be closed
+	 */
 	public static void close(Closeable closeable) {
 		try {
 			if (closeable != null) {
@@ -29,8 +42,7 @@ public class CloseSafe {
 			}
 		}
 		catch (Exception exc) {
-			//TODO: log
-			exc.printStackTrace();
+			ExceptionHandler.log(exc);
 		}
 	}
 }

@@ -18,6 +18,13 @@
  */
 package de.catma.document.standoffmarkup;
 
+/**
+ * A marker interface for all markup collections.
+ * 
+ * @author marco.petris@web.de
+ * @see de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection
+ * @see de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection
+ */
 public interface MarkupCollectionReference {
 
 }

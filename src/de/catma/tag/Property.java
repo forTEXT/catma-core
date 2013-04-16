@@ -19,6 +19,14 @@
 package de.catma.tag;
 
 
+/**
+ * A property of a {@link TagInstance}. Each property has a {@link PropertyDefinition definition}
+ * and a {@link PropertyValueList list of values} containing one or more
+ * values.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class Property {
 
 	private PropertyDefinition propertyDefinition;
@@ -50,6 +58,11 @@ public class Property {
 		this.propertyValueList = propertyValueList;
 	}
 
+	/**
+	 * The internal list of values is replaced with the possible values
+	 * proposed by the definition.
+	 * @see PropertyDefinition#getPossibleValueList()
+	 */
 	public void synchronize() {
 		setPropertyValueList(
 			propertyDefinition.getPossibleValueList().getPropertyValueList());

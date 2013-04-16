@@ -18,21 +18,92 @@
  */
 package de.catma.tag;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import de.catma.util.ContentInfoSet;
+import de.catma.document.source.ContentInfoSet;
 import de.catma.util.Pair;
 
+/**
+ * This class bundles operations upon {@link TagLibary TagLibraries} and its
+ * content.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class TagManager {
 	
+	/**
+	 * Events issued by this manager.
+	 */
 	public enum TagManagerEvent {
+		/**
+		 * <p>{@link PropertyDefinition} added:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of the new 
+		 * {@link PropertyDefinition} and its {@link TagDefinition}</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = <code>null</code></li>
+		 * </p><br />
+		 * <p>{@link PropertyDefinition} removed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = a {@link Pair} of the 
+		 * removed {@link PropertyDefinition} and its {@link TagDefinition}</li>
+		 * </p><br />
+		 * <p>{@link PropertyDefinition} changed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link PropertyDefinition}</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = the {@link TagDefinition}</li>
+		 * </p>
+		 */
 		userPropertyDefinitionChanged,
+		/**
+		 * <p>{@link TagsetDefinition} added:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of the new 
+		 * {@link TagsetDefinition} and its {@link TagLibrary} Pair&lt;TagLibrary,TagsetDefinition&gt;</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = <code>null</code></li>
+		 * </p><br />
+		 * <p>{@link TagsetDefinition} removed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = a {@link Pair} of the 
+		 * removed {@link TagsetDefinition} and its {@link TagLibrary} Pair&lt;TagLibrary,TagsetDefinition&gt;</li>
+		 * </p><br />
+		 * <p>{@link TagsetDefinition} changed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link TagsetDefinition}</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = the old name</li>
+		 * </p>
+		 */
 		tagsetDefinitionChanged,
+		/**
+		 * <p>{@link TagDefinition} added:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of the new 
+		 * {@link TagDefinition} and its {@link TagsetDefinition}Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = <code>null</code></li>
+		 * </p><br />
+		 * <p>{@link TagDefinition} removed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = a {@link Pair} of the 
+		 * removed {@link TagDefinition} and its {@link TagsetDefinition} Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
+		 * </p><br />
+		 * <p>{@link TagsetDefinition} changed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link TagsetDefinition}</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = a pair of the old name and the old color Pair&lt;String,String&gt;</li>
+		 */
 		tagDefinitionChanged,
+		/**
+		 * <p>{@link TagLibrary} added:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the new library</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = <code>null</code></li>
+		 * </p><br />
+		 * <p>{@link TagDefinition} removed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = the removed library</li>
+		 * </p><br />
+		 * <p>{@link TagsetDefinition} changed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link TagLibrary}</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = the {@link ContentInfoSet old bibliographical data }</li>
+		 */
 		tagLibraryChanged, 
 		;
 	}
@@ -171,6 +242,11 @@ public class TagManager {
 		}
 	}
 	
+	/**
+	 * Synchronizes td1 with td2 via {@link TagsetDefinition#synchronizeWith(TagsetDefinition)}}
+	 * @param td1
+	 * @param td2
+	 */
 	public void synchronize(TagsetDefinition td1, TagsetDefinition td2) {
 		logger.info("synching " + td1 + " with " + td2);
 		td1.synchronizeWith(td2);

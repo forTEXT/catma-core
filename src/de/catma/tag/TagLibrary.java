@@ -25,14 +25,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import de.catma.util.ContentInfoSet;
+import de.catma.document.source.ContentInfoSet;
 
+/**
+ * A library of {@link TagsetDefinition}s.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class TagLibrary implements Iterable<TagsetDefinition> {
 
 	private String id;
 	private ContentInfoSet contentInfoSet;
 	private Map<String,TagsetDefinition> tagsetDefinitionsByID;
 	
+	/**
+	 * @param id identifier, repository dependent
+	 * @param name name of the library
+	 */
 	public TagLibrary(String id, String name) {
 		this.id = id;
 		this.contentInfoSet = new ContentInfoSet(name);
@@ -46,8 +56,12 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	//FIXME: this assumes that there is only one tagsetdef that can contain a
 	// tagdef identified by id, this is not true in all cases for incoming tagsetdefs
 	// of older CATMA versions since move operations between tagsets were possible and
-	// the conversion algorithm of the standard tagset can in certain cases generate distinct IDs as well  
+	// the conversion algorithm of the standard tagset can in certain cases generate distinct IDs, 
 	// supporting move in CATMA 4 would certainly break this assumption as well!!!
+	/**
+	 * @param tagDefinitionID CATMA uuid of the {@link TagDefinition}, see {@link de.catma.util.IDGenerator}.
+	 * @return the corresponding TagDefinition or <code>null</code>
+	 */
 	public TagDefinition getTagDefinition(String tagDefinitionID) {
 		for(TagsetDefinition tagsetDefiniton : tagsetDefinitionsByID.values()) {
 			if (tagsetDefiniton.hasTagDefinition(tagDefinitionID)) {
@@ -61,6 +75,10 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return Collections.unmodifiableCollection(tagsetDefinitionsByID.values()).iterator();
 	}
 
+	/**
+	 * @param tagsetDefinitionID CATMA uuid of the {@link TagsetDefinition}, see {@link de.catma.util.IDGenerator}.
+	 * @return  the corresponding TagsetDefinition or <code>null</code>
+	 */
 	public TagsetDefinition getTagsetDefinition(String tagsetDefinitionID) {
 		return tagsetDefinitionsByID.get(tagsetDefinitionID);
 	}
@@ -78,11 +96,19 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		this.id = id;
 	}
 	
+	/**
+	 * @param tagDefinition
+	 * @return all child definitions of the given tag definition 
+	 */
 	public List<TagDefinition> getChildren(TagDefinition tagDefinition) {
 		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
 		return tagsetDefinition.getChildren(tagDefinition);
 	}
 
+	/**
+	 * @param tagDefinition
+	 * @return the TagsetDefinition for the given TagDefinition or <code>null</code>.
+	 */
 	public TagsetDefinition getTagsetDefinition(TagDefinition tagDefinition) {
 		for (TagsetDefinition td : this) {
 			if (td.contains(tagDefinition)) {
@@ -92,6 +118,11 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return null;
 	}
 
+	/**
+	 * @param tagDefinition
+	 * @return a set of CATMA uuids of tag definition children of the given
+	 * TagDefinition
+	 */
 	public Set<String> getChildIDs(TagDefinition tagDefinition) {
 		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
 		return tagsetDefinition.getChildIDs(tagDefinition);
@@ -101,6 +132,9 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		tagsetDefinitionsByID.remove(tagsetDefinition.getUuid());
 	}
 	
+	/**
+	 * @return repository dependent identifier
+	 */
 	public String getId() {
 		return id;
 	}
@@ -116,6 +150,10 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return tagsetDefinitionsByID.containsKey(tagsetDefinition.getUuid());
 	}
 	
+	/**
+	 * @param tagDefinition
+	 * @return the path from the top level TagDefinition down to the given TagDefinition 
+	 */
 	public String getTagPath(TagDefinition tagDefinition) {
 		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
 		return tagsetDefinition.getTagPath(tagDefinition);
@@ -126,6 +164,9 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return (contentInfoSet.getTitle()==null) ? id : contentInfoSet.getTitle();
 	}
 	
+	/**
+	 * @return bibliographical meta data
+	 */
 	public ContentInfoSet getContentInfoSet() {
 		//TODO: unmodifiable copy
 		return contentInfoSet;

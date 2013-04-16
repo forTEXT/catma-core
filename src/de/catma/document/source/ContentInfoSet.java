@@ -16,9 +16,15 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.catma.util;
+package de.catma.document.source;
 
 
+/**
+ * Bibliographical information.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class ContentInfoSet {
 
 	private String author;
@@ -26,6 +32,12 @@ public class ContentInfoSet {
 	private String publisher;
 	private String title;
     
+	/**
+	 * @param author author of the content
+	 * @param description description of the content
+	 * @param publisher publisher of the content
+	 * @param title title of the content
+	 */
 	public ContentInfoSet(String author, String description, String publisher,
 			String title) {
 		super();
@@ -35,6 +47,9 @@ public class ContentInfoSet {
 		this.title = title;
 	}
 
+	/**
+	 * Empty bibliographical information.
+	 */
 	public ContentInfoSet() {
 		this.author = "";
 		this.description = "";
@@ -42,10 +57,17 @@ public class ContentInfoSet {
 		this.publisher = "";
 	}
 
+	/**
+	 * @param title title of the content
+	 */
 	public ContentInfoSet(String title) {
 		this("", "", "",title);
 	}
 
+	/**
+	 * Copy constructor.
+	 * @param contentInfoSet to be copied. 
+	 */
 	public ContentInfoSet(ContentInfoSet contentInfoSet) {
 		this.author = (contentInfoSet.author==null)?"":contentInfoSet.author;
 		this.description = (contentInfoSet.description==null)?"":contentInfoSet.description;

@@ -21,17 +21,35 @@ package de.catma.util;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
+/**
+ * A generator and converter for CATMA UUIDs.
+ * <p>CATMA UUIDs have the form CATMA_ followed by an {@link UUID}, e. g.:
+ * CATMA_F6925161-DF51-41D1-BC80-1507E5891CE6</p>
+ * @author marco.petris@web.de
+ *
+ */
 public class IDGenerator {
 	public final static String ID_PREFIX = "CATMA_";
 	
+	/**
+	 * @return a new CATMA UUID.
+	 */
 	public String generate() {
 		return ID_PREFIX + UUID.randomUUID().toString().toUpperCase();
 	}
 	
+	/**
+	 * @param base base for generating the CATMA UUID
+	 * @return a CATMA UUID from the given bytes
+	 */
 	public String generate(String base) {
 		return ID_PREFIX + UUID.nameUUIDFromBytes(base.getBytes()).toString().toUpperCase();
 	}
 	
+	/**
+	 * @param uuidBytes a CATMA UUID as a byte array
+	 * @return the CATMA UUID as a string.
+	 */
 	public String uuidBytesToCatmaID(byte[] uuidBytes) {
 		if (uuidBytes == null) {
 			return null;
@@ -41,6 +59,10 @@ public class IDGenerator {
 		return ID_PREFIX + id.toString().toUpperCase();
 	}
 	
+	/**
+	 * @param catmaID a CATMA UUID
+	 * @return the corresponding UUID (without the prefix)
+	 */
 	public UUID catmaIDToUUID(String catmaID) {
 		
 		if (catmaID == null) {
@@ -52,6 +74,10 @@ public class IDGenerator {
 		return UUID.fromString(catmaID.substring(index));
 	}
 	
+	/**
+	 * @param catmaID a CATMA UUID
+	 * @return the CATMA UUID as a byte array
+	 */
 	public byte[] catmaIDToUUIDBytes(String catmaID) {
 		if ((catmaID == null) || catmaID.isEmpty()) {
 			return null;

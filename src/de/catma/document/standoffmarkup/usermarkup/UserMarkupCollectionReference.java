@@ -18,15 +18,25 @@
  */
 package de.catma.document.standoffmarkup.usermarkup;
 
+import de.catma.document.source.ContentInfoSet;
 import de.catma.document.standoffmarkup.MarkupCollectionReference;
-import de.catma.util.ContentInfoSet;
 
+/**
+ * A reference to a {@link UserMarkupCollection}.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class UserMarkupCollectionReference 
 	implements MarkupCollectionReference {
 	
 	private String id;
 	private ContentInfoSet contentInfoSet;
 	
+	/**
+	 * @param id identifier (depends on the repository)
+	 * @param contentInfoSet bibliographical meta data
+	 */
 	public UserMarkupCollectionReference(String id,
 			ContentInfoSet contentInfoSet) {
 		this.id = id;

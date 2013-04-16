@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 import de.catma.document.Corpus;
+import de.catma.document.source.ContentInfoSet;
 import de.catma.document.source.SourceDocument;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
@@ -41,7 +42,6 @@ import de.catma.tag.TagLibraryReference;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
 import de.catma.user.User;
-import de.catma.util.ContentInfoSet;
 import de.catma.util.Pair;
 
 /**
@@ -330,7 +330,7 @@ public interface Repository {
 	/**
 	 * @param userMarkupCollectionReference
 	 * @param refresh true -> do not use cached values
-	 * @return
+	 * @return the corresponding collection
 	 * @throws IOException
 	 */
 	public UserMarkupCollection getUserMarkupCollection(

@@ -18,8 +18,19 @@
  */
 package de.catma.util;
 
+/**
+ * Null safe testing.
+ * 
+ * @author marco.petris@web.de
+ */
 public class Equal {
 
+	/**
+	 * @param o1 can be <code>null</code>
+	 * @param o2 can be <code>null</code>
+	 * @return <code>true</code> if o1 and o2 are <code>null</code> or if both are
+	 * {@link Object#equals(Object) equal}.
+	 */
 	public static boolean nullSave(Object o1, Object o2) {
 		if (o1 == null) {
 			return (o2 == null);
@@ -34,6 +45,12 @@ public class Equal {
 		}
 	}
 	
+	/**
+	 * @param o1 can be <code>null</code>
+	 * @param o2 can be <code>null</code>
+	 * @return <code>false</code> if o1 or o2 or both are <code>null</code> or
+	 * if they are not {@link Object#equals(Object) equal}.
+	 */
 	public static boolean nonNull(Object o1, Object o2) {
 		if ((o1 == null) || (o2 == null)) {
 			return false;

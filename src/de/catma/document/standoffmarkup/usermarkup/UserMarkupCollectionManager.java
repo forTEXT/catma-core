@@ -29,12 +29,20 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import de.catma.document.repository.Repository;
+import de.catma.document.source.ContentInfoSet;
 import de.catma.tag.Property;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
 import de.catma.util.Pair;
 
+/**
+ * A manager that handles a list of {@link UserMarkupCollection}s. Handles all
+ * kinds of operations upon a {@link UserMarkupCollection} and its content.
+ * 
+ * @author marco.petris@web.de
+ *
+ */
 public class UserMarkupCollectionManager implements Iterable<UserMarkupCollection>{
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -43,12 +51,24 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 			
 	private List<UserMarkupCollection> userMarkupCollections;
 
+	/**
+	 * @param repository the underlying repository (addition and removal of content 
+	 * of a UserMarkupCollection is passed through up to the repository 
+	 */
 	public UserMarkupCollectionManager(Repository repository) {
 		this.tagManager = repository.getTagManager();
 		this.repository = repository;
 		userMarkupCollections = new ArrayList<UserMarkupCollection>();
 	}
 	
+	/**
+	 * Updates given UserMarkupCollections
+	 * with the TagsetDefinition. That is all the {@link de.catma.tag.TagLibrary TagLibraries}
+	 * and all the {@link TagInstance}s are updated with the new TagsetDefinition.
+	 * The actual persistent modifications are made through {@link Repository#update(List, TagsetDefinition)}.
+	 * @param outOfSynchCollections
+	 * @param tagsetDefinition
+	 */
 	public void updateUserMarkupCollections(
 			List<UserMarkupCollection> outOfSynchCollections, 
 			TagsetDefinition tagsetDefinition) {
@@ -76,6 +96,12 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return userMarkupCollections.iterator();
 	}
 
+	/**
+	 * Updates the UserMarkupCollection. Persistence part is handled by {@link 
+	 * Repository#update(UserMarkupCollection, List)}
+	 * @param tagReferences
+	 * @param userMarkupCollection
+	 */
 	public void addTagReferences(
 			List<TagReference> tagReferences,
 			UserMarkupCollection userMarkupCollection) {
@@ -87,11 +113,23 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	}
 
 
+	/**
+	 * @return non modifiable list of the contained UserMarkupCollections
+	 */
 	public List<UserMarkupCollection> getUserMarkupCollections() {
 		return Collections.unmodifiableList(userMarkupCollections);
 	}
 
 
+	/**
+	 * @param tagsetDefinition
+	 * @param inSynch if <code>true</code> the result contains all collections
+	 * which are {@link TagsetDefinition#isSynchronized(TagsetDefinition) in synch}
+	 * with the given TagsetDefinition, if <code>false</code>
+	 * the result contains all collections which are not in synch with the given
+	 * TagsetDefinition
+	 * @return a list of UserMarkupCollections
+	 */
 	public List<UserMarkupCollection> getUserMarkupCollections(
 			TagsetDefinition tagsetDefinition, boolean inSynch) {
 		
@@ -115,6 +153,12 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return result;
 	}
 
+	/**
+	 * Removes the givven {@link TagInstance} from the {@link UserMarkupCollection}
+	 * that contains it. If there is no such collection in this manager, this is 
+	 * noop.
+	 * @param instanceID the TagInstance to be removed
+	 */
 	public void removeTagInstance(String instanceID) {
 		UserMarkupCollection userMarkupCollection = 
 				getUserMarkupCollectionForTagInstance(instanceID); 
@@ -129,6 +173,12 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		}
 	}
 
+	/**
+	 * @param instanceID 
+	 * @return the collections that contains the {@link TagInstance} with the
+	 * given ID or <code>null</code> if there is no such collection in this
+	 * manager
+	 */
 	private UserMarkupCollection getUserMarkupCollectionForTagInstance(
 			String instanceID) {
 		for (UserMarkupCollection userMarkupCollection : userMarkupCollections) {
@@ -139,6 +189,11 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return null;
 	}
 
+	/**
+	 * @param userMarkupCollectionReference
+	 * @return the referenced collection or <code>null</code> if there is
+	 * no such collection in this manager
+	 */
 	public UserMarkupCollection getUserMarkupCollection(
 			UserMarkupCollectionReference userMarkupCollectionReference) {
 		for (UserMarkupCollection umc : userMarkupCollections) {
@@ -154,6 +209,12 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		userMarkupCollections.remove(userMarkupCollection);
 	}
 
+	/**
+	 * Updates {@link ContentInfoSet bibliographical Metadata} of the 
+	 * given {@link UserMarkupCollection}.
+	 * @param userMarkupCollectionReference
+	 * @return the modified collection
+	 */
 	public UserMarkupCollection updateUserMarkupCollection(
 			UserMarkupCollectionReference userMarkupCollectionReference) {
 
@@ -166,6 +227,11 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return userMarkupCollection;
 	}
 
+	/**
+	 * @param instanceIDs a list of {@link TagInstance#getUuid() uuid}s of TagInstances
+	 * @return a list of all TagInstances as {@link Pair pairs} with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path} 
+	 * and the corresponding {@link TagInstance}.  
+	 */
 	public List<Pair<String,TagInstance>> getTagInstances(List<String> instanceIDs) {
 		List<Pair<String,TagInstance>> result = 
 				new ArrayList<Pair<String,TagInstance>>();
@@ -181,6 +247,11 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return result;
 	}
 
+	/**
+	 * @param instanceID the {@link TagInstance#getUuid() uuid} of the TagInstance
+	 * @return a {@link Pair} with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path} 
+	 * and the corresponding {@link TagInstance}.
+	 */
 	private Pair<String,TagInstance> getTagInstance(String instanceID) {
 		for (UserMarkupCollection umc : userMarkupCollections) {
 			if (umc.hasTagInstance(instanceID)) {
@@ -190,6 +261,10 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return null;
 	}
 
+	/**
+	 * @param tagInstanceID the {@link TagInstance#getUuid() uuid} of the TagInstance
+	 * @return a list of the tag references of the given instance
+	 */
 	public Collection<TagReference> getTagReferences(String tagInstanceID) {
 		Set<TagReference> result = new HashSet<TagReference>();
 		for (UserMarkupCollection umc : userMarkupCollections) {
@@ -200,10 +275,19 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return result;
 	}
 
+	/**
+	 * @param umcRef
+	 * @return <code>true</code> if this manager contains the given collection (tested by
+	 * id equality)
+	 */
 	public boolean contains(UserMarkupCollectionReference umcRef) {
 		return getUserMarkupCollection(umcRef) != null;
 	}
 
+	/**
+	 * @param userMarkupCollectionId
+	 * @return <code>true</code> if this manager contains the given collection
+	 */
 	public boolean contains(String userMarkupCollectionId) {
 		for (UserMarkupCollection umc : userMarkupCollections) {
 			if (umc.getId().equals(userMarkupCollectionId)) {
@@ -213,6 +297,11 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return false;
 	}
 
+	/**
+	 * @param userMarkupCollectionId
+	 * @return the collection or <code>null</code> if there is no such
+	 * collection
+	 */
 	public UserMarkupCollection getUserMarkupCollection(
 			String userMarkupCollectionId) {
 		for (UserMarkupCollection umc : userMarkupCollections) {
@@ -224,6 +313,13 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return null;
 	}
 
+	/**
+	 * The persistent part of this operation is handled by {@link
+	 * Repository#update(TagInstance, Property)}
+	 * @param tagInstance
+	 * @param property
+	 * @throws IOException
+	 */
 	public void updateProperty(TagInstance tagInstance, Property property) throws IOException {
 		repository.update(tagInstance, property);
 	}

@@ -27,6 +27,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+/**
+ * A definition of a tag. That is a type of a {@link TagInstance}.
+ * 
+ * @author marco.petris@web.de
+ */
 public class TagDefinition implements Versionable {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
@@ -41,6 +46,16 @@ public class TagDefinition implements Versionable {
 	private String parentUuid;
 	private Set<Integer> deletedPropertyDefinitions;
 
+	/**
+	 * @param id the identifier of the definition (repository dependent)
+	 * @param uuid a CATMA uuid see {@link de.catma.util.IDGenerator}
+	 * @param name the name of the definition
+	 * @param version the version of the definition
+	 * @param parentId the identifier of the parent or <code>null</code> if this
+	 * is already a top level definition
+	 * @param parentUuid the CATMA uuid of the parent or <code>null</code> if this
+	 * is already a top level definition
+	 */
 	public TagDefinition(
 			Integer id, String uuid, 
 			String name, Version version,  
@@ -59,6 +74,10 @@ public class TagDefinition implements Versionable {
 		deletedPropertyDefinitions = new HashSet<Integer>();
 	}
 
+	/**
+	 * Copy constructor.
+	 * @param toCopy
+	 */
 	public TagDefinition(TagDefinition toCopy) {
 		this(null, toCopy.uuid, 
 				toCopy.name, new Version(toCopy.version), 
@@ -85,6 +104,10 @@ public class TagDefinition implements Versionable {
 				+((parentUuid.isEmpty()) ? "]" : (",#"+parentUuid+"]"));
 	}
 
+	/**
+	 * See {@link PropertyDefinition.SystemPropertyName} for possibilities.
+	 * @param propertyDefinition
+	 */
 	public void addSystemPropertyDefinition(PropertyDefinition propertyDefinition) {
 		systemPropertyDefinitions.put(propertyDefinition.getUuid(), propertyDefinition);
 	}
@@ -93,6 +116,9 @@ public class TagDefinition implements Versionable {
 		userDefinedPropertyDefinitions.put(propertyDefinition.getUuid(), propertyDefinition);
 	}	
 	
+	/**
+	 * @return the CATMA uuid see {@link de.catma.util.IDGenerator}
+	 */
 	public String getUuid() {
 		return uuid;
 	}
@@ -128,12 +154,15 @@ public class TagDefinition implements Versionable {
 		return null;
 	}
 	
+	/**
+	 * @return non modifiable collection of user defined properties
+	 */
 	public Collection<PropertyDefinition> getUserDefinedPropertyDefinitions() {
 		return Collections.unmodifiableCollection(userDefinedPropertyDefinitions.values());
 	}
 	
 	/**
-	 * @return the ID of the parent TagDefinition or an empty String if this is
+	 * @return the UUID of the parent TagDefinition or an empty String if this is
 	 * 			a toplevel TagDefinittion. This method never returns <code>null</code>.
 	 */
 	public String getParentUuid() {
@@ -144,6 +173,9 @@ public class TagDefinition implements Versionable {
 		return name;
 	}
 	
+	/**
+	 * @return see {@link PropertyDefinition.SystemPropertyName#catma_displaycolor}
+	 */
 	public String getColor() {
 		return getPropertyDefinitionByName(
 			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).getFirstValue();
@@ -185,6 +217,9 @@ public class TagDefinition implements Versionable {
 		this.id = id;
 	}
 	
+	/**
+	 * @return repositoy dependent identifier
+	 */
 	public Integer getId() {
 		return id;
 	}
@@ -193,10 +228,23 @@ public class TagDefinition implements Versionable {
 		this.parentId = parentId;
 	}
 	
+	/**
+	 * @return the identifier of the parent or <code>null</code> if this is
+	 * a toplevel definition
+	 */
 	public Integer getParentId() {
 		return parentId;
 	}
 
+	/**
+	 * Synchronizes this definition with the incoming definition. Deletions due 
+	 * to the synch can be retrieved via {@link #getDeletedPropertyDefinitions()}.
+	 * 
+	 * @param other
+	 * @param thisTagsetDefinition the tagset definition of this tag definition 
+	 * is used to lookup the new {@link #getParentId() parent id} if the
+	 * {@link #getParentUuid() uuid} of the parent has changed 
+	 */
 	void synchronizeWith(TagDefinition other, TagsetDefinition thisTagsetDefinition) {
 		if (!this.getVersion().equals(other.getVersion())) {
 			this.name = other.name;
@@ -213,8 +261,8 @@ public class TagDefinition implements Versionable {
 				}
 			}
 			
-			synchPropertyDefinitions(systemPropertyDefinitions, other);
-			synchPropertyDefinitions(userDefinedPropertyDefinitions, other);
+			synchPropertyDefinitions(systemPropertyDefinitions.values(), other);
+			synchPropertyDefinitions(userDefinedPropertyDefinitions.values(), other);
 
 			for (PropertyDefinition pd : other.getSystemPropertyDefinitions()) {
 				if (this.getPropertyDefinition(pd.getUuid()) == null) {
@@ -235,12 +283,18 @@ public class TagDefinition implements Versionable {
 		}
 	}
 
+	/**
+	 * Synchs the given property definitions of this TagDefinition with the 
+	 * property definitions of the other TagDefinition  
+	 * @param propertyDefinitions
+	 * @param other
+	 */
 	private void synchPropertyDefinitions(
-			Map<String, PropertyDefinition> propertyDefinitions,
+			Collection<PropertyDefinition> propertyDefinitions,
 			TagDefinition other) {
 		
 		Iterator<PropertyDefinition> pdIterator =
-				propertyDefinitions.values().iterator();
+				propertyDefinitions.iterator();
 		
 		while (pdIterator.hasNext()) {
 			PropertyDefinition pd  = pdIterator.next();
@@ -258,10 +312,17 @@ public class TagDefinition implements Versionable {
 		}	
 	}
 
+	/**
+	 * Sets a new {@link Version}.
+	 */
 	void setVersion() {
 		this.version = new Version();
 	}
 	
+	/**
+	 * @return the defintions that were deleted during the last {@link #synchronizeWith(TagDefinition, TagsetDefinition) synch}
+	 * the set has to be cleared externally (usually by the repository that persists the deletion)
+	 */
 	public Set<Integer> getDeletedPropertyDefinitions() {
 		return deletedPropertyDefinitions;
 	}

@@ -20,8 +20,18 @@ package de.catma.util;
 
 import java.util.Random;
 
+/**
+ * A converter for different RGB color formats.
+ * 
+ * @author marco.petris@web.de
+ */
 public class ColorConverter {
 	
+	/**
+	 * Fills up the hexString with a leading zero.
+	 * @param hexString
+	 * @return a filled up hex string
+	 */
 	private static String fillUp(String hexString) {
 		if (hexString.length() < 2) {
 			return "0"+hexString;
@@ -30,16 +40,32 @@ public class ColorConverter {
 		return hexString;
 	}
 	
+	/**
+	 * @param colorInteger a string representation of an integer representing an RGB color
+	 * consisting of the red component in bits 16-23, the green component in bits 8-15, 
+	 * and the blue component in bits 0-7
+	 * @return a corresponding hex string consisting of three hex values (without a leading #)
+	 */
 	public static String toHex(String colorInteger) {
 		return toHex(Integer.valueOf(colorInteger));
 	}
 
+	/**
+	 * @param rgb an array with three values for red, green and blue values
+	 * @return a corresponding hex string consisting of three hex values (without a leading #)
+	 */
 	public static String toHex(int[] rgb) {
 		return fillUp(Integer.toHexString(rgb[0]).toUpperCase()) 
 				+ fillUp(Integer.toHexString(rgb[1]).toUpperCase()) 
 				+ fillUp(Integer.toHexString(rgb[2]).toUpperCase());
 	}
 	
+	/**
+	 * @param rgb an integer representing an RGB color
+	 * consisting of the red component in bits 16-23, the green component in bits 8-15, 
+	 * and the blue component in bits 0-7
+	 * @return a corresponding hex string consisting of three hex values (without a leading #)
+	 */
 	public static String toHex(int rgb) {
 		int red = (rgb >> 16) & 0xFF;
 		int green = (rgb >> 8) & 0xFF;
@@ -49,10 +75,22 @@ public class ColorConverter {
 				+ fillUp(Integer.toHexString(blue).toUpperCase());
 	}
 	
+	/**
+	 * @param hex a string consisting of three hex values (6 characters in total, without a leading #)
+	 * @return a string representation of an integer representing an RGB color
+	 * consisting of the red component in bits 16-23, the green component in bits 8-15, 
+	 * and the blue component in bits 0-7
+	 */
 	public static String toRGBIntAsString(String hex) {
 		return String.valueOf(toRGBInt(hex));
 	}
 	
+	/**
+	 * @param hex a string consisting of three hex values (6 characters in total, without a leading #)
+	 * @return an integer representing an RGB color
+	 * consisting of the red component in bits 16-23, the green component in bits 8-15, 
+	 * and the blue component in bits 0-7
+	 */
 	public static int toRGBInt(String hex) {
 		if (hex.length() < 6) {
 			throw new IllegalArgumentException("cannot convert " + hex);
@@ -71,16 +109,23 @@ public class ColorConverter {
                 ((blue & 0xFF) << 0);
 	}
 
+	/**
+	 * @return a random hex color consisting of three hex values (without a leading #)
+	 */
 	public static String randomHex() {
 		return toHex(getRandomColor());
 	}
 	
+	/**
+	 * @return an array with three integers for red, green and blue representing a non dark color 
+	 */
 	public static int[] getRandomNonDarkColor() {
 		int r = getRandomNonDarkInt();
 		int g = getRandomNonDarkInt();
 		int b = getRandomNonDarkInt();
 		return new int[] {r, g, b};
 	}
+	
 	private static int getRandomNonDarkInt() {
 		Random r = new Random();
 		
@@ -95,6 +140,9 @@ public class ColorConverter {
 		return new Random().nextInt(255);
 	}
 	
+	/**
+	 * @return a random color as an array of three integers for red, green and blue
+	 */
 	public static int[] getRandomColor() {
 		int r = getRandomInt();
 		int g = getRandomInt();
