@@ -72,9 +72,9 @@ public interface Repository {
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = {@link SourceDocument}</li>
 		 * </p><br />
-		 * <p>{@link SourceDocument} Metadata changed:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = new {@link ContentInfoSet}</li>
-		 * <li>{@link PropertyChangeEvent#getOldValue()} = old {@link ContentInfoSet}</li>
+		 * <p>{@link SourceDocument} Metadata changed or a document reload has taken place
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = new {@link SourceDocument}</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = {@link SourceDocument#getID()}</li>
 		 * </p>
 		 */
 		sourceDocumentChanged,
