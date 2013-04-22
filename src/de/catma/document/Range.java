@@ -26,6 +26,7 @@ import java.util.SortedSet;
 
 /**
  * A range of text with a startPoint and an endPoint. This class is immutable.
+ * A range is a left to right range because it works together with {@link String}.
  *
  * @author Marco Petris
  *
@@ -41,6 +42,9 @@ public class Range implements Comparable<Range> {
 	 * @param endPoint the point after the last character.
 	 */
 	public Range( int startPoint, int endPoint ) {
+		if (startPoint > endPoint) {
+			throw new IllegalArgumentException("startPoint > endPoint");
+		}
 		this.startPoint = startPoint;
 		this.endPoint = endPoint;
 		this.hashCode = 
