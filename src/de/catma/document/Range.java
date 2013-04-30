@@ -42,15 +42,12 @@ public class Range implements Comparable<Range> {
 	 * @param endPoint the point after the last character.
 	 */
 	public Range( int startPoint, int endPoint ) {
-		if (startPoint > endPoint) {
-			throw new IllegalArgumentException("startPoint > endPoint");
-		}
-		this.startPoint = startPoint;
-		this.endPoint = endPoint;
+		this.startPoint = Math.min(startPoint, endPoint);
+		this.endPoint = Math.max(startPoint, endPoint);
 		this.hashCode = 
-			(String.valueOf( startPoint ) 
+			(String.valueOf(this.startPoint ) 
 			+ "-" 
-			+ String.valueOf(endPoint)).hashCode();
+			+ String.valueOf(this.endPoint)).hashCode();
 	}
 
 	/**
