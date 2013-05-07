@@ -37,5 +37,10 @@ public interface User {
 	 * @return an identifier like an email address
 	 */
 	public String getIdentifier();
+	
+	/**
+	 * @return the role of the user
+	 */
+	public Role getRole();
 }
 
