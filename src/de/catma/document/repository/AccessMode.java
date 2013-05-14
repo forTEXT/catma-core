@@ -42,4 +42,13 @@ public enum AccessMode {
 	public int getNumericRepresentation() {
 		return numericRepresentation;
 	}
+	
+	public static AccessMode getAccessMode(int numericRepresentation) {
+		for (AccessMode am : values()) {
+			if (am.numericRepresentation == numericRepresentation) {
+				return am;
+			}
+		}
+		throw new IllegalArgumentException("there is no accessmode with number " + numericRepresentation);
+	}
 }
