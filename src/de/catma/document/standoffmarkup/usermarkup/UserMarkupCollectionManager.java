@@ -88,6 +88,10 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	
 
 	public void add(UserMarkupCollection userMarkupCollection) {
+		logger.info(
+				"Adding UMC " + userMarkupCollection + "#" 
+				+ ((userMarkupCollection == null)?"N/A":userMarkupCollection.getId())
+				+ " to UserMarkupCollectionManager " + this.hashCode());
 		this.userMarkupCollections.add(userMarkupCollection);		
 	}
 	
@@ -206,6 +210,10 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	}
 
 	public void remove(UserMarkupCollection userMarkupCollection) {
+		logger.info(
+				"Removing UMC " + userMarkupCollection + "#" 
+				+ ((userMarkupCollection == null)?"N/A":userMarkupCollection.getId())
+				+ " from UserMarkupCollectionManager " + this.hashCode());
 		userMarkupCollections.remove(userMarkupCollection);
 	}
 
