@@ -20,6 +20,7 @@ package de.catma.document.repository;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -438,6 +439,13 @@ public interface Repository {
 	 * @return the Tag Manager for this repository
 	 */
 	public TagManager getTagManager();
+	
+	
+	/**
+	 * @param sourceDocument
+	 * @return the file object that belongs to the given SourceDocument
+	 */
+	public File getFile(SourceDocument sourceDocument);
 	
 	
 	
