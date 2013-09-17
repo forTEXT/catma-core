@@ -190,7 +190,6 @@ public class UserMarkupCollection {
 		this.tagLibrary = tagLibrary;
 	}
 
-	@Deprecated
 	public void setId(String id) {
 		this.id = id;
 	}
