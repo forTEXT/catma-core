@@ -323,6 +323,7 @@ public class TagDefinition implements Versionable {
 	 * @return the defintions that were deleted during the last {@link #synchronizeWith(TagDefinition, TagsetDefinition) synch}
 	 * the set has to be cleared externally (usually by the repository that persists the deletion)
 	 */
+	@Deprecated
 	public Set<Integer> getDeletedPropertyDefinitions() {
 		return deletedPropertyDefinitions;
 	}

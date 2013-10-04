@@ -320,6 +320,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	 * @return the definitions deleted due to a {@link #synchronizeWith(TagsetDefinition) synch}.
 	 * the set has to be cleared externally (usually by the repository that persists the deletion). 
 	 */
+	@Deprecated
 	public Set<Integer> getDeletedTagDefinitions() {
 		return deletedTagDefinitions;
 	}

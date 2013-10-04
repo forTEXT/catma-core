@@ -91,7 +91,6 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		this.contentInfoSet.setTitle(name);
 	}
 	
-	@Deprecated
 	public void setId(String id) {
 		this.id = id;
 	}
