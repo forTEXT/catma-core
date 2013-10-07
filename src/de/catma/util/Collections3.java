@@ -3,6 +3,7 @@ package de.catma.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class Collections3 {
@@ -27,5 +28,9 @@ public class Collections3 {
 	
 	public static <T> Collection<T> getUnion(T[] col1, T[] col2) {
 		return getUnion(Arrays.asList(col1), Arrays.asList(col2));
+	}
+	
+	public static <T> Collection<T> getUnion(T[] col1, T elem) {
+		return getUnion(Arrays.asList(col1), Collections.singletonList(elem));
 	}
 }
