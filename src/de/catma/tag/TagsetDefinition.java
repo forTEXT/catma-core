@@ -43,7 +43,6 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	private Version version;
 	private Map<String,TagDefinition> tagDefinitions;
 	private Map<String,Set<String>> tagDefinitionChildren;
-	private Set<Integer> deletedTagDefinitions;
 	
 	/**
 	 * @param id a repository dependent identifier
@@ -59,7 +58,6 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		this.version = version;
 		this.tagDefinitions = new HashMap<String, TagDefinition>();
 		this.tagDefinitionChildren = new HashMap<String, Set<String>>();
-		this.deletedTagDefinitions = new HashSet<Integer>();
 	}
 
 	/**
@@ -264,9 +262,6 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 			}
 			else {
 				logger.info("marking " + td + " in " + this + " as deleted");
-				if (td.getId() != null) {
-					deletedTagDefinitions.add(td.getId());
-				}
 				iterator.remove();
 				removeFromChildrenCache(td);
 			}
@@ -316,12 +311,7 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		this.version = new Version();
 	}
 	
-	/**
-	 * @return the definitions deleted due to a {@link #synchronizeWith(TagsetDefinition) synch}.
-	 * the set has to be cleared externally (usually by the repository that persists the deletion). 
-	 */
-	@Deprecated
-	public Set<Integer> getDeletedTagDefinitions() {
-		return deletedTagDefinitions;
+	public boolean isEmpty() {
+		return tagDefinitions.isEmpty();
 	}
 }

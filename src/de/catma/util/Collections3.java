@@ -3,10 +3,14 @@ package de.catma.util;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 public class Collections3 {
+	
+	public static interface Function3<T, S> {
+		public S apply(T t);
+	}
+	
 	public static <T> Collection<T> getSetDifference(Collection<T> col1, Collection<T> col2) {
 		List<T> sDiff = new ArrayList<T>();
 		
@@ -26,11 +30,23 @@ public class Collections3 {
 		return union;
 	}
 	
-	public static <T> Collection<T> getUnion(T[] col1, T[] col2) {
+	public static <T> Collection<T> getUnion(T[] col1, T... col2) {
+		if (col2 == null) {
+			return Arrays.asList(col1);
+		}
 		return getUnion(Arrays.asList(col1), Arrays.asList(col2));
 	}
-	
-	public static <T> Collection<T> getUnion(T[] col1, T elem) {
-		return getUnion(Arrays.asList(col1), Collections.singletonList(elem));
+
+	public static <T, S> Collection<S> transform(
+			Collection<T> children,
+			Function3<T, S> function) {
+		
+		ArrayList<S> result = new ArrayList<S>();
+		
+		for (T t : children) {
+			result.add(function.apply(t));
+		}
+		
+		return result;
 	}
 }

@@ -21,10 +21,8 @@ package de.catma.tag;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -44,7 +42,6 @@ public class TagDefinition implements Versionable {
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
 	private String parentUuid;
-	private Set<Integer> deletedPropertyDefinitions;
 
 	/**
 	 * @param id the identifier of the definition (repository dependent)
@@ -71,7 +68,6 @@ public class TagDefinition implements Versionable {
 		}
 		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
-		deletedPropertyDefinitions = new HashSet<Integer>();
 	}
 
 	/**
@@ -306,7 +302,6 @@ public class TagDefinition implements Versionable {
 			}
 			else {
 				logger.info("deleting " + pd + " from " + this);
-				deletedPropertyDefinitions.add(pd.getId());
 				pdIterator.remove();
 			}
 		}	
@@ -317,15 +312,6 @@ public class TagDefinition implements Versionable {
 	 */
 	void setVersion() {
 		this.version = new Version();
-	}
-	
-	/**
-	 * @return the defintions that were deleted during the last {@link #synchronizeWith(TagDefinition, TagsetDefinition) synch}
-	 * the set has to be cleared externally (usually by the repository that persists the deletion)
-	 */
-	@Deprecated
-	public Set<Integer> getDeletedPropertyDefinitions() {
-		return deletedPropertyDefinitions;
 	}
 
 	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
