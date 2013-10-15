@@ -11,6 +11,9 @@ public class Collections3 {
 		public S apply(T t);
 	}
 	
+	/**
+	 * @return all elements that are present in the first collection but not present in the second.
+	 */
 	public static <T> Collection<T> getSetDifference(Collection<T> col1, Collection<T> col2) {
 		List<T> sDiff = new ArrayList<T>();
 		
