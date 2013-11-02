@@ -240,11 +240,11 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	 * @return a list of all TagInstances as {@link Pair pairs} with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path} 
 	 * and the corresponding {@link TagInstance}.  
 	 */
-	public List<Pair<String,TagInstance>> getTagInstances(List<String> instanceIDs) {
-		List<Pair<String,TagInstance>> result = 
-				new ArrayList<Pair<String,TagInstance>>();
+	public List<TagInstanceInfo> getTagInstances(List<String> instanceIDs) {
+		List<TagInstanceInfo> result = 
+				new ArrayList<TagInstanceInfo>();
 		for (String instanceID : instanceIDs) {
-			Pair<String,TagInstance> ti = getTagInstance(instanceID);
+			TagInstanceInfo ti = getTagInstance(instanceID);
 			if (ti == null) {
 				 throw new IllegalStateException(
 					 "TagInstance #"+instanceID + 
@@ -257,13 +257,18 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 
 	/**
 	 * @param instanceID the {@link TagInstance#getUuid() uuid} of the TagInstance
-	 * @return a {@link Pair} with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path} 
-	 * and the corresponding {@link TagInstance}.
+	 * @return a TagInstanceInfo with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path}, 
+	 * the corresponding {@link TagInstance} and the relevant {@link UserMarkupCollection}.
 	 */
-	private Pair<String,TagInstance> getTagInstance(String instanceID) {
+	private TagInstanceInfo getTagInstance(String instanceID) {
 		for (UserMarkupCollection umc : userMarkupCollections) {
 			if (umc.hasTagInstance(instanceID)) {
-				return umc.getInstance(instanceID);
+				Pair<String, TagInstance> tagInstanceWithPath = 
+						umc.getInstance(instanceID);
+				return new TagInstanceInfo(
+					tagInstanceWithPath.getSecond(), 
+					umc, 
+					tagInstanceWithPath.getFirst());
 			}
 		}
 		return null;
