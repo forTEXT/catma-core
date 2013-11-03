@@ -163,5 +163,10 @@ public class PropertyDefinition {
 		this.possibleValueList = 
 			new PropertyPossibleValueList(
 				copiedPossibleValues, 
-				pd.possibleValueList.isSingleSelect());	}
+				pd.possibleValueList.isSingleSelect());	
+	}
+	
+	public boolean isSystemProperty() {
+		return SystemPropertyName.hasPropertyName(getName());
+	}
 }
