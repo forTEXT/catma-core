@@ -123,6 +123,24 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		return tagDefinitions.values().contains(tagDefinition);
 	}
 
+	public List<TagDefinition> getDirectChildren(TagDefinition tagDefinition) {
+		List<TagDefinition> children = new ArrayList<TagDefinition>();
+		Set<String> directChildrenIDs = 
+				tagDefinitionChildren.get(tagDefinition.getUuid());
+		
+		if (directChildrenIDs == null) {
+			return Collections.emptyList();
+			
+		}
+		
+		for (String childID : directChildrenIDs) {
+			TagDefinition child = getTagDefinition(childID); 
+			children.add(child);
+		}
+		
+		return Collections.unmodifiableList(children);
+	}
+	
 	/**
 	 * @param tagDefinition
 	 * @return an unmodifiable list of all child TagDefinitions of the given
