@@ -148,12 +148,11 @@ public class PropertyDefinition {
 
 	/**
 	 * Replaces this definition with the given definition. (The {@link #getId() id}
-	 * will not be overridden.
+	 * and the {@link #getUuid() uuid} will not be overridden.
 	 * 
 	 * @param pd 
 	 */
 	public void synchronizeWith(PropertyDefinition pd) {
-		this.uuid = pd.uuid;
 		this.name = pd.name;
 		ArrayList<String> copiedPossibleValues = 
 				new ArrayList<String>();

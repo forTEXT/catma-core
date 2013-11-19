@@ -257,11 +257,11 @@ public class TagDefinition implements Versionable {
 				}
 			}
 			
-			synchPropertyDefinitions(systemPropertyDefinitions.values(), other);
+			synchSystemPropertyDefinitions(systemPropertyDefinitions.values(), other);
 			synchPropertyDefinitions(userDefinedPropertyDefinitions.values(), other);
 
 			for (PropertyDefinition pd : other.getSystemPropertyDefinitions()) {
-				if (this.getPropertyDefinition(pd.getUuid()) == null) {
+				if (this.getPropertyDefinitionByName(pd.getName()) == null) {
 					logger.info("adding system property " + pd + " to " + this + " because of synch");
 					addSystemPropertyDefinition(
 							new PropertyDefinition(pd));
@@ -306,7 +306,28 @@ public class TagDefinition implements Versionable {
 			}
 		}	
 	}
-
+	
+	private void synchSystemPropertyDefinitions(
+			Collection<PropertyDefinition> propertyDefinitions,
+			TagDefinition other) {
+		
+		Iterator<PropertyDefinition> pdIterator =
+				propertyDefinitions.iterator();
+		
+		while (pdIterator.hasNext()) {
+			PropertyDefinition pd  = pdIterator.next();
+			PropertyDefinition otherPd = other.getPropertyDefinitionByName(pd.getName());
+			
+			if (otherPd != null) {
+				logger.info("synching " + pd + " with "  + otherPd);
+				pd.synchronizeWith(otherPd);
+			}
+			else {
+				logger.info("deleting " + pd + " from " + this);
+				pdIterator.remove();
+			}
+		}	
+	}
 	/**
 	 * Sets a new {@link Version}.
 	 */
