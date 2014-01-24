@@ -22,9 +22,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
@@ -158,23 +160,49 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	}
 
 	/**
-	 * Removes the givven {@link TagInstance} from the {@link UserMarkupCollection}
+	 * Removes the given {@link TagInstance}s from the {@link UserMarkupCollection}s
+	 * that contains them. If there is no such collection in this manager, this is 
+	 * noop.
+	 * @param instanceID the TagInstance to be removed
+	 */
+	public void removeTagInstance(Collection<String> instanceIDs) {
+		Map<UserMarkupCollection, List<TagReference>> toBeDeletedByUmc = 
+				new HashMap<UserMarkupCollection, List<TagReference>>();
+		
+		for (String instanceID : instanceIDs) {
+			UserMarkupCollection userMarkupCollection = 
+					getUserMarkupCollectionForTagInstance(instanceID); 
+			// the instance may be deleted alred but can still be in a stale Analyzer-Window
+			// so we silently assume that the instance has been deleted already if the
+			// umc can not be found
+			if (userMarkupCollection != null) {
+				List<TagReference> toBeDeletedRefs = toBeDeletedByUmc.get(userMarkupCollection);
+				if (toBeDeletedRefs == null) {
+					toBeDeletedRefs = new ArrayList<TagReference>();
+					toBeDeletedByUmc.put(userMarkupCollection, toBeDeletedRefs);
+				}
+				List<TagReference> tagReferences = 
+						userMarkupCollection.getTagReferences(instanceID);
+				userMarkupCollection.removeTagReferences(tagReferences);
+				toBeDeletedRefs.addAll(tagReferences);
+			}
+		}
+		
+		for (Map.Entry<UserMarkupCollection, List<TagReference>> entry : toBeDeletedByUmc.entrySet()) {
+			if (!entry.getValue().isEmpty()) {
+				repository.update(entry.getKey(), entry.getValue());
+			}
+		}
+	}
+	
+	/**
+	 * Removes the given {@link TagInstance} from the {@link UserMarkupCollection}
 	 * that contains it. If there is no such collection in this manager, this is 
 	 * noop.
 	 * @param instanceID the TagInstance to be removed
 	 */
 	public void removeTagInstance(String instanceID) {
-		UserMarkupCollection userMarkupCollection = 
-				getUserMarkupCollectionForTagInstance(instanceID); 
-		// the instance may be deleted alred but can still be in a stale Analyzer-Window
-		// so we silently assume that the instance has been deleted already if the
-		// umc can not be found
-		if (userMarkupCollection != null) {
-			List<TagReference> tagReferences = 
-					userMarkupCollection.getTagReferences(instanceID);
-			userMarkupCollection.removeTagReferences(tagReferences);
-			repository.update(userMarkupCollection, tagReferences);
-		}
+		removeTagInstance(Collections.singletonList(instanceID));
 	}
 
 	/**
