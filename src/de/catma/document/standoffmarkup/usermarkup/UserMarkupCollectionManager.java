@@ -90,11 +90,13 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	
 
 	public void add(UserMarkupCollection userMarkupCollection) {
-		logger.info(
-				"Adding UMC " + userMarkupCollection + "#" 
-				+ ((userMarkupCollection == null)?"N/A":userMarkupCollection.getId())
-				+ " to UserMarkupCollectionManager " + this.hashCode());
-		this.userMarkupCollections.add(userMarkupCollection);		
+		if (!this.userMarkupCollections.contains(userMarkupCollection)) {
+			logger.info(
+					"Adding UMC " + userMarkupCollection + "#" 
+					+ ((userMarkupCollection == null)?"N/A":userMarkupCollection.getId())
+					+ " to UserMarkupCollectionManager " + this.hashCode());
+			this.userMarkupCollections.add(userMarkupCollection);
+		}
 	}
 	
 	@Override
