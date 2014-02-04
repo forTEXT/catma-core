@@ -33,9 +33,11 @@ import nu.xom.Nodes;
 public class HTMLFilterFactory extends NodeFactory {
 
     private static final String SCRIPT = "script";
-
+    private static final String STYLE = "style";
+    
     private Nodes emptyNodes = new Nodes();
     private int inScriptMode = 0;
+	private int inStyleMode = 0;
 
     /* (non-Javadoc)
      * @see nu.xom.NodeFactory#makeComment(java.lang.String)
@@ -53,6 +55,9 @@ public class HTMLFilterFactory extends NodeFactory {
         if(name.toLowerCase().equals(SCRIPT)) {
             inScriptMode++;
         }
+        else if (name.toLowerCase().equals(STYLE)) {
+        	inStyleMode ++;
+        }
         return super.startMakingElement(name, namespace);
     }
 
@@ -61,10 +66,16 @@ public class HTMLFilterFactory extends NodeFactory {
      */
     @Override
     public Nodes finishMakingElement(Element element) {
-        if(element.getQualifiedName().toLowerCase().equals(SCRIPT)) {
+        if (element.getQualifiedName().toLowerCase().equals(SCRIPT)) {
             inScriptMode--;
             if (inScriptMode<0) {
                 inScriptMode=0;
+            }
+        }
+        else if (element.getQualifiedName().toLowerCase().equals(STYLE)) {
+            inStyleMode--;
+            if (inStyleMode<0) {
+            	inStyleMode=0;
             }
         }
         return super.finishMakingElement(element);
@@ -75,7 +86,7 @@ public class HTMLFilterFactory extends NodeFactory {
      */
     @Override
     public Nodes makeText(String data) {
-        if(inScriptMode>0) {
+        if((inScriptMode>0) || (inStyleMode>0)) {
             return emptyNodes;
         }
         return super.makeText(data);

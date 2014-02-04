@@ -156,7 +156,11 @@ public class SourceDocumentHandler {
 				}
 				if (charsetAttribute != null) {
 					encoding = charsetAttribute.trim().substring(
-							charsetAttribute.indexOf("=")+1).toUpperCase();
+							charsetAttribute.indexOf("=")).toUpperCase();
+				}
+				
+				if (encoding.startsWith("=")) {
+					encoding = encoding.substring(1);
 				}
 			}
 			if (encoding == null) {

@@ -337,7 +337,8 @@ public interface Repository {
 	public UserMarkupCollection getUserMarkupCollection(
 			UserMarkupCollectionReference userMarkupCollectionReference, boolean refresh) throws IOException;
 	/**
-	 * Add the Tag References to the given User Markup Collection.
+	 * Add the Tag References to the given User Markup Collection or remove the 
+	 * given Tag References from the User Markup Collection.
 	 * @param userMarkupCollection
 	 * @param tagReferences
 	 */
