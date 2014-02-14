@@ -18,7 +18,7 @@
  */
 package de.catma.backgroundservice;
 
-public class DebugBackgroundServiceProvider implements
+public class DefaultBackgroundServiceProvider implements
 		BackgroundServiceProvider {
 	
 	private BackgroundService dummy = new BackgroundService(null, false);
