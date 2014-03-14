@@ -168,6 +168,13 @@ public interface Repository {
 		 * </p><br />
 		 */
 		tagReferencesChanged,
+		/**
+		 * <p> a notification to the repo holder.
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the message of type String</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = always <code>null</code></li>
+		 * </p>
+		 */
+		notification,
 		;
 	}
 	
