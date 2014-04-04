@@ -27,4 +27,32 @@ public class StaticMarkupInstance {
 	private Range range;
 	private String name;
 	private List<Pair<String,String>> attributes;
+	public StaticMarkupInstance(Range range, String name,
+			List<Pair<String, String>> attributes) {
+		super();
+		this.range = range;
+		this.name = name;
+		this.attributes = attributes;
+	}
+	public Range getRange() {
+		return range;
+	}
+	public void setRange(Range range) {
+		this.range = range;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<Pair<String, String>> getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(List<Pair<String, String>> attributes) {
+		this.attributes = attributes;
+	}
+	
+	
+	
 }
