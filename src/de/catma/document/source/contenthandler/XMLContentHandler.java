@@ -94,8 +94,8 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
 	        Document document = builder.build(fr);
 	        StringBuilder contentBuilder = new StringBuilder();
 	        staticMarkupInstances = new ArrayList<StaticMarkupInstance>();
-	        
-	        processTextNodes(contentBuilder, document.getRootElement(), staticMarkupInstances);
+	        Stack<String> elementStack = new Stack<String>();
+	        processTextNodes(contentBuilder, document.getRootElement(), elementStack, staticMarkupInstances);
 	        setContent(contentBuilder.toString());	
 			CloseSafe.close(is);
 		} catch (Exception e) {
@@ -131,13 +131,11 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
      * @param contentBuilder the builder is filled with text elements
      * @param element the current element to process
      */
-    private void processTextNodes(StringBuilder contentBuilder, Element element, List<StaticMarkupInstance> currentElementList) {
+    private void processTextNodes(StringBuilder contentBuilder, Element element, Stack<String> elementStack, List<StaticMarkupInstance> currentElementList) {
     	 	// start
 		int start = contentBuilder.length();
-		Stack elementStack = null; // muss auﬂerhalb passieren
-    		
 		// list or stack Element
-		elementStack.push(element); //NullPointerException
+		elementStack.push(element.getQualifiedName()); //NullPointerException
 
 		for( int idx=0; idx<element.getChildCount(); idx++) {
             Node curChild = element.getChild(idx);
@@ -145,7 +143,7 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
                 contentBuilder.append(curChild.getValue());
             }
             else if (curChild instanceof Element) { //descent
-                processTextNodes(contentBuilder, (Element)curChild, currentElementList);
+                processTextNodes(contentBuilder, (Element)curChild, elementStack, currentElementList);
             
             }
         }
@@ -153,14 +151,19 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
         // end
         int end = contentBuilder.length();
         Range range = new Range(start,end);
-        List<Pair<String,String>> attributes = null; //NullPointerException
+        List<Pair<String,String>> attributes = new ArrayList<Pair<String,String>>(); //NullPointerException
+        StringBuffer pathBuffer = new StringBuffer();
+        for (int j=0; j<elementStack.size(); j++){
+        	pathBuffer.append(elementStack.get(j) + "\\");
+        }
+        String path = pathBuffer.toString();
         for (int i=0; i<element.getAttributeCount(); i++){
         	Pair pair = new Pair(element.getAttribute(i).getQualifiedName(),element.getAttribute(i).getValue());
         	attributes.add(pair);
         }
      // new StaticMarkupInstance for element
         														// getPath(elementStack)
-        currentElementList.add(new StaticMarkupInstance(range, element.getValue(), attributes));
+        currentElementList.add(new StaticMarkupInstance(range, path, attributes));
      // delete element from list or stack
         elementStack.pop();	
     }
@@ -177,11 +180,22 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
     					FileOSType.DOS, 0L, null)));
     	
 		try {
-			contentHandler.load(new FileInputStream("Pfad"));
+			//String file1 = new String("Y:\\ca1_2009_2_1_Chris_Miles.xml");
+			String file2 = new String("Y:\\dlt000189.xml");
+			//contentHandler.load(new FileInputStream(file1));
+			contentHandler.load(new FileInputStream(file2));
 			
 			//System.out.println:
-			contentHandler.getContent();
-			contentHandler.getStaticMarkupInstances();
+			System.out.println("content:");
+			System.out.println(contentHandler.getContent());
+			System.out.println("StaticMarkupInstances:");
+			for (int x=0; x<contentHandler.staticMarkupInstances.size(); x++){
+				System.out.println(contentHandler.staticMarkupInstances.get(x).getRange());
+				System.out.println(contentHandler.staticMarkupInstances.get(x).getPath());
+				System.out.println(contentHandler.staticMarkupInstances.get(x).getAttributes());
+				System.out.println();
+			}
+			//System.out.println(contentHandler.getStaticMarkupInstances());
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

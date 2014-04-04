@@ -25,13 +25,13 @@ import de.catma.util.Pair;
 
 public class StaticMarkupInstance {
 	private Range range;
-	private String name; // path -> z.B. /TEI/teiHeader/fileDesc/sourceDesc/p
+	private String path; // path -> z.B. /TEI/teiHeader/fileDesc/sourceDesc/p
 	private List<Pair<String,String>> attributes;
-	public StaticMarkupInstance(Range range, String name,
+	public StaticMarkupInstance(Range range, String path,
 			List<Pair<String, String>> attributes) {
 		super();
 		this.range = range;
-		this.name = name;
+		this.path = path;
 		this.attributes = attributes;
 	}
 	public Range getRange() {
@@ -40,11 +40,11 @@ public class StaticMarkupInstance {
 	public void setRange(Range range) {
 		this.range = range;
 	}
-	public String getName() {
-		return name;
+	public String getPath() {
+		return path;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setPath(String path) {
+		this.path = path;
 	}
 	public List<Pair<String, String>> getAttributes() {
 		return attributes;
