@@ -25,7 +25,7 @@ import de.catma.util.Pair;
 
 public class StaticMarkupInstance {
 	private Range range;
-	private String name;
+	private String name; // path -> z.B. /TEI/teiHeader/fileDesc/sourceDesc/p
 	private List<Pair<String,String>> attributes;
 	public StaticMarkupInstance(Range range, String name,
 			List<Pair<String, String>> attributes) {

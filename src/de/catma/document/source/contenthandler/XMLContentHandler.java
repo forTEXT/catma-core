@@ -22,9 +22,12 @@ package de.catma.document.source.contenthandler;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -38,6 +41,10 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import de.catma.document.Range;
+import de.catma.document.source.FileOSType;
+import de.catma.document.source.FileType;
+import de.catma.document.source.SourceDocumentInfo;
+import de.catma.document.source.TechInfoSet;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupInstance;
 import de.catma.util.CloseSafe;
@@ -50,7 +57,7 @@ import de.catma.util.Pair;
  *
  */
 public class XMLContentHandler extends AbstractSourceContentHandler {
-	private List<StaticMarkupInstance> listofinstances;
+	private List<StaticMarkupInstance> staticMarkupInstances = null;
 	/* (non-Javadoc)
 	 * @see de.catma.document.source.contenthandler.SourceContentHandler#load(java.io.InputStream)
 	 */
@@ -86,7 +93,9 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
 	        Builder builder = new Builder();
 	        Document document = builder.build(fr);
 	        StringBuilder contentBuilder = new StringBuilder();
-	        processTextNodes(contentBuilder, document.getRootElement(), listofinstances);
+	        staticMarkupInstances = new ArrayList<StaticMarkupInstance>();
+	        
+	        processTextNodes(contentBuilder, document.getRootElement(), staticMarkupInstances);
 	        setContent(contentBuilder.toString());	
 			CloseSafe.close(is);
 		} catch (Exception e) {
@@ -122,13 +131,15 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
      * @param contentBuilder the builder is filled with text elements
      * @param element the current element to process
      */
-    private void processTextNodes(StringBuilder contentBuilder, Element element, List currentElementList) {
+    private void processTextNodes(StringBuilder contentBuilder, Element element, List<StaticMarkupInstance> currentElementList) {
     	 	// start
-    		int start = contentBuilder.length();
-    		Stack elementStack = null;
-        for( int idx=0; idx<element.getChildCount(); idx++) {
-        	// list or stack Element
-        	elementStack.push(element);
+		int start = contentBuilder.length();
+		Stack elementStack = null; // muss außerhalb passieren
+    		
+		// list or stack Element
+		elementStack.push(element); //NullPointerException
+
+		for( int idx=0; idx<element.getChildCount(); idx++) {
             Node curChild = element.getChild(idx);
             if (curChild instanceof Text) {
                 contentBuilder.append(curChild.getValue());
@@ -138,18 +149,44 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
             
             }
         }
+        
         // end
         int end = contentBuilder.length();
         Range range = new Range(start,end);
-        List<Pair<String,String>> attributes = null;
+        List<Pair<String,String>> attributes = null; //NullPointerException
         for (int i=0; i<element.getAttributeCount(); i++){
         	Pair pair = new Pair(element.getAttribute(i).getQualifiedName(),element.getAttribute(i).getValue());
         	attributes.add(pair);
         }
      // new StaticMarkupInstance for element
-        new StaticMarkupInstance(range, element.getValue(), attributes);
+        														// getPath(elementStack)
+        currentElementList.add(new StaticMarkupInstance(range, element.getValue(), attributes));
      // delete element from list or stack
         elementStack.pop();	
     }
+    
+    public List<StaticMarkupInstance> getStaticMarkupInstances() {
+		return staticMarkupInstances;
+	}
+    
+    public static void main(String[] args) {
+    	XMLContentHandler contentHandler = new XMLContentHandler();
+    	
+    	contentHandler.setSourceDocumentInfo(new SourceDocumentInfo(
+    			null, null, new TechInfoSet(FileType.XML, Charset.forName("UTF-8"), 
+    					FileOSType.DOS, 0L, null)));
+    	
+		try {
+			contentHandler.load(new FileInputStream("Pfad"));
+			
+			//System.out.println:
+			contentHandler.getContent();
+			contentHandler.getStaticMarkupInstances();
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
     
 }
