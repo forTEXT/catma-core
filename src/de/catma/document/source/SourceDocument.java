@@ -26,6 +26,7 @@ import java.util.List;
 import de.catma.document.Range;
 import de.catma.document.source.contenthandler.SourceContentHandler;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
+import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupInstance;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
 
 /**
@@ -222,5 +223,4 @@ public class SourceDocument {
 		return true;
 	}
 
-	
 }

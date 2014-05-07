@@ -22,8 +22,10 @@ package de.catma.document.source.contenthandler;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import de.catma.document.source.SourceDocumentInfo;
+import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupInstance;
 
 /**
  * A content handler for a Source Document. The content handler is responsible for 
@@ -75,4 +77,6 @@ public interface SourceContentHandler {
 	 * @return <code>true</code> if the content has been loaded and not yet unloaded, else <code>false</code>.
 	 */
 	public boolean isLoaded();
+	
+	public List<StaticMarkupInstance> getStaticMarkupInstances();
 }
