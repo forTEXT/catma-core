@@ -32,6 +32,7 @@ import de.catma.document.source.contenthandler.HTMLContentHandler;
 import de.catma.document.source.contenthandler.PDFContentHandler;
 import de.catma.document.source.contenthandler.RTFContentHandler;
 import de.catma.document.source.contenthandler.SourceContentHandler;
+import de.catma.document.source.contenthandler.TEIContentHandler;
 import de.catma.document.source.contenthandler.XMLContentHandler;
 import de.catma.document.source.contenthandler.StandardContentHandler;
 
@@ -70,6 +71,8 @@ public class SourceDocumentHandler {
         		FileType.DOCX, DOCXContentHandler.class);
         registerSourceContentHandler(
         		FileType.XML, XMLContentHandler.class);
+        registerSourceContentHandler(
+        		FileType.XML, TEIContentHandler.class);
 	}
 	
 	/**
@@ -195,7 +198,7 @@ public class SourceDocumentHandler {
 	 * Constructs a Source Document.
 	 * @param id the identifier of the source document
 	 * @param sourceDocumentInfo the meta data of the source document
-	 * @return the source document isntance
+	 * @return the source document instance
 	 * @throws IOException access failure
 	 * @throws InstantiationException {@link SourceContentHandler} instantiation failure
 	 * @throws IllegalAccessException {@link SourceContentHandler} instantiation failure
