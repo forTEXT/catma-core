@@ -58,7 +58,7 @@ import de.catma.util.Pair;
  */
 public class XMLContentHandler extends AbstractSourceContentHandler {
 	protected List<String> nonlinebreakingElements = new ArrayList<String>();
-	
+
 	private List<StaticMarkupInstance> staticMarkupInstances = null;
 	
 	public XMLContentHandler() {
@@ -144,12 +144,9 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
     	
 		int start = contentBuilder.length();
 
+
 		// list or stack Element
 		elementStack.push(element.getQualifiedName()); 
-
-
-		elementStack.push(element.getQualifiedName());
-
 
 		for( int idx=0; idx<element.getChildCount(); idx++) {
             Node curChild = element.getChild(idx);
@@ -173,6 +170,7 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
         int end = contentBuilder.length();
         Range range = new Range(start,end);
         List<Pair<String,String>> attributes = new ArrayList<Pair<String,String>>();
+
 
         //StringBuffer pathBuffer = new StringBuffer();
         StringBuilder pathBuffer = new StringBuilder();
