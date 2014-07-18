@@ -353,13 +353,13 @@ public interface Repository {
 			UserMarkupCollection userMarkupCollection, 
 			List<TagReference> tagReferences);
 	/**
-	 * Updates the give Property in the Tag Instance.
+	 * Updates the given Properties in the Tag Instance.
 	 * @param tagInstance
-	 * @param property
+	 * @param property 
 	 * @throws IOException
 	 */
 	public void update(
-			TagInstance tagInstance, Property property) throws IOException;
+			TagInstance tagInstance, Collection<Property> properties) throws IOException;
 	/**
 	 * Updates the give TagsetDefinition within the list of User Markup Collections.
 	 * @param userMarkupCollections
