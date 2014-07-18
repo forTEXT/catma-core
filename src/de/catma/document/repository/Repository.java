@@ -152,7 +152,7 @@ public interface Repository {
 		exceptionOccurred, 
 		/**
 		 * <p>{@link Property} changed:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = {@link Property}</li>
+		 * <li>{@link PropertyChangeEvent#getNewValue()} =  {@link List} of {@link Property Properties}</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = corresponding {@link TagInstance}</li>
 		 * </p>
 		 */
