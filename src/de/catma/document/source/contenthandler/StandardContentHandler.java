@@ -79,7 +79,12 @@ public class StandardContentHandler extends AbstractSourceContentHandler {
 	        	contentBuffer.append( charBuf, 0, cCount);
 	        }
 
-			setContent(contentBuffer.toString());
+            // some texts seem to include non valid unicode characters
+            // and this causes problems when converting text to HTML
+            // for GUI delivery and during indexing 
+			setContent(
+				contentBuffer.toString().replaceAll(
+					"[^\\x09\\x0A\\x0D\\x20-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]", "?"));
 		}
 		finally {
 			if( bis != null ) {

@@ -358,13 +358,13 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 
 	/**
 	 * The persistent part of this operation is handled by {@link
-	 * Repository#update(TagInstance, Property)}
+	 * Repository#update(TagInstance, Collection)}
 	 * @param tagInstance
-	 * @param property
+	 * @param properties
 	 * @throws IOException
 	 */
-	public void updateProperty(TagInstance tagInstance, Property property) throws IOException {
-		repository.update(tagInstance, property);
+	public void updateProperty(TagInstance tagInstance, Collection<Property> properties) throws IOException {
+		repository.update(tagInstance, properties);
 	}
 	
 	
