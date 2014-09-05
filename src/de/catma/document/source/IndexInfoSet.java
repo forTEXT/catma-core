@@ -129,4 +129,15 @@ public class IndexInfoSet {
     		unseparableCharacterSequences.remove(ucs);
     	}
     }
+    
+    public boolean isRightToLeftLanguage() {
+		String lang = getLocale().getLanguage();
+		if (lang.equals(new Locale("iw_il").getLanguage())) {
+			return true;
+		}
+		else if (lang.equals(new Locale("he_il").getLanguage())) {
+			return true;
+		}
+		return false;
+    }
 }
