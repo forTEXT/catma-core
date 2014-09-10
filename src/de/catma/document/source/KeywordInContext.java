@@ -98,4 +98,8 @@ public class KeywordInContext {
     		getKwic().substring(0,getRelativeKeywordStartPos()):
     		getKwic().substring(getRelativeKeywordStartPos()+keyword.length());
     }
+    
+    public boolean isRightToLeft() {
+    	return rtl;
+    }
 }

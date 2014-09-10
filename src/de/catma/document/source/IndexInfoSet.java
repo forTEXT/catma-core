@@ -131,13 +131,18 @@ public class IndexInfoSet {
     }
     
     public boolean isRightToLeftLanguage() {
-		String lang = getLocale().getLanguage();
-		if (lang.equals(new Locale("iw_il").getLanguage())) {
+		String lang = getLocale().getLanguage().toLowerCase();
+		if (lang.equals(new Locale("iw").getLanguage().toLowerCase())) {
 			return true;
 		}
-		else if (lang.equals(new Locale("he_il").getLanguage())) {
+		else if (lang.equals(new Locale("iw_il").getLanguage().toLowerCase())) {
 			return true;
 		}
-		return false;
+		else if (lang.equals(new Locale("he").getLanguage().toLowerCase())) {
+			return true;
+		}
+		else if (lang.equals(new Locale("he_il").getLanguage().toLowerCase())) {
+			return true;
+		}		return false;
     }
 }
