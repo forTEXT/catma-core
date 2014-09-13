@@ -135,14 +135,15 @@ public class IndexInfoSet {
 		if (lang.equals(new Locale("iw").getLanguage().toLowerCase())) {
 			return true;
 		}
-		else if (lang.equals(new Locale("iw_il").getLanguage().toLowerCase())) {
-			return true;
-		}
 		else if (lang.equals(new Locale("he").getLanguage().toLowerCase())) {
 			return true;
 		}
-		else if (lang.equals(new Locale("he_il").getLanguage().toLowerCase())) {
+		else if (lang.equals(new Locale("ar").getLanguage().toLowerCase())) {
 			return true;
-		}		return false;
+		}
+		else if (lang.equals(new Locale("ara").getLanguage().toLowerCase())) {
+			return true;
+		}
+		return false;
     }
 }
