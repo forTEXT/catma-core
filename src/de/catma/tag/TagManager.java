@@ -135,7 +135,7 @@ public class TagManager {
 		}
 	}
 	
-	private TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) {
+	public TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) {
 		for (TagLibrary tagLibrary : currentTagLibraries) {
 			if (tagLibraryReference.getId().equals(tagLibrary.getId())) {
 				return tagLibrary;
