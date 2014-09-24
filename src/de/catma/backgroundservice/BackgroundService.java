@@ -20,10 +20,6 @@
 
 package de.catma.backgroundservice;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Executes background tasks. An  {@link ExecutionListener} is notified when 
@@ -33,27 +29,8 @@ import java.util.logging.Logger;
  * @author Marco Petris
  *
  */
-public class BackgroundService {
-	
-	private ExecutorService backgroundThread;
-	private boolean background = true;
-	private Object lock;
-
-	/**
-	 * setup the worker thread
-	 */
-	public BackgroundService(Object lock) {
-		this(lock, false);
-	}
-
-	public BackgroundService(Object lock, boolean background) {
-		this.lock = lock;
-		this.background = background;
-		if (background) {
-			backgroundThread = Executors.newSingleThreadExecutor();
-		}
-	}
-	
+public interface BackgroundService {
+		
 	/**
 	 * @param <T> the type of the {@link ExecutionListener} and 
 	 * 		the {@link ProgressCallable}.
@@ -68,47 +45,5 @@ public class BackgroundService {
 	public <T> void submit( 
 			final ProgressCallable<T> callable, 
 			final ExecutionListener<T> listener,
-			final ProgressListener progressListener) {
-		
-        if (background) {
-            backgroundThread.submit( new Runnable() {
-                public void run() {
-                    try {
-                        callable.setProgressListener( progressListener );
-                        final T result = callable.call();
-                        
-                        synchronized(lock) {
-                        	listener.done(result);
-                        }
-                    } catch (Throwable t) {
-                        try {
-                        	Logger.getLogger(
-                        			getClass().getName()).log(
-                        					Level.SEVERE, "error", t);
-                            synchronized(lock) {
-                            	listener.error(t);
-                            }
-                        }
-                        catch(Throwable t2) {
-                        	t2.printStackTrace();
-                        }
-                    }
-                }
-            } );
-        }
-        else {
-            try {
-                callable.setProgressListener( progressListener );
-                final T result = callable.call();
-                listener.done( result );
-
-            } catch (Throwable t) {
-            	listener.error(t);
-            	Logger.getLogger(getClass().getName()).log(
-            		Level.SEVERE, "error", t);  
-            }
-        }
-		
-	}
-	
+			final ProgressListener progressListener);	
 }

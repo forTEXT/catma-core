@@ -76,7 +76,9 @@ public enum RepositoryPropertyKey {
 	 * a temporal directory, that can be used e.g. for uploads
 	 */
 	TempDir, 
-	GraphDbPath,
+	GraphDbPath, 
+	SourceDocumentIndexMaintainer, 
+	SourceDocumentIndexMaintainerMaxObjects,
 	;
 
 	/**
