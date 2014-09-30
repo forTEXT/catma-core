@@ -82,20 +82,24 @@ public class KeywordInContext {
 
     @Override
     public String toString() {
-        return getLeftContext() 
+        return getBackwardContext() 
         		+ "***" + keyword + "***" 
-        		+ getRightContext();
+        		+ getForwardContext();
     }
     
-    public String getLeftContext() {
+    public String getBackwardContext() {
     	return rtl?
     			getKwic().substring(getRelativeKeywordStartPos()+keyword.length()):
     			getKwic().substring(0,getRelativeKeywordStartPos());
     }
     
-    public String getRightContext() {
+    public String getForwardContext() {
     	return rtl?
     		getKwic().substring(0,getRelativeKeywordStartPos()):
     		getKwic().substring(getRelativeKeywordStartPos()+keyword.length());
+    }
+    
+    public boolean isRightToLeft() {
+    	return rtl;
     }
 }

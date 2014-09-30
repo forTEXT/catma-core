@@ -21,7 +21,7 @@ package de.catma.backgroundservice;
 public class DefaultBackgroundServiceProvider implements
 		BackgroundServiceProvider {
 	
-	private BackgroundService dummy = new BackgroundService(null, false);
+	private BackgroundService dummy = new DefaultBackgroundService(null, false);
 	private ProgressListener progressListener = new LogProgressListener();
 
 	@Override
