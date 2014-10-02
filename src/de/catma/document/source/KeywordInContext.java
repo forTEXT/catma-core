@@ -32,6 +32,7 @@ public class KeywordInContext {
     private String kwic;
     private Range kwicSourceRange;
     private int relativeKeywordStartPos;
+	private boolean rtl;
 
     /**
      * Constructor.
@@ -42,11 +43,13 @@ public class KeywordInContext {
      */
     public KeywordInContext(
             String keyword, String kwic,
-            Range kwicSourceRange, int relativeKeywordStartPos) {
+            Range kwicSourceRange, int relativeKeywordStartPos, 
+            boolean rtl) {
         this.keyword = keyword;
         this.kwic = kwic;
         this.kwicSourceRange = kwicSourceRange;
         this.relativeKeywordStartPos = relativeKeywordStartPos;
+        this.rtl = rtl;
     }
 
     /**
@@ -79,16 +82,24 @@ public class KeywordInContext {
 
     @Override
     public String toString() {
-        return getKwic().substring(0,getRelativeKeywordStartPos()) 
+        return getBackwardContext() 
         		+ "***" + keyword + "***" 
-        		+ getKwic().substring(getRelativeKeywordStartPos()+keyword.length());
+        		+ getForwardContext();
     }
     
-    public String getLeftContext() {
-    	return getKwic().substring(0,getRelativeKeywordStartPos());
+    public String getBackwardContext() {
+    	return rtl?
+    			getKwic().substring(getRelativeKeywordStartPos()+keyword.length()):
+    			getKwic().substring(0,getRelativeKeywordStartPos());
     }
     
-    public String getRightContext() {
-    	return getKwic().substring(getRelativeKeywordStartPos()+keyword.length());
+    public String getForwardContext() {
+    	return rtl?
+    		getKwic().substring(0,getRelativeKeywordStartPos()):
+    		getKwic().substring(getRelativeKeywordStartPos()+keyword.length());
+    }
+    
+    public boolean isRightToLeft() {
+    	return rtl;
     }
 }

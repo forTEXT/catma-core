@@ -152,7 +152,7 @@ public interface Repository {
 		exceptionOccurred, 
 		/**
 		 * <p>{@link Property} changed:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = {@link Property}</li>
+		 * <li>{@link PropertyChangeEvent#getNewValue()} =  {@link List} of {@link Property Properties}</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = corresponding {@link TagInstance}</li>
 		 * </p>
 		 */
@@ -168,6 +168,13 @@ public interface Repository {
 		 * </p><br />
 		 */
 		tagReferencesChanged,
+		/**
+		 * <p> a notification to the repo holder.
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the message of type String</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = always <code>null</code></li>
+		 * </p>
+		 */
+		notification,
 		;
 	}
 	
@@ -346,13 +353,13 @@ public interface Repository {
 			UserMarkupCollection userMarkupCollection, 
 			List<TagReference> tagReferences);
 	/**
-	 * Updates the give Property in the Tag Instance.
+	 * Updates the given Properties in the Tag Instance.
 	 * @param tagInstance
-	 * @param property
+	 * @param property 
 	 * @throws IOException
 	 */
 	public void update(
-			TagInstance tagInstance, Property property) throws IOException;
+			TagInstance tagInstance, Collection<Property> properties) throws IOException;
 	/**
 	 * Updates the give TagsetDefinition within the list of User Markup Collections.
 	 * @param userMarkupCollections

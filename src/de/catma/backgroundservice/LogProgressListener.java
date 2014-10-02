@@ -19,17 +19,21 @@
 package de.catma.backgroundservice;
 
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class LogProgressListener implements ProgressListener {
+	
+	private Logger logger = Logger.getLogger(LogProgressListener.class.getName());
 
 	public void setProgress(String value, Object... args) {
-		System.out.println(
+		logger.info(
 			value + ((args != null)? (" " +Arrays.toString(args)):""));
 	}
 
 	public void setException(Throwable t) {
-		t.printStackTrace();
+		logger.log(Level.SEVERE, "error during job execution", t);
 	}
 
 }
