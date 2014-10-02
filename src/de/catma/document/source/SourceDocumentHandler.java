@@ -72,7 +72,7 @@ public class SourceDocumentHandler {
         registerSourceContentHandler(
         		FileType.XML, XMLContentHandler.class);
         registerSourceContentHandler(
-        		FileType.XML, TEIContentHandler.class);
+        		FileType.TEI, TEIContentHandler.class);
 	}
 	
 	/**

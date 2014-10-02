@@ -23,31 +23,46 @@ import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
+
+import javax.swing.plaf.ColorUIResource;
 
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
 import nu.xom.Node;
 import nu.xom.Text;
-
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-
 import de.catma.document.Range;
+import de.catma.document.source.ContentInfoSet;
 import de.catma.document.source.FileOSType;
 import de.catma.document.source.FileType;
 import de.catma.document.source.SourceDocumentInfo;
 import de.catma.document.source.TechInfoSet;
-import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
 import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupInstance;
+import de.catma.document.standoffmarkup.usermarkup.TagReference;
+import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
+import de.catma.tag.Property;
+import de.catma.tag.PropertyDefinition;
+import de.catma.tag.PropertyPossibleValueList;
+import de.catma.tag.PropertyValueList;
+import de.catma.tag.TagDefinition;
+import de.catma.tag.TagInstance;
+import de.catma.tag.TagLibrary;
+import de.catma.tag.TagManager;
+import de.catma.tag.TagsetDefinition;
+import de.catma.tag.Version;
 import de.catma.util.CloseSafe;
+import de.catma.util.Collections3;
+import de.catma.util.ColorConverter;
+import de.catma.util.IDGenerator;
 import de.catma.util.Pair;
 
 /**
@@ -60,7 +75,9 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
 	protected List<String> nonlinebreakingElements = new ArrayList<String>();
 
 	private List<StaticMarkupInstance> staticMarkupInstances = null;
-	
+	private IDGenerator idGenerator = new IDGenerator();
+	private HashMap<String, TagDefinition> pathToTagDefMap = new HashMap<>();
+ 
 	public XMLContentHandler() {
 		nonlinebreakingElements = new ArrayList<String>();
 	}
@@ -101,8 +118,35 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
 	        Document document = builder.build(fr);
 	        StringBuilder contentBuilder = new StringBuilder();
 	        staticMarkupInstances = new ArrayList<StaticMarkupInstance>();
+	        TagManager tagManager = new TagManager(); //this should be provided by the Repository later on
+	        TagLibrary tagLibrary = new TagLibrary(null, "Intrinsic Markup");
+	        TagsetDefinition tagsetDefinition = 
+	        		new TagsetDefinition(
+	        			null, idGenerator.generate(), 
+	        			"Intrinsic Markup", new Version());
+	        
+	        tagManager.addTagsetDefinition(tagLibrary, tagsetDefinition);
 	        Stack<String> elementStack = new Stack<String>();
-	        processTextNodes(contentBuilder, document.getRootElement(), elementStack, staticMarkupInstances);
+	        UserMarkupCollection userMarkupCollection = 
+	        	new UserMarkupCollection(
+	        		null, 
+	        		new ContentInfoSet("", "Intrinsic Markup", "", "Intrinsic Markup"), 
+	        		tagLibrary);
+	        
+	        processTextNodes(
+	        		contentBuilder, 
+	        		document.getRootElement(), 
+	        		elementStack, tagManager,
+	        		tagLibrary, tagsetDefinition,
+	        		userMarkupCollection);
+	        for (TagsetDefinition tagsetDef : userMarkupCollection.getTagLibrary()) {
+	        	for (TagDefinition tagDef : tagsetDef) {
+	        		System.out.println(tagDef);
+	        	}
+	        }
+	        for (TagReference tr : userMarkupCollection.getTagReferences()) {
+	        	System.out.println(tr);
+	        }
 	        setContent(contentBuilder.toString());	
 			CloseSafe.close(is);
 		} catch (Exception e) {
@@ -137,16 +181,49 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
      * document tree.
      * @param contentBuilder the builder is filled with text elements
      * @param element the current element to process
+     * @throws URISyntaxException 
      */
     private void processTextNodes(
     		StringBuilder contentBuilder, Element element,
-    		Stack<String> elementStack, List<StaticMarkupInstance> currentElementList) {
+    		Stack<String> elementStack, TagManager tagManager, 
+    		TagLibrary tagLibrary, 
+    		TagsetDefinition tagsetDefinition,
+    		UserMarkupCollection userMarkupCollection) throws URISyntaxException {
     	
 		int start = contentBuilder.length();
 
 
-		// list or stack Element
-		elementStack.push(element.getQualifiedName()); 
+		StringBuilder pathBuilder = new StringBuilder();
+        for (int j=0; j<elementStack.size(); j++){
+        	pathBuilder.append(elementStack.get(j) + "/");
+        }
+        
+        String parentPath = pathBuilder.toString();
+        
+        elementStack.push(element.getQualifiedName()); 
+        String path = parentPath + "/" + elementStack.peek();
+
+        TagDefinition tagDefinition = pathToTagDefMap.get(path);
+        
+        if (tagDefinition == null) {
+        	TagDefinition parentTag = pathToTagDefMap.get(parentPath);
+        	String parentUuid = (parentTag==null)?null:parentTag.getUuid();
+        	tagDefinition = 
+        		new TagDefinition(
+        			null, idGenerator.generate(), 
+        			elementStack.peek(), new Version(), null, parentUuid);
+        	PropertyDefinition colorDef = 
+        		new PropertyDefinition(
+        			null, 
+        			idGenerator.generate(), 
+        			PropertyDefinition.SystemPropertyName.catma_displaycolor.name(), 
+        			new PropertyPossibleValueList(
+        				ColorConverter.toRGBIntAsString(ColorConverter.randomHex())));
+        	tagDefinition.addSystemPropertyDefinition(colorDef);
+        			
+        	pathToTagDefMap.put(path, tagDefinition);
+        	tagManager.addTagDefinition(tagsetDefinition, tagDefinition);
+        }
 
 		for( int idx=0; idx<element.getChildCount(); idx++) {
             Node curChild = element.getChild(idx);
@@ -162,35 +239,57 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
                 processTextNodes(
                 	contentBuilder, 
                 	(Element)curChild, 
-                	elementStack, currentElementList);
+                	elementStack,
+                	tagManager,
+                	tagLibrary,
+                	tagsetDefinition,
+                	userMarkupCollection);
             
             }
         }
         
         int end = contentBuilder.length();
         Range range = new Range(start,end);
-        List<Pair<String,String>> attributes = new ArrayList<Pair<String,String>>();
 
+        TagInstance tagInstance = new TagInstance(idGenerator.generate(), tagDefinition);
 
-        //StringBuffer pathBuffer = new StringBuffer();
-        StringBuilder pathBuffer = new StringBuilder();
-
-        for (int j=0; j<elementStack.size(); j++){
-        	pathBuffer.append(elementStack.get(j) + "/");
-        }
-        
-        String path = pathBuffer.toString();
         for (int i=0; i<element.getAttributeCount(); i++) {
+        	PropertyDefinition propertyDefinition = 
+        		tagDefinition.getPropertyDefinitionByName(
+        				element.getAttribute(i).getQualifiedName());
         	
-        	Pair<String,String> pair = 
-        			new Pair<String,String>(
-        				element.getAttribute(i).getQualifiedName(),
-        				element.getAttribute(i).getValue());
-        	attributes.add(pair);
-        	
+        	if (propertyDefinition == null) {
+        		propertyDefinition = 
+        			new PropertyDefinition(
+        				null, idGenerator.generate(), 
+        				element.getAttribute(i).getQualifiedName(), 
+        				new PropertyPossibleValueList(element.getAttribute(i).getValue()));
+        		tagManager.addUserDefinedPropertyDefinition(tagDefinition, propertyDefinition);
+        	}
+        	else if (!propertyDefinition
+        			.getPossibleValueList()
+        			.getPropertyValueList()
+        			.getValues().contains(element.getAttribute(i).getValue())) {
+        		List<String> newValueList = new ArrayList<>();
+        		newValueList.addAll(
+        				propertyDefinition
+        						.getPossibleValueList()
+        						.getPropertyValueList()
+        						.getValues());
+        		newValueList.add(element.getAttribute(i).getValue());
+        		propertyDefinition.setPossibleValueList(
+        			new PropertyPossibleValueList(newValueList, false));
+        		
+        	}
+        	Property property = 
+        		new Property(
+        			propertyDefinition, 
+        			new PropertyValueList(element.getAttribute(i).getValue()));
+        	tagInstance.addUserDefinedProperty(property);
         }
         														
-        currentElementList.add(new StaticMarkupInstance(range, path, attributes));
+        TagReference tagReference = new TagReference(tagInstance, "sourceDocID", range);
+        userMarkupCollection.addTagReference(tagReference);
      
         elementStack.pop();	
     }
@@ -209,7 +308,7 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
     	
 		try {
 
-			String file1 = new String("Z:\\ca1_2009_2_1_Chris_Miles.xml");
+			String file1 = new String("C:/data/projects/catma/miles/ca1_2009_2_1_Chris_Miles.xml");
 			//String file2 = new String("Z:\\dlt000189.xml");
 			contentHandler.load(new FileInputStream(file1));
 			//contentHandler.load(new FileInputStream(file2));
@@ -218,19 +317,19 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
 //			String file2 = new String("Y:\\dlt000189.xml");
 			String file2 = new String("Y:\\LIBANIUS_VOL. I. FASC. I  ORATIONES I-V.xml");
 //			contentHandler.load(new FileInputStream(file1));
-			contentHandler.load(new FileInputStream(file2));
+//			contentHandler.load(new FileInputStream(file2));
 
 			
 			//System.out.println:
-			System.out.println("content:");
-			System.out.println("***"+contentHandler.getContent()+"***");
-			System.out.println("StaticMarkupInstances:");
-			for (int x=0; x<contentHandler.staticMarkupInstances.size(); x++){
-				System.out.println(contentHandler.staticMarkupInstances.get(x).getRange());
-				System.out.println(contentHandler.staticMarkupInstances.get(x).getPath());
-				System.out.println(contentHandler.staticMarkupInstances.get(x).getAttributes());
-				System.out.println();
-			}
+//			System.out.println("content:");
+//			System.out.println("***"+contentHandler.getContent()+"***");
+//			System.out.println("StaticMarkupInstances:");
+//			for (int x=0; x<contentHandler.staticMarkupInstances.size(); x++){
+//				System.out.println(contentHandler.staticMarkupInstances.get(x).getRange());
+//				System.out.println(contentHandler.staticMarkupInstances.get(x).getPath());
+//				System.out.println(contentHandler.staticMarkupInstances.get(x).getAttributes());
+//				System.out.println();
+//			}
 			//System.out.println(contentHandler.getStaticMarkupInstances());
 			
 		} catch (IOException e) {

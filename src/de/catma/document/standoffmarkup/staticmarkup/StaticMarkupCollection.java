@@ -21,6 +21,11 @@ package de.catma.document.standoffmarkup.staticmarkup;
 import java.util.List;
 
 public class StaticMarkupCollection {
-	private String id;
 	private List<StaticMarkupInstance> staticMarkupInstances;
+
+	public StaticMarkupCollection(
+			List<StaticMarkupInstance> staticMarkupInstances) {
+		super();
+		this.staticMarkupInstances = staticMarkupInstances;
+	}
 }
