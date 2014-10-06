@@ -106,10 +106,13 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
             
             }
         }
+		
 		if (element.getChildCount() == 0) { //empty elements
 			addEmptyElement(contentBuilder, element);
 		}
-        
+		else {
+			addBreak(contentBuilder, element);
+		}
     }
     
     public void addEmptyElement(StringBuilder contentBuilder, Element element) {
@@ -119,13 +122,17 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
 
 	public void addTextContent(StringBuilder contentBuilder, Element element,
 			String content) {
-    	if (!inlineElements.contains(element.getLocalName())) {
-    		contentBuilder.append("\n");
-    	}
     	if (!content.trim().isEmpty()) {
     		contentBuilder.append(content);
     	}
 	}
+	
+	public void addBreak(StringBuilder contentBuilder, Element element) {
+		if (!inlineElements.contains(element.getLocalName())) {
+			contentBuilder.append("\n");
+		}
+	}
+
 
     @Override
     public boolean hasIntrinsicMarkupCollection() {

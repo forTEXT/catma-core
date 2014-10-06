@@ -69,12 +69,16 @@ public class TEIContentHandler extends XMLContentHandler {
 	@Override
 	public void addTextContent(StringBuilder contentBuilder, Element element,
 			String content) {
-		
+		if (element.getLocalName().equals("hi")) {
+			System.out.println("test");
+		}
+		boolean inline = inlineElements.contains(element.getLocalName());
 		// make things look good...
-    	if (!inlineElements.contains(element.getLocalName())) {
-    		contentBuilder.append("\n");
-    	}
+		
     	if (!content.trim().isEmpty()) {
+    		if (inline) {
+    			contentBuilder.append(" ");
+    		}
     		try (Scanner lineScanner = new Scanner(content.trim())) { 
     			String conc = "";
 	    		while (lineScanner.hasNextLine()) {
@@ -83,9 +87,12 @@ public class TEIContentHandler extends XMLContentHandler {
 	    			conc = " ";
 	    		}
     		}
+    		if (inline) {
+    			contentBuilder.append(" ");
+    		}
     	}
 	}
-	
+		
 	@Override
 	public void addEmptyElement(StringBuilder contentBuilder, Element element) {
 		// show linebreaks as actual linebreaks
