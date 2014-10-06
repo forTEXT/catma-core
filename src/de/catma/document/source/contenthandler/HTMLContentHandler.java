@@ -35,10 +35,8 @@ import nu.xom.Text;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import de.catma.util.CloseSafe;
-
 /**
- * A content handler HTML based {@link de.catma.document.source.SourceDocument}s.
+ * A content handler HTML for based {@link de.catma.document.source.SourceDocument}s.
  *
  * @author marco.petris@web.de
  *
@@ -82,9 +80,7 @@ public class HTMLContentHandler extends AbstractSourceContentHandler {
 	        StringBuilder contentBuilder = new StringBuilder();
 	        processTextNodes(contentBuilder, document.getRootElement());
 	        setContent(contentBuilder.toString());	
-			CloseSafe.close(is);
 		} catch (Exception e) {
-			CloseSafe.close(is);
 			throw new IOException(e);
 		}
 	}
@@ -93,21 +89,12 @@ public class HTMLContentHandler extends AbstractSourceContentHandler {
      * @see de.catma.document.source.contenthandler.SourceContentHandler#load()
      */
     public void load() throws IOException {
-    	
-        try {
-        	InputStream is = getSourceDocumentInfo().getTechInfoSet().getURI().toURL().openStream();
-        	try {
-        		load(is);
-        	}
-        	finally {
-        		is.close();
-        	}
+        try (InputStream is = getSourceDocumentInfo().getTechInfoSet().getURI().toURL().openStream()) {
+       		load(is);
         }
         catch (Exception e) {
         	throw new IOException(e);
         }
-        
-
     }
 
     /**

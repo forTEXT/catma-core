@@ -22,10 +22,9 @@ package de.catma.document.source.contenthandler;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
+import de.catma.document.source.SourceDocument;
 import de.catma.document.source.SourceDocumentInfo;
-import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupInstance;
 
 /**
  * A content handler for a Source Document. The content handler is responsible for 
@@ -78,5 +77,6 @@ public interface SourceContentHandler {
 	 */
 	public boolean isLoaded();
 	
-	public List<StaticMarkupInstance> getStaticMarkupInstances();
+	public boolean hasIntrinsicMarkupCollection();
+	
 }

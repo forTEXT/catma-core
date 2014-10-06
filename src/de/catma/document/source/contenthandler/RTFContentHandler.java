@@ -52,25 +52,12 @@ public class RTFContentHandler extends AbstractSourceContentHandler {
         				new InputStreamReader(is));
 
         try {
-
             rtf.read(input,doc,0);
             setContent(doc.getText(0,doc.getLength()).trim());
         }
         catch(BadLocationException ble) {
-            try {
-                if (input != null) {
-                    input.close();
-                }
-            }
-            catch(Throwable ignored) {}
-
             throw new IOException(ble);
         }
-        finally {
-            if (input != null) {
-                input.close();
-            }
-        }		
 	}
 	
     /* (non-Javadoc)

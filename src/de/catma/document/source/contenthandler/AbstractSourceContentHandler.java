@@ -19,11 +19,8 @@
 package de.catma.document.source.contenthandler;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 
 import de.catma.document.source.SourceDocumentInfo;
-import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupInstance;
 
 /**
  * Basic implementation that provides lazy loading.
@@ -63,7 +60,7 @@ public abstract class AbstractSourceContentHandler implements SourceContentHandl
 	}
 
 	/**
-	 * @param content the content of the {@link Source Document}. To be used
+	 * @param content the content of the {@link de.catma.document.source.SourceDocument}. To be used
 	 * by concrete implementations.
 	 */
 	protected void setContent(String content) {
@@ -84,7 +81,8 @@ public abstract class AbstractSourceContentHandler implements SourceContentHandl
     	return (content != null);
     }
     
-    public List<StaticMarkupInstance> getStaticMarkupInstances() {
-    	return Collections.emptyList();
+    @Override
+    public boolean hasIntrinsicMarkupCollection() {
+    	return false;
     }
 }

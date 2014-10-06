@@ -19,36 +19,10 @@
 
 package de.catma.document.source.contenthandler;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.Scanner;
 
-import nu.xom.Builder;
-import nu.xom.Document;
 import nu.xom.Element;
-import nu.xom.Node;
-import nu.xom.Text;
 
-import org.xml.sax.XMLReader;
-import org.xml.sax.helpers.XMLReaderFactory;
-
-import de.catma.document.Range;
-import de.catma.document.source.FileOSType;
-import de.catma.document.source.FileType;
-import de.catma.document.source.SourceDocumentInfo;
-import de.catma.document.source.TechInfoSet;
-import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
-import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupInstance;
-import de.catma.util.CloseSafe;
-import de.catma.util.Pair;
 
 /**
  * A content handler HTML based {@link de.catma.document.source.SourceDocument}s.
@@ -57,45 +31,70 @@ import de.catma.util.Pair;
  *
  */
 public class TEIContentHandler extends XMLContentHandler {
-	static List<String> nonlinebreakingElements = new ArrayList<String>();
-	static {
-		nonlinebreakingElements.add("abbr");
-		nonlinebreakingElements.add("add");
-		nonlinebreakingElements.add("expan");
-		nonlinebreakingElements.add("corr");
-		nonlinebreakingElements.add("date");
-		nonlinebreakingElements.add("del");
-		nonlinebreakingElements.add("distinct");
-		nonlinebreakingElements.add("emph");
-		nonlinebreakingElements.add("foreign");
-		nonlinebreakingElements.add("gap");
-		nonlinebreakingElements.add("gloss");
-		nonlinebreakingElements.add("hi");
-		nonlinebreakingElements.add("index");
-		nonlinebreakingElements.add("measure");
-		nonlinebreakingElements.add("mentioned");
-		nonlinebreakingElements.add("milestone");
-		nonlinebreakingElements.add("num");
-		nonlinebreakingElements.add("orig");
-		nonlinebreakingElements.add("q");
-		nonlinebreakingElements.add("quote");
-		nonlinebreakingElements.add("ref");
-		nonlinebreakingElements.add("reg");
-		nonlinebreakingElements.add("rs");
-		nonlinebreakingElements.add("said");
-		nonlinebreakingElements.add("sic");
-		nonlinebreakingElements.add("soCalled");
-		nonlinebreakingElements.add("sp");
-		nonlinebreakingElements.add("street");
-		nonlinebreakingElements.add("term");
-		nonlinebreakingElements.add("time");
-		nonlinebreakingElements.add("unclear");
-	}
-	
-	private List<StaticMarkupInstance> staticMarkupInstances = null;
 	
 	public TEIContentHandler() {
-		nonlinebreakingElements = new ArrayList<String>();
+		inlineElements.add("abbr");
+		inlineElements.add("add");
+		inlineElements.add("expan");
+		inlineElements.add("corr");
+		inlineElements.add("date");
+		inlineElements.add("del");
+		inlineElements.add("distinct");
+		inlineElements.add("emph");
+		inlineElements.add("foreign");
+		inlineElements.add("gap");
+		inlineElements.add("gloss");
+		inlineElements.add("hi");
+		inlineElements.add("index");
+		inlineElements.add("measure");
+		inlineElements.add("mentioned");
+		inlineElements.add("milestone");
+		inlineElements.add("num");
+		inlineElements.add("orig");
+		inlineElements.add("q");
+		inlineElements.add("quote");
+		inlineElements.add("ref");
+		inlineElements.add("reg");
+		inlineElements.add("rs");
+		inlineElements.add("said");
+		inlineElements.add("sic");
+		inlineElements.add("soCalled");
+		inlineElements.add("sp");
+		inlineElements.add("street");
+		inlineElements.add("term");
+		inlineElements.add("time");
+		inlineElements.add("unclear");
+	}
+	
+	@Override
+	public void addTextContent(StringBuilder contentBuilder, Element element,
+			String content) {
+		
+		// make things look good...
+    	if (!inlineElements.contains(element.getLocalName())) {
+    		contentBuilder.append("\n");
+    	}
+    	if (!content.trim().isEmpty()) {
+    		try (Scanner lineScanner = new Scanner(content.trim())) { 
+    			String conc = "";
+	    		while (lineScanner.hasNextLine()) {
+	    			contentBuilder.append(conc);
+	    			contentBuilder.append(lineScanner.nextLine().trim());
+	    			conc = " ";
+	    		}
+    		}
+    	}
+	}
+	
+	@Override
+	public void addEmptyElement(StringBuilder contentBuilder, Element element) {
+		// show linebreaks as actual linebreaks
+		if (element.getLocalName().equals("lb")) {
+			contentBuilder.append("\n");
+		}
+		else {
+			super.addEmptyElement(contentBuilder, element);
+		}
 	}
 	
 }

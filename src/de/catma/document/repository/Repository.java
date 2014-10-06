@@ -36,6 +36,7 @@ import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionRefer
 import de.catma.document.standoffmarkup.usermarkup.TagReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
+import de.catma.serialization.UserMarkupCollectionSerializationHandler;
 import de.catma.tag.Property;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
@@ -328,6 +329,12 @@ public interface Repository {
 	 */
 	public void importUserMarkupCollection(
 			InputStream inputStream, SourceDocument sourceDocument) throws IOException;
+	
+	public void importUserMarkupCollection(
+			InputStream inputStream,
+			final SourceDocument sourceDocument, 
+			UserMarkupCollectionSerializationHandler userMarkupCollectionSerializationHandler) 
+					throws IOException;
 	/**
 	 * @param userMarkupCollectionReference
 	 * @return the User Markup Collection for the given reference.
