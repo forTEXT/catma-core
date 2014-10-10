@@ -79,6 +79,7 @@ public enum RepositoryPropertyKey {
 	GraphDbPath, 
 	SourceDocumentIndexMaintainer, 
 	SourceDocumentIndexMaintainerMaxObjects,
+	AnnotationGeneratorPath,
 	;
 
 	/**
