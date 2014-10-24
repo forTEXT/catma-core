@@ -24,6 +24,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import de.catma.document.AccessMode;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
@@ -43,6 +44,7 @@ public class UserMarkupCollection {
 	private ContentInfoSet contentInfoSet;
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
+	private AccessMode accessMode;
 	
 	/**
 	 * @param id the identifier of the collections (depends on the repository)
@@ -51,7 +53,7 @@ public class UserMarkupCollection {
 	 */
 	public UserMarkupCollection(
 			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
-		this(id, contentInfoSet, tagLibrary, new ArrayList<TagReference>());
+		this(id, contentInfoSet, tagLibrary, new ArrayList<TagReference>(), AccessMode.WRITE);
 	}
 	
 	/**
@@ -62,11 +64,12 @@ public class UserMarkupCollection {
 	 */
 	public UserMarkupCollection(
 			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
-			List<TagReference> tagReferences) {
+			List<TagReference> tagReferences, AccessMode accessMode) {
 		this.id = id;
 		this.contentInfoSet = contentInfoSet;
 		this.tagLibrary = tagLibrary;
 		this.tagReferences = tagReferences;
+		this.accessMode = accessMode;
 	}
 
 
@@ -331,5 +334,7 @@ public class UserMarkupCollection {
 		return true;
 	}
 	
-	
+	public AccessMode getAccessMode() {
+		return accessMode;
+	}
 }
