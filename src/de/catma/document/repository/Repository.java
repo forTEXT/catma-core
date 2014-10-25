@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import de.catma.document.AccessMode;
 import de.catma.document.Corpus;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.document.source.SourceDocument;

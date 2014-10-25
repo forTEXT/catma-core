@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import de.catma.document.AccessMode;
 import de.catma.document.repository.Repository;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.tag.Property;
@@ -131,29 +132,31 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 
 	/**
 	 * @param tagsetDefinition
-	 * @param inSynch if <code>true</code> the result contains all collections
-	 * which are {@link TagsetDefinition#isSynchronized(TagsetDefinition) in synch}
-	 * with the given TagsetDefinition, if <code>false</code>
-	 * the result contains all collections which are not in synch with the given
 	 * TagsetDefinition
-	 * @return a list of UserMarkupCollections
+	 * @return a list {@link TagsetDefinition#isSynchronized(TagsetDefinition) of out ot synch} UserMarkupCollections
 	 */
-	public List<UserMarkupCollection> getUserMarkupCollections(
-			TagsetDefinition tagsetDefinition, boolean inSynch) {
+	public List<UserMarkupCollection> getOutOfSyncUserMarkupCollections(
+			TagsetDefinition tagsetDefinition) {
 		
 		List<UserMarkupCollection> result = 
 				new ArrayList<UserMarkupCollection>();
 		
 		for (UserMarkupCollection userMarkupCollection : userMarkupCollections) {
 			// FIXME: regardless of tagsetdef containment, check tagdef containment as well to support old standard tagsets and move operations
-			if (userMarkupCollection.getTagLibrary().contains(
-					tagsetDefinition)) {
+			
+			// no need to check non writable collections, they won't be updated anyway
+			if (userMarkupCollection.getAccessMode().equals(AccessMode.WRITE) 
+					&& 
+					userMarkupCollection.getTagLibrary().contains(tagsetDefinition)) {
+//			if (userMarkupCollection.getTagLibrary().contains(tagsetDefinition)) {
+				
 				TagsetDefinition containedTagsetDef = 
 					userMarkupCollection.getTagLibrary().getTagsetDefinition(
 							tagsetDefinition.getUuid());
-				if (containedTagsetDef.isSynchronized(tagsetDefinition) == inSynch) {
+				if (!containedTagsetDef.isSynchronized(tagsetDefinition)) {
 					result.add(userMarkupCollection);
 				}
+				
 			}
 			
 		}
