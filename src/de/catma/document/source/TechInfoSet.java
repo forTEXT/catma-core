@@ -38,6 +38,20 @@ public class TechInfoSet {
 	private String xsltDocumentLocalUri;
 	
 	/**
+	 * Copy constructor
+	 * @param another the TechInfoSet object to copy
+	 */
+	public TechInfoSet(TechInfoSet another) {
+		this.fileType = another.fileType;
+		this.charset = another.charset;
+		this.fileOSType = another.fileOSType;
+		this.checksum = another.checksum;
+		this.mimeType = another.mimeType;
+		this.uri = another.uri;
+		this.xsltDocumentLocalUri = another.xsltDocumentLocalUri;
+	}
+	
+	/**
 	 * @param fileType the type of the file
 	 * @param charset the charset used in the file
 	 * @param fileOSType determines line endings 
