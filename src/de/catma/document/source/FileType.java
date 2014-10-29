@@ -62,6 +62,10 @@ public enum FileType {
 	 * MS-Word DOCX files.
 	 */
 	DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+	/**
+	 * ZIP files.
+	 */
+	ZIP("application/zip")
 	;
 	
 	private String mimeType;
