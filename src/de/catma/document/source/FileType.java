@@ -88,11 +88,21 @@ public enum FileType {
 	 * @return the type of the file
 	 */
 	static FileType getFileType( File file ) {
-		int indexOflastDot = file.getName().lastIndexOf( '.' );
+		return getFileTypeFromName(file.getName());
+	}
+	
+	/**
+	 * Tries to guess the file type by analyzing the file extension i. e. the 
+	 * characters after the last dot.
+	 * @param fileName the filename to analyze
+	 * @return the type of the file
+	 */
+	public static FileType getFileTypeFromName( String fileName ) {
+		int indexOflastDot = fileName.lastIndexOf( '.' );
 
-		if ((indexOflastDot != -1) && (indexOflastDot<(file.getName().length()-1))){
+		if ((indexOflastDot != -1) && (indexOflastDot<(fileName.length()-1))){
 			String extension = 
-				file.getName().substring( indexOflastDot+1 ).toUpperCase();
+					fileName.substring( indexOflastDot+1 ).toUpperCase();
 			for (FileType type : values()) {
                 if( extension.equals( type.name() ) ) {
                     return type;
