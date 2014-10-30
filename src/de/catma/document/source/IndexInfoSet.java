@@ -73,6 +73,14 @@ public class IndexInfoSet {
 	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
+	
+	public LanguageItem getLanguage() {
+		return new LanguageItem(locale);
+	}
+	
+	public void setLanguage(LanguageItem language) {
+		this.locale = language.getLocale();
+	}
 
 	/**
      * @return a (possibly empty) list of unseparable character sequences,
