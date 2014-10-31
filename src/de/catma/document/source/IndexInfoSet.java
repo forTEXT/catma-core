@@ -129,4 +129,21 @@ public class IndexInfoSet {
     		unseparableCharacterSequences.remove(ucs);
     	}
     }
+    
+    public boolean isRightToLeftLanguage() {
+		String lang = getLocale().getLanguage().toLowerCase();
+		if (lang.equals(new Locale("iw").getLanguage().toLowerCase())) {
+			return true;
+		}
+		else if (lang.equals(new Locale("he").getLanguage().toLowerCase())) {
+			return true;
+		}
+		else if (lang.equals(new Locale("ar").getLanguage().toLowerCase())) {
+			return true;
+		}
+		else if (lang.equals(new Locale("ara").getLanguage().toLowerCase())) {
+			return true;
+		}
+		return false;
+    }
 }

@@ -48,45 +48,40 @@ public class StandardContentHandler extends AbstractSourceContentHandler {
 		
 		StringBuilder contentBuffer = new StringBuilder(); 
 		
-		BufferedInputStream bis = null;
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        BufferedInputStream bis = new BufferedInputStream(is);
+        byte[] byteBuffer = new byte[65536];
+        int bCount = -1;
+        while ((bCount=bis.read(byteBuffer)) != -1) {
+            bos.write(byteBuffer, 0, bCount);
+        }
 
-		try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bis = new BufferedInputStream(is);
-            byte[] byteBuffer = new byte[65536];
-            int bCount = -1;
-            while ((bCount=bis.read(byteBuffer)) != -1) {
-                bos.write(byteBuffer, 0, bCount);
-            }
+        byte[] byteBuf = bos.toByteArray();
+        ByteArrayInputStream toCharBis = new ByteArrayInputStream(byteBuf);
 
-            byte[] byteBuf = bos.toByteArray();
-            ByteArrayInputStream toCharBis = new ByteArrayInputStream(byteBuf);
-
-			InputStream fr = null; 
-			if (BOMFilterInputStream.hasBOM(byteBuf)) {
-				fr = new BOMFilterInputStream( toCharBis, charset );
-			}
-			else {
-				fr = toCharBis;
-			}
-
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader( fr, charset ) );
-			
-			char[] charBuf = new char[65536];
-			int cCount = -1;
-	        while((cCount=reader.read(charBuf)) != -1) {
-	        	contentBuffer.append( charBuf, 0, cCount);
-	        }
-
-			setContent(contentBuffer.toString());
+		InputStream fr = null; 
+		if (BOMFilterInputStream.hasBOM(byteBuf)) {
+			fr = new BOMFilterInputStream( toCharBis, charset );
 		}
-		finally {
-			if( bis != null ) {
-				bis.close();
-			}
-		}	
+		else {
+			fr = toCharBis;
+		}
+
+		BufferedReader reader = new BufferedReader(
+				new InputStreamReader( fr, charset ) );
 		
+		char[] charBuf = new char[65536];
+		int cCount = -1;
+        while((cCount=reader.read(charBuf)) != -1) {
+        	contentBuffer.append( charBuf, 0, cCount);
+        }
+
+        // some texts seem to include non valid unicode characters
+        // and this causes problems when converting text to HTML
+        // for GUI delivery and during indexing 
+		setContent(
+			contentBuffer.toString().replaceAll(
+				"[^\\x09\\x0A\\x0D\\x20-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]", "?"));
 	}
 
     /* (non-Javadoc)

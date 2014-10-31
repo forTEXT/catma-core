@@ -56,7 +56,8 @@ public enum FileType {
 	/**
 	 * XML files.
 	 */
-	XML("text/xml"), 
+	XML("application/xml"), 
+	TEI("application/tei+xml"),
 	/**
 	 * MS-Word DOCX files.
 	 */

@@ -23,6 +23,7 @@ package de.catma.document.source.contenthandler;
 import java.io.IOException;
 import java.io.InputStream;
 
+import de.catma.document.source.SourceDocument;
 import de.catma.document.source.SourceDocumentInfo;
 
 /**
@@ -75,4 +76,7 @@ public interface SourceContentHandler {
 	 * @return <code>true</code> if the content has been loaded and not yet unloaded, else <code>false</code>.
 	 */
 	public boolean isLoaded();
+	
+	public boolean hasIntrinsicMarkupCollection();
+	
 }

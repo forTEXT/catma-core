@@ -25,6 +25,34 @@ import de.catma.util.Pair;
 
 public class StaticMarkupInstance {
 	private Range range;
-	private String name;
+	private String path; // path -> z.B. /TEI/teiHeader/fileDesc/sourceDesc/p
 	private List<Pair<String,String>> attributes;
+	public StaticMarkupInstance(Range range, String path,
+			List<Pair<String, String>> attributes) {
+		super();
+		this.range = range;
+		this.path = path;
+		this.attributes = attributes;
+	}
+	public Range getRange() {
+		return range;
+	}
+	public void setRange(Range range) {
+		this.range = range;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	public List<Pair<String, String>> getAttributes() {
+		return attributes;
+	}
+	public void setAttributes(List<Pair<String, String>> attributes) {
+		this.attributes = attributes;
+	}
+	
+	
+	
 }

@@ -60,7 +60,7 @@ public abstract class AbstractSourceContentHandler implements SourceContentHandl
 	}
 
 	/**
-	 * @param content the content of the {@link Source Document}. To be used
+	 * @param content the content of the {@link de.catma.document.source.SourceDocument}. To be used
 	 * by concrete implementations.
 	 */
 	protected void setContent(String content) {
@@ -79,5 +79,10 @@ public abstract class AbstractSourceContentHandler implements SourceContentHandl
      */
     public boolean isLoaded() {
     	return (content != null);
+    }
+    
+    @Override
+    public boolean hasIntrinsicMarkupCollection() {
+    	return false;
     }
 }

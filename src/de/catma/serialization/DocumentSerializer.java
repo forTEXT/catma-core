@@ -16,24 +16,19 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.catma.backgroundservice;
+package de.catma.serialization;
 
-public class DefaultBackgroundServiceProvider implements
-		BackgroundServiceProvider {
-	
-	private BackgroundService dummy = new DefaultBackgroundService(null, false);
-	private ProgressListener progressListener = new LogProgressListener();
+import java.io.IOException;
+import java.io.OutputStream;
 
-	@Override
-	public BackgroundService getBackgroundService() {
-		return dummy;
+import nu.xom.Document;
+import nu.xom.Serializer;
+
+public class DocumentSerializer {
+	public void serialize(Document document, OutputStream outputStream) throws IOException {
+//			outputStream.write( BOMFilterInputStream.UTF_8_BOM ); // some jdks do not write it on their own
+		Serializer serializer = new Serializer( outputStream );
+		serializer.setIndent( 4 );
+		serializer.write( document );
 	}
-
-	@Override
-	public <T> void submit(String caption, ProgressCallable<T> callable,
-			ExecutionListener<T> listener) {
-		progressListener.setProgress(caption);
-		dummy.submit(callable, listener, progressListener);
-	}
-
 }

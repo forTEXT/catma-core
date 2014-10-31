@@ -16,24 +16,16 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.catma.backgroundservice;
+package de.catma.serialization;
 
-public class DefaultBackgroundServiceProvider implements
-		BackgroundServiceProvider {
+import de.catma.tag.TagManager;
+
+public interface SerializationHandlerFactory {
+
+	public SourceDocumentInfoSerializationHandler getSourceDocumentInfoSerializationHandler();
+	public StaticMarkupCollectionSerializationHandler getStaticMarkupCollectionSerializationHandler();
+	public TagLibrarySerializationHandler getTagLibrarySerializationHandler();
+	public UserMarkupCollectionSerializationHandler getUserMarkupCollectionSerializationHandler();
+	public void setTagManager(TagManager tagManager);
 	
-	private BackgroundService dummy = new DefaultBackgroundService(null, false);
-	private ProgressListener progressListener = new LogProgressListener();
-
-	@Override
-	public BackgroundService getBackgroundService() {
-		return dummy;
-	}
-
-	@Override
-	public <T> void submit(String caption, ProgressCallable<T> callable,
-			ExecutionListener<T> listener) {
-		progressListener.setProgress(caption);
-		dummy.submit(callable, listener, progressListener);
-	}
-
 }

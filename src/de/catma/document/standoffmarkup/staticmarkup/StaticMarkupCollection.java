@@ -22,4 +22,10 @@ import java.util.List;
 
 public class StaticMarkupCollection {
 	private List<StaticMarkupInstance> staticMarkupInstances;
+
+	public StaticMarkupCollection(
+			List<StaticMarkupInstance> staticMarkupInstances) {
+		super();
+		this.staticMarkupInstances = staticMarkupInstances;
+	}
 }

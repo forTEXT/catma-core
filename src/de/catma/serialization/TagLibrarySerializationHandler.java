@@ -16,24 +16,15 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.catma.backgroundservice;
+package de.catma.serialization;
 
-public class DefaultBackgroundServiceProvider implements
-		BackgroundServiceProvider {
-	
-	private BackgroundService dummy = new DefaultBackgroundService(null, false);
-	private ProgressListener progressListener = new LogProgressListener();
+import java.io.IOException;
+import java.io.InputStream;
 
-	@Override
-	public BackgroundService getBackgroundService() {
-		return dummy;
-	}
+import de.catma.tag.TagLibrary;
 
-	@Override
-	public <T> void submit(String caption, ProgressCallable<T> callable,
-			ExecutionListener<T> listener) {
-		progressListener.setProgress(caption);
-		dummy.submit(callable, listener, progressListener);
-	}
-
+public interface TagLibrarySerializationHandler {
+	public void serialize(TagLibrary tagLibrary) throws IOException;
+	public TagLibrary deserialize(
+		String id, InputStream inputStream) throws IOException;
 }

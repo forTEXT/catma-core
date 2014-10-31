@@ -16,24 +16,21 @@
  *   You should have received a copy of the GNU General Public License
  *   along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package de.catma.backgroundservice;
+package de.catma.serialization;
 
-public class DefaultBackgroundServiceProvider implements
-		BackgroundServiceProvider {
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+import de.catma.document.source.SourceDocument;
+import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
+
+public interface UserMarkupCollectionSerializationHandler {
+
+	public void serialize(UserMarkupCollection userMarkupCollection, 
+		SourceDocument sourceDocument, OutputStream outputStream) throws IOException;
 	
-	private BackgroundService dummy = new DefaultBackgroundService(null, false);
-	private ProgressListener progressListener = new LogProgressListener();
-
-	@Override
-	public BackgroundService getBackgroundService() {
-		return dummy;
-	}
-
-	@Override
-	public <T> void submit(String caption, ProgressCallable<T> callable,
-			ExecutionListener<T> listener) {
-		progressListener.setProgress(caption);
-		dummy.submit(callable, listener, progressListener);
-	}
-
+	public UserMarkupCollection deserialize(
+			String id, InputStream inputStream) throws IOException;
+	
 }

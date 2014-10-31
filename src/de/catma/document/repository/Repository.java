@@ -28,6 +28,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import de.catma.document.AccessMode;
 import de.catma.document.Corpus;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.document.source.SourceDocument;
@@ -36,6 +37,7 @@ import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionRefer
 import de.catma.document.standoffmarkup.usermarkup.TagReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
+import de.catma.serialization.UserMarkupCollectionSerializationHandler;
 import de.catma.tag.Property;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
@@ -152,7 +154,7 @@ public interface Repository {
 		exceptionOccurred, 
 		/**
 		 * <p>{@link Property} changed:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = {@link Property}</li>
+		 * <li>{@link PropertyChangeEvent#getNewValue()} =  {@link List} of {@link Property Properties}</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = corresponding {@link TagInstance}</li>
 		 * </p>
 		 */
@@ -328,6 +330,12 @@ public interface Repository {
 	 */
 	public void importUserMarkupCollection(
 			InputStream inputStream, SourceDocument sourceDocument) throws IOException;
+	
+	public void importUserMarkupCollection(
+			InputStream inputStream,
+			final SourceDocument sourceDocument, 
+			UserMarkupCollectionSerializationHandler userMarkupCollectionSerializationHandler) 
+					throws IOException;
 	/**
 	 * @param userMarkupCollectionReference
 	 * @return the User Markup Collection for the given reference.
@@ -353,13 +361,13 @@ public interface Repository {
 			UserMarkupCollection userMarkupCollection, 
 			List<TagReference> tagReferences);
 	/**
-	 * Updates the give Property in the Tag Instance.
+	 * Updates the given Properties in the Tag Instance.
 	 * @param tagInstance
-	 * @param property
+	 * @param property 
 	 * @throws IOException
 	 */
 	public void update(
-			TagInstance tagInstance, Property property) throws IOException;
+			TagInstance tagInstance, Collection<Property> properties) throws IOException;
 	/**
 	 * Updates the give TagsetDefinition within the list of User Markup Collections.
 	 * @param userMarkupCollections
