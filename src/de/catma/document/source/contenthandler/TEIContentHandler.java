@@ -49,6 +49,7 @@ public class TEIContentHandler extends XMLContentHandler {
 		inlineElements.add("measure");
 		inlineElements.add("mentioned");
 		inlineElements.add("milestone");
+		inlineElements.add("name");
 		inlineElements.add("num");
 		inlineElements.add("orig");
 		inlineElements.add("q");
@@ -69,9 +70,7 @@ public class TEIContentHandler extends XMLContentHandler {
 	@Override
 	public void addTextContent(StringBuilder contentBuilder, Element element,
 			String content) {
-		if (element.getLocalName().equals("hi")) {
-			System.out.println("test");
-		}
+
 		boolean inline = inlineElements.contains(element.getLocalName());
 		// make things look good...
 		
