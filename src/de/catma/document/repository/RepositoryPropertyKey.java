@@ -80,6 +80,7 @@ public enum RepositoryPropertyKey {
 	SourceDocumentIndexMaintainer, 
 	SourceDocumentIndexMaintainerMaxObjects,
 	AnnotationGeneratorPath,
+	BaseURL,
 	;
 
 	/**
