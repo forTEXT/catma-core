@@ -80,8 +80,21 @@ public enum RepositoryPropertyKey {
 	SourceDocumentIndexMaintainer, 
 	SourceDocumentIndexMaintainerMaxObjects,
 	AnnotationGeneratorPath,
-	BaseURL,
+	BaseURL("http://www.digitalhumanities.it/catma/"),
 	;
+
+	private String defaultValue;
+	
+	private RepositoryPropertyKey() {
+	}
+
+	private RepositoryPropertyKey(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
 
 	/**
 	 * @param properties the key/value store
