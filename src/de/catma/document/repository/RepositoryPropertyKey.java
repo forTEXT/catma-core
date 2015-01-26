@@ -82,6 +82,7 @@ public enum RepositoryPropertyKey {
 	HeurecleaFolder,
 	AnnotationGeneratorPath,
 	BaseURL("http://www.digitalhumanities.it/catma/"),
+	otpsecret,
 	;
 
 	private String defaultValue;
@@ -139,5 +140,16 @@ public enum RepositoryPropertyKey {
 	 */
 	public boolean exists(Properties properties, int index) {
 		return properties.containsKey(this.name()+index);
+	}
+	
+	public String getValue(int index) {
+		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index);
+	}
+	
+	public String getValue() {
+		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name());
+	}
+	public String getValue(String defaultValue) {
+		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), defaultValue);
 	}
 }
