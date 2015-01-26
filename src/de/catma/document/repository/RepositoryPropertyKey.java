@@ -80,9 +80,10 @@ public enum RepositoryPropertyKey {
 	SourceDocumentIndexMaintainer, 
 	SourceDocumentIndexMaintainerMaxObjects,
 	HeurecleaFolder,
-	AnnotationGeneratorPath,
+	AnnotationGeneratorURL,
 	BaseURL("http://www.digitalhumanities.it/catma/"),
-	otpsecret,
+	otpSecret,
+	otpDuration,
 	;
 
 	private String defaultValue;
