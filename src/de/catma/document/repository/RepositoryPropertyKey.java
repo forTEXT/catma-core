@@ -83,7 +83,12 @@ public enum RepositoryPropertyKey {
 	AnnotationGeneratorURL,
 	BaseURL("http://www.digitalhumanities.it/catma/"),
 	otpSecret,
-	otpDuration,
+	otpDuration, 
+	version,
+	oauthAuthorizationCodeRequestURL,
+	oauthAccessTokenRequestURL,
+	oauthClientId,
+	oauthClientSecret,
 	;
 
 	private String defaultValue;
