@@ -79,7 +79,30 @@ public enum RepositoryPropertyKey {
 	GraphDbPath, 
 	SourceDocumentIndexMaintainer, 
 	SourceDocumentIndexMaintainerMaxObjects,
+	HeurecleaFolder,
+	AnnotationGeneratorURL,
+	BaseURL("http://www.digitalhumanities.it/catma/"),
+	otpSecret,
+	otpDuration, 
+	version,
+	oauthAuthorizationCodeRequestURL,
+	oauthAccessTokenRequestURL,
+	oauthClientId,
+	oauthClientSecret,
 	;
+
+	private String defaultValue;
+	
+	private RepositoryPropertyKey() {
+	}
+
+	private RepositoryPropertyKey(String defaultValue) {
+		this.defaultValue = defaultValue;
+	}
+
+	public String getDefaultValue() {
+		return defaultValue;
+	}
 
 	/**
 	 * @param properties the key/value store
@@ -123,5 +146,16 @@ public enum RepositoryPropertyKey {
 	 */
 	public boolean exists(Properties properties, int index) {
 		return properties.containsKey(this.name()+index);
+	}
+	
+	public String getValue(int index) {
+		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index);
+	}
+	
+	public String getValue() {
+		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name());
+	}
+	public String getValue(String defaultValue) {
+		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), defaultValue);
 	}
 }

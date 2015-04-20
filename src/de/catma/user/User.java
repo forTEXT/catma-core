@@ -39,8 +39,10 @@ public interface User {
 	public String getIdentifier();
 	
 	/**
-	 * @return the role of the user
+	 * @return true if the user has the given permission
 	 */
-	public Role getRole();
+	public boolean hasPermission(Permission permission);
+	
+	
 }
 

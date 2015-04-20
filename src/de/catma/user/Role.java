@@ -25,32 +25,7 @@ package de.catma.user;
  *
  */
 public enum Role {
-
-	STANDARD(0),
-	ADMIN(1)
+	user,
+	admin,
 	;
-	
-	private int val;
-
-	private Role(int val) {
-		this.val = val;
-	}
-	
-	public int getVal() {
-		return val;
-	}
-	
-	public boolean is(int val) {
-		return getVal() == val; 
-	}
-	
-	public static Role getRole(int val) {
-		for (Role role : values()) {
-			if (role.is(val)) {
-				return role;
-			}
-		}
-		
-		throw new IllegalArgumentException("no role with val " + val);
-	}
 }
