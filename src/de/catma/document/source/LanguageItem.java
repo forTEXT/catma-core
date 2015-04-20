@@ -5,6 +5,7 @@ import java.util.Locale;
 
 /**
  * An item in the language list.
+ * Used for display purposes.
  */
 public final class LanguageItem implements Comparable<LanguageItem> {
     private Locale locale;
