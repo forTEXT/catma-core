@@ -20,6 +20,8 @@
 package de.catma.document.source;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The type of a file: pdf, html, text...
@@ -57,7 +59,7 @@ public enum FileType {
 	 * XML files.
 	 */
 	XML("application/xml"), 
-	TEI("application/tei+xml"),
+	TEI("application/tei+xml", false), // not active since support would require a proper way to display structural elements and their customizations
 	/**
 	 * MS-Word DOCX files.
 	 */
@@ -69,9 +71,15 @@ public enum FileType {
 	;
 	
 	private String mimeType;
+	private boolean active;
 
 	private FileType(String mimeType) {
+		this(mimeType, true);
+	}	
+	
+	private FileType(String mimeType, boolean active) {
 		this.mimeType = mimeType;
+		this.active = active;
 	}
 	
 	/**
@@ -124,5 +132,15 @@ public enum FileType {
 			}
 		}
 		return TEXT;
+	}
+	
+	public static List<FileType> getActiveFileTypes() {
+		List<FileType> result = new ArrayList<FileType>();
+		for (FileType type : values()) {
+			if (type.active) {
+				result.add(type);
+			}
+		}
+		return result;
 	}
 }
