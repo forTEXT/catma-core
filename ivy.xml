@@ -22,7 +22,7 @@
     <info
         organisation="de.catma"
         module="catma-core"
-        status="release">
+        status="integration">
 	</info>
 	<configurations>
 		<conf name="default" />
