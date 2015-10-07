@@ -42,11 +42,11 @@ public enum FileType {
 	/**
 	 * HTML-pages.
 	 */
-	HTML("text/html"),
+	HTML("text/html", true),
     /**
      * HTM(L)-pages.
      */
-    HTM("text/html"),
+    HTM("text/html", true),
     /**
      * RTF-docs.
      */
@@ -54,12 +54,12 @@ public enum FileType {
 	/**
 	 * everything which is not one of the other possibilities
 	 */
-	TEXT("text/plain"),
+	TEXT("text/plain", true),
 	/**
 	 * XML files.
 	 */
 	XML("application/xml"), 
-	TEI("application/tei+xml", false), // not active since support would require a proper way to display structural elements and their customizations
+	TEI("application/tei+xml", false, false), // not active since support would require a proper way to display structural elements and their customizations
 	/**
 	 * MS-Word DOCX files.
 	 */
@@ -72,14 +72,20 @@ public enum FileType {
 	
 	private String mimeType;
 	private boolean active;
+	private boolean charsetSupported;
 
 	private FileType(String mimeType) {
-		this(mimeType, true);
+		this(mimeType, true, false);
+	}	
+
+	private FileType(String mimeType, boolean supportsCharset) {
+		this(mimeType, true, supportsCharset);
 	}	
 	
-	private FileType(String mimeType, boolean active) {
+	private FileType(String mimeType, boolean active, boolean supportsCharset) {
 		this.mimeType = mimeType;
 		this.active = active;
+		this.charsetSupported = supportsCharset;
 	}
 	
 	/**
@@ -87,6 +93,10 @@ public enum FileType {
 	 */
 	public String getMimeType() {
 		return mimeType;
+	}
+	
+	public boolean isCharsetSupported() {
+		return charsetSupported;
 	}
 	
 	/**
