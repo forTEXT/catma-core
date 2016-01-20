@@ -88,7 +88,9 @@ public enum RepositoryPropertyKey {
 	oauthAuthorizationCodeRequestURL,
 	oauthAccessTokenRequestURL,
 	oauthClientId,
-	oauthClientSecret,
+	oauthClientSecret, 
+	commitAfterNodeCount,
+	commitAfterRelationCount,
 	;
 
 	private String defaultValue;
