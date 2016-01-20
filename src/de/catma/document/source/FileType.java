@@ -42,11 +42,11 @@ public enum FileType {
 	/**
 	 * HTML-pages.
 	 */
-	HTML("text/html", true),
+	HTML(true, "text/html"),
     /**
      * HTM(L)-pages.
      */
-    HTM("text/html", true),
+    HTM(true, "text/html"),
     /**
      * RTF-docs.
      */
@@ -54,12 +54,12 @@ public enum FileType {
 	/**
 	 * everything which is not one of the other possibilities
 	 */
-	TEXT("text/plain", true),
+	TEXT(true, "text/plain"),
 	/**
 	 * XML files.
 	 */
-	XML("application/xml"), 
-	TEI("application/tei+xml", false, false), // not active since support would require a proper way to display structural elements and their customizations
+	XML(true, "application/xml", "text/xml"), 
+	TEI(false, false, "application/tei+xml"), // not active since support would require a proper way to display structural elements and their customizations
 	/**
 	 * MS-Word DOCX files.
 	 */
@@ -70,20 +70,20 @@ public enum FileType {
 	ZIP("application/zip")
 	;
 	
-	private String mimeType;
+	private String[] mimeTypes;
 	private boolean active;
 	private boolean charsetSupported;
 
-	private FileType(String mimeType) {
-		this(mimeType, true, false);
+	private FileType(String... mimeTypes) {
+		this(true, false, mimeTypes);
 	}	
 
-	private FileType(String mimeType, boolean supportsCharset) {
-		this(mimeType, true, supportsCharset);
+	private FileType(boolean supportsCharset, String... mimeTypes) {
+		this(true, supportsCharset, mimeTypes);
 	}	
 	
-	private FileType(String mimeType, boolean active, boolean supportsCharset) {
-		this.mimeType = mimeType;
+	private FileType(boolean active, boolean supportsCharset, String... mimeTypes) {
+		this.mimeTypes = mimeTypes;
 		this.active = active;
 		this.charsetSupported = supportsCharset;
 	}
@@ -92,7 +92,16 @@ public enum FileType {
 	 * @return the mime type of this file type.
 	 */
 	public String getMimeType() {
-		return mimeType;
+		return mimeTypes[0];
+	}
+	
+	public boolean hasMimeType(String mimeTypeToTest) {
+		for (String mimeType : mimeTypes) {
+			if (mimeType.equals(mimeTypeToTest)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public boolean isCharsetSupported() {
@@ -137,7 +146,7 @@ public enum FileType {
 	 */
 	public static FileType getFileType(String mimeType) {
 		for (FileType type : values()) {
-			if (type.mimeType.equals(mimeType)) {
+			if (type.hasMimeType(mimeType)) {
 				return type;
 			}
 		}
