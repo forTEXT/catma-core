@@ -76,7 +76,7 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return Collections.unmodifiableCollection(tagsetDefinitionsByID.values()).iterator();
 	}
 	
-	public Collection<TagsetDefinition> collection() {
+	public Collection<TagsetDefinition> getTagsetDefinitions() {
 		return Collections.unmodifiableCollection(tagsetDefinitionsByID.values());
 	}
 

@@ -88,7 +88,9 @@ public enum RepositoryPropertyKey {
 	oauthAuthorizationCodeRequestURL,
 	oauthAccessTokenRequestURL,
 	oauthClientId,
-	oauthClientSecret,
+	oauthClientSecret, 
+	commitAfterNodeCount,
+	commitAfterRelationCount,
 	;
 
 	private String defaultValue;
@@ -148,7 +150,7 @@ public enum RepositoryPropertyKey {
 		return properties.containsKey(this.name()+index);
 	}
 	
-	public String getValue(int index) {
+	public String getIndexedValue(int index) {
 		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index);
 	}
 	
@@ -157,5 +159,13 @@ public enum RepositoryPropertyKey {
 	}
 	public String getValue(String defaultValue) {
 		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), defaultValue);
+	}
+	
+	public long getValue(long defaultValue) {
+		return Long.valueOf(RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), String.valueOf(defaultValue)));
+	}
+
+	public int getValue(int defaultValue) {
+		return Integer.valueOf(RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), String.valueOf(defaultValue)));
 	}
 }
