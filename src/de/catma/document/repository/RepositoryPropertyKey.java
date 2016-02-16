@@ -91,6 +91,8 @@ public enum RepositoryPropertyKey {
 	oauthClientSecret, 
 	commitAfterNodeCount,
 	commitAfterRelationCount,
+	DBIndexMaintenanceJobIntervalInSeconds,
+	
 	;
 
 	private String defaultValue;
@@ -152,6 +154,14 @@ public enum RepositoryPropertyKey {
 	
 	public String getIndexedValue(int index) {
 		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index);
+	}
+	
+	public String getIndexedValue(int index, String defaultValue) {
+		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index, defaultValue);
+	}
+	
+	public int getIndexedValue(int index, int defaultValue) {
+		return Integer.valueOf(RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index, String.valueOf(defaultValue)));
 	}
 	
 	public String getValue() {
