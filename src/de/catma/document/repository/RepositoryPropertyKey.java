@@ -91,7 +91,8 @@ public enum RepositoryPropertyKey {
 	oauthClientSecret, 
 	commitAfterNodeCount,
 	commitAfterRelationCount,
-	DBIndexMaintenanceJobIntervalInSeconds,
+	DBIndexMaintenanceJobIntervalInSeconds, 
+	DBIndexMaintainerMaxObjects,
 	
 	;
 
