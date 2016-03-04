@@ -463,6 +463,6 @@ public interface Repository {
 	 */
 	public File getFile(SourceDocument sourceDocument);
 	
-	
+	public int getNewUserMarkupCollectionRefs(Corpus corpus);
 	
 }

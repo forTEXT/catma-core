@@ -92,7 +92,8 @@ public enum RepositoryPropertyKey {
 	commitAfterNodeCount,
 	commitAfterRelationCount,
 	DBIndexMaintenanceJobIntervalInSeconds, 
-	DBIndexMaintainerMaxObjects,
+	DBIndexMaintainerMaxObjects, 
+	IndexMaintainerEnabled,
 	
 	;
 
@@ -178,5 +179,9 @@ public enum RepositoryPropertyKey {
 
 	public int getValue(int defaultValue) {
 		return Integer.valueOf(RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), String.valueOf(defaultValue)));
+	}
+	
+	public boolean isTrueIndexed(int index, boolean defaultValue) {
+		return isTrue(RepositoryProperties.INSTANCE.getProperties(), index, defaultValue);
 	}
 }
