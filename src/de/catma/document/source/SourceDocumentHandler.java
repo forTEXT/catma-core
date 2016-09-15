@@ -225,4 +225,14 @@ public class SourceDocumentHandler {
 		
 		return document;
 	}
+	
+	public SourceDocument loadSourceDocument( 
+			String id, SourceContentHandler handler)
+		throws IOException, InstantiationException, IllegalAccessException {
+		
+		SourceDocument document = 
+				new SourceDocument(id, handler);
+		
+		return document;
+	}
 }
