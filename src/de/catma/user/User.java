@@ -43,6 +43,9 @@ public interface User {
 	 */
 	public boolean hasPermission(Permission permission);
 	
+
+	public boolean isGuest();
 	
+	public boolean isSpawnable();
 }
 

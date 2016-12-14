@@ -210,4 +210,13 @@ public class RepositoryManager {
 	public boolean hasOpenRepository() {
 		return !openRepositories.isEmpty();
 	}
+	
+	public Repository getFirstOpenRepository() {
+		if (hasOpenRepository()) {
+			return openRepositories.iterator().next();
+		}
+		else {
+			return null;
+		}
+	}
 }

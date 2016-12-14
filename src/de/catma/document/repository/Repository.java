@@ -465,4 +465,6 @@ public interface Repository {
 	
 	public int getNewUserMarkupCollectionRefs(Corpus corpus);
 	
+	public void spawnContentFrom(String userIdentifier, boolean copyCorpora, boolean copyTagLibs) throws IOException;
+	
 }
