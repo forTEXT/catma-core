@@ -97,7 +97,12 @@ public enum RepositoryPropertyKey {
 	commitAfterRelationCount,
 	DBIndexMaintenanceJobIntervalInSeconds, 
 	DBIndexMaintainerMaxObjects, 
-	IndexMaintainerEnabled,
+	IndexMaintainerEnabled, 
+	GuestAccessCountExpirationInDays, 
+	GuestAccessCountConcurrencyLevel, 
+	GuestAccessCountMax, 
+	SpamProtectionAnswer, 
+	SpamProtectionQuestion,
 	
 	;
 

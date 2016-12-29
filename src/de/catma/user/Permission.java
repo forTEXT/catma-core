@@ -4,5 +4,6 @@ public enum Permission {
 	adminwindow,
 	autotagging, 
 	exportcorpus,
+	sharewithspawnable
 	;
 }
