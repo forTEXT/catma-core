@@ -85,12 +85,24 @@ public enum RepositoryPropertyKey {
 	otpSecret,
 	otpDuration, 
 	version,
-	oauthAuthorizationCodeRequestURL,
-	oauthAccessTokenRequestURL,
-	oauthClientId,
-	oauthClientSecret, 
+	Google_oauthAuthorizationCodeRequestURL,
+	Google_oauthAccessTokenRequestURL,
+	Google_oauthClientId,
+	Google_oauthClientSecret, 
+	CATMA_oauthAuthorizationCodeRequestURL,
+	CATMA_oauthAccessTokenRequestURL,
+	CATMA_oauthClientId,
+	CATMA_oauthClientSecret, 
 	commitAfterNodeCount,
 	commitAfterRelationCount,
+	DBIndexMaintenanceJobIntervalInSeconds, 
+	DBIndexMaintainerMaxObjects, 
+	IndexMaintainerEnabled, 
+	GuestAccessCountExpirationInDays, 
+	GuestAccessCountConcurrencyLevel, 
+	GuestAccessCountMax, 
+	SpamProtectionAnswer, 
+	SpamProtectionQuestion,
 	;
 
 	private String defaultValue;
@@ -150,8 +162,16 @@ public enum RepositoryPropertyKey {
 		return properties.containsKey(this.name()+index);
 	}
 	
-	public String getValue(int index) {
+	public String getIndexedValue(int index) {
 		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index);
+	}
+	
+	public String getIndexedValue(int index, String defaultValue) {
+		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index, defaultValue);
+	}
+	
+	public int getIndexedValue(int index, int defaultValue) {
+		return Integer.valueOf(RepositoryProperties.INSTANCE.getProperties().getProperty(this.name()+index, String.valueOf(defaultValue)));
 	}
 	
 	public String getValue() {
@@ -159,5 +179,17 @@ public enum RepositoryPropertyKey {
 	}
 	public String getValue(String defaultValue) {
 		return RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), defaultValue);
+	}
+	
+	public long getValue(long defaultValue) {
+		return Long.valueOf(RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), String.valueOf(defaultValue)));
+	}
+
+	public int getValue(int defaultValue) {
+		return Integer.valueOf(RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), String.valueOf(defaultValue)));
+	}
+	
+	public boolean isTrueIndexed(int index, boolean defaultValue) {
+		return isTrue(RepositoryProperties.INSTANCE.getProperties(), index, defaultValue);
 	}
 }

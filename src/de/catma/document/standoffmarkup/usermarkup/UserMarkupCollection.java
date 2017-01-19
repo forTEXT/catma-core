@@ -18,18 +18,24 @@
  */
 package de.catma.document.standoffmarkup.usermarkup;
 
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import de.catma.document.AccessMode;
 import de.catma.document.source.ContentInfoSet;
+import de.catma.tag.Property;
+import de.catma.tag.PropertyValueList;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
 import de.catma.tag.TagsetDefinition;
+import de.catma.util.IDGenerator;
 import de.catma.util.Pair;
 
 /**
@@ -72,6 +78,49 @@ public class UserMarkupCollection {
 		this.accessMode = accessMode;
 	}
 
+
+	public UserMarkupCollection(UserMarkupCollection userMarkupCollection) throws URISyntaxException {
+		this(
+			null, 
+			new ContentInfoSet(userMarkupCollection.getContentInfoSet()), 
+			new TagLibrary(userMarkupCollection.getTagLibrary()));
+		
+		IDGenerator idGenerator = new IDGenerator();
+		Map<String,TagInstance> copiedTagInstances = new HashMap<String,TagInstance>();
+		
+		for (TagReference tr : userMarkupCollection.getTagReferences()) {
+			TagInstance tagInstance = tr.getTagInstance();
+			
+			TagInstance copiedInstance = copiedTagInstances.get(tagInstance.getUuid());
+			
+			if (copiedInstance == null) {
+				TagDefinition tagDefinition = 
+					getTagLibrary().getTagDefinition(tagInstance.getTagDefinition().getUuid());
+				copiedInstance = new TagInstance(idGenerator.generate(), tagDefinition);
+				for (Property property : tagInstance.getSystemProperties()) {
+					copiedInstance.addSystemProperty(
+						new Property(
+							tagDefinition.getPropertyDefinition(
+								property.getPropertyDefinition().getUuid()),
+							new PropertyValueList(property.getPropertyValueList())));
+				}
+				
+				for (Property property : tagInstance.getUserDefinedProperties()) {
+					copiedInstance.addSystemProperty(
+						new Property(
+							tagDefinition.getPropertyDefinition(
+								property.getPropertyDefinition().getUuid()),
+							new PropertyValueList(property.getPropertyValueList())));
+				}
+				
+				copiedTagInstances.put(tagInstance.getUuid(), copiedInstance);
+			}
+		
+			addTagReference( 
+				new TagReference(copiedInstance, tr.getTarget().toString(), tr.getRange()));
+		}
+	
+	}
 
 	/**
 	 * @return the internal library with all relevant {@link TagsetDefinition}s.

@@ -1,3 +1,6 @@
 .settings/org.eclipse.wst.validation.prefs
 bin/
 .settings/org.hibernate.eclipse.console.prefs
+.settings/org.eclipse.core.resources.prefs
+.settings/com.vaadin.integration.eclipse.prefs
+

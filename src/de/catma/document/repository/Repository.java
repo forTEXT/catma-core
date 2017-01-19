@@ -44,6 +44,7 @@ import de.catma.tag.TagLibrary;
 import de.catma.tag.TagLibraryReference;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
+import de.catma.tag.Version;
 import de.catma.user.User;
 import de.catma.util.Pair;
 
@@ -463,6 +464,9 @@ public interface Repository {
 	 */
 	public File getFile(SourceDocument sourceDocument);
 	
+	public int getNewUserMarkupCollectionRefs(Corpus corpus);
 	
+	public void spawnContentFrom(String userIdentifier, boolean copyCorpora, boolean copyTagLibs) throws IOException;
+	public TagLibrary getTagLibraryFor(String uuid, Version version) throws IOException;
 	
 }

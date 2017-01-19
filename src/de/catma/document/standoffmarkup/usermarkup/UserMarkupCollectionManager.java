@@ -273,11 +273,11 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	 * @return a list of all TagInstances as {@link Pair pairs} with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path} 
 	 * and the corresponding {@link TagInstance}.  
 	 */
-	public List<TagInstanceInfo> getTagInstances(List<String> instanceIDs) {
+	public List<TagInstanceInfo> getTagInstanceInfos(Collection<String> instanceIDs) {
 		List<TagInstanceInfo> result = 
 				new ArrayList<TagInstanceInfo>();
 		for (String instanceID : instanceIDs) {
-			TagInstanceInfo ti = getTagInstance(instanceID);
+			TagInstanceInfo ti = getTagInstanceInfo(instanceID);
 			if (ti == null) {
 				 throw new IllegalStateException(
 					 "TagInstance #"+instanceID + 
@@ -293,7 +293,7 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	 * @return a TagInstanceInfo with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path}, 
 	 * the corresponding {@link TagInstance} and the relevant {@link UserMarkupCollection}.
 	 */
-	private TagInstanceInfo getTagInstance(String instanceID) {
+	public TagInstanceInfo getTagInstanceInfo(String instanceID) {
 		for (UserMarkupCollection umc : userMarkupCollections) {
 			if (umc.hasTagInstance(instanceID)) {
 				Pair<String, TagInstance> tagInstanceWithPath = 
@@ -369,7 +369,4 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	public void updateProperty(TagInstance tagInstance, Collection<Property> properties) throws IOException {
 		repository.update(tagInstance, properties);
 	}
-	
-	
-
 }

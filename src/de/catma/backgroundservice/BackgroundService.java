@@ -20,6 +20,8 @@
 
 package de.catma.backgroundservice;
 
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Executes background tasks. An  {@link ExecutionListener} is notified when 
@@ -46,4 +48,9 @@ public interface BackgroundService {
 			final ProgressCallable<T> callable, 
 			final ExecutionListener<T> listener,
 			final ProgressListener progressListener);	
+	
+	public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
+			long initialDelay, long delay, TimeUnit unit);
+
+	public void shutdown();
 }

@@ -44,6 +44,10 @@ public class PropertyValueList {
 		values = new ArrayList<String>();
 	}
 
+	public PropertyValueList(PropertyValueList propertyValueList) {
+		this(new ArrayList<>(propertyValueList.values));
+	}
+
 	void setValues(List<String> values) {
 		this.values = values; 
 	}

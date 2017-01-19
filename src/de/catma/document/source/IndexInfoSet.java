@@ -137,8 +137,8 @@ public class IndexInfoSet {
     		unseparableCharacterSequences.remove(ucs);
     	}
     }
-    
-    public boolean isRightToLeftLanguage() {
+    //TODO: we should use Character.getDirectonality to support mixed content
+    public boolean isRightToLeftWriting() {
 		String lang = getLocale().getLanguage().toLowerCase();
 		if (lang.equals(new Locale("iw").getLanguage().toLowerCase())) {
 			return true;

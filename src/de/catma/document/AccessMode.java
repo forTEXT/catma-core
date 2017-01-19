@@ -53,4 +53,14 @@ public enum AccessMode {
 		}
 		throw new IllegalArgumentException("there is no accessmode with number " + numericRepresentation);
 	}
+
+	public static AccessMode findValueOf(String name) {
+		for (AccessMode am : values()) {
+			if (am.name().equals(name)) {
+				return am;
+			}
+		}
+		
+		return null;
+	}
 }

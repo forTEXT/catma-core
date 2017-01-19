@@ -1,12 +1,14 @@
 package de.catma.backgroundservice;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class DefaultBackgroundService implements BackgroundService {
-	private ExecutorService backgroundThread;
+	private ScheduledExecutorService backgroundThread;
 	private boolean background = true;
 	private Object lock;
 
@@ -21,7 +23,7 @@ public class DefaultBackgroundService implements BackgroundService {
 		this.lock = lock;
 		this.background = background;
 		if (background) {
-			backgroundThread = Executors.newSingleThreadExecutor();
+			backgroundThread = Executors.newSingleThreadScheduledExecutor();
 		}
 	}
 	
@@ -81,6 +83,17 @@ public class DefaultBackgroundService implements BackgroundService {
         }
 		
 	}
+	
+	public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
+			long initialDelay, long delay, TimeUnit unit) {
+		return backgroundThread.scheduleWithFixedDelay(command, initialDelay,
+				delay, unit);
+	}
+
+	public void shutdown() {
+		backgroundThread.shutdown();
+	}
+	
 	
 
 }

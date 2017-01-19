@@ -45,9 +45,20 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	 * @param name name of the library
 	 */
 	public TagLibrary(String id, String name) {
+		this(id, new ContentInfoSet(name));
+	}
+	
+	private TagLibrary(String id, ContentInfoSet contentInfoSet) {
 		this.id = id;
-		this.contentInfoSet = new ContentInfoSet(name);
+		this.contentInfoSet = contentInfoSet; 
 		tagsetDefinitionsByID = new HashMap<String, TagsetDefinition>();
+	}
+
+	public TagLibrary(TagLibrary tagLibraryToCopy) {
+		this(null,new ContentInfoSet(tagLibraryToCopy.contentInfoSet));
+		for (TagsetDefinition tagsetDef : tagLibraryToCopy) {
+			add(new TagsetDefinition(tagsetDef));
+		}
 	}
 
 	public void add(TagsetDefinition tagsetDefinition) {
@@ -76,7 +87,7 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return Collections.unmodifiableCollection(tagsetDefinitionsByID.values()).iterator();
 	}
 	
-	public Collection<TagsetDefinition> collection() {
+	public Collection<TagsetDefinition> getTagsetDefinitions() {
 		return Collections.unmodifiableCollection(tagsetDefinitionsByID.values());
 	}
 
