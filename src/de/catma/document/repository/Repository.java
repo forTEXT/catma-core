@@ -469,4 +469,6 @@ public interface Repository {
 	public void spawnContentFrom(String userIdentifier, boolean copyCorpora, boolean copyTagLibs) throws IOException;
 	public TagLibrary getTagLibraryFor(String uuid, Version version) throws IOException;
 	
+	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
+	
 }
