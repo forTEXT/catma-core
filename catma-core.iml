@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="EclipseModuleManager">
+    <libelement value="jar://$MODULE_DIR$/lib/lingpipe-3.9.2.jar!/" />
+    <conelement value="org.eclipse.jst.j2ee.internal.module.container" />
+    <conelement value="org.apache.ivyde.eclipse.cpcontainer.IVYDE_CONTAINER/?project=catma-core&amp;ivyXmlPath=ivy.xml&amp;confs=*&amp;ivySettingsPath=ivysettings.xml&amp;loadSettingsOnDemand=false&amp;ivyUserDir=&amp;propertyFiles=" />
+    <src_description expected_position="0">
+      <src_folder value="file://$MODULE_DIR$/src" expected_position="0" />
+    </src_description>
+  </component>
+  <component name="FacetManager">
+    <facet type="IvyIDEA" name="IvyIDEA">
+      <configuration ivyFile="$MODULE_DIR$/ivy.xml" useProjectSettings="false" useCustomIvySettings="true" ivySettingsFile="$MODULE_DIR$/ivysettings.xml" onlyResolveSelectedConfigs="false">
+        <propertiesSettings>
+          <propertiesFiles includeProjectLevelPropertiesFiles="true" />
+        </propertiesSettings>
+      </configuration>
+    </facet>
+  </component>
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/bin" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="jdk" jdkName="JavaSE-1.8" jdkType="JavaSDK" />
+    <orderEntry type="module-library" exported="">
+      <library name="lingpipe-3.9.2.jar">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/lingpipe-3.9.2.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="IvyIDEA">
+        <CLASSES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/jars/poi-3.8.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/jars/commons-codec-1.5.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi-ooxml/jars/poi-ooxml-3.8.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi-ooxml-schemas/jars/poi-ooxml-schemas-3.8.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.xmlbeans/xmlbeans/jars/xmlbeans-2.3.0.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/stax/stax-api/jars/stax-api-1.0.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/dom4j/dom4j/jars/dom4j-1.6.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi-scratchpad/jars/poi-scratchpad-3.8.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/pdfbox/bundles/pdfbox-1.8.9.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/fontbox/bundles/fontbox-1.8.9.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/jars/commons-logging-1.1.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/jempbox/bundles/jempbox-1.8.9.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/jars/tagsoup-1.2.1.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.googlecode.juniversalchardet/juniversalchardet/jars/juniversalchardet-1.0.3.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.io7m.xom/xom/jars/xom-1.2.10.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/xml-apis/xml-apis/jars/xml-apis-1.3.03.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/jars/xercesImpl-2.8.0.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/xalan/xalan/jars/xalan-2.7.0.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/javadocs/commons-codec-1.5-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/pdfbox/javadocs/pdfbox-1.8.9-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/fontbox/javadocs/fontbox-1.8.9-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/javadocs/commons-logging-1.1.1-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/jempbox/javadocs/jempbox-1.8.9-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/javadocs/tagsoup-1.2.1-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.googlecode.juniversalchardet/juniversalchardet/javadocs/juniversalchardet-1.0.3-javadoc.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.io7m.xom/xom/javadocs/xom-1.2.10-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi/sources/poi-3.8-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-codec/commons-codec/sources/commons-codec-1.5-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi-ooxml/sources/poi-ooxml-3.8-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/dom4j/dom4j/sources/dom4j-1.6.1-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.poi/poi-scratchpad/sources/poi-scratchpad-3.8-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/pdfbox/sources/pdfbox-1.8.9-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/fontbox/sources/fontbox-1.8.9-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/commons-logging/commons-logging/sources/commons-logging-1.1.1-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.apache.pdfbox/jempbox/sources/jempbox-1.8.9-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/org.ccil.cowan.tagsoup/tagsoup/sources/tagsoup-1.2.1-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.googlecode.juniversalchardet/juniversalchardet/sources/juniversalchardet-1.0.3-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/com.io7m.xom/xom/sources/xom-1.2.10-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/xerces/xercesImpl/sources/xercesImpl-2.8.0-sources.jar!/" />
+          <root url="jar://$USER_HOME$/.ivy2/cache/xalan/xalan/sources/xalan-2.7.0-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>
