@@ -26,26 +26,37 @@ package de.catma.user;
  */
 public interface User {
 	/**
-	 * @return the name of the user
+	 * @return the numeric ID of the user
 	 */
-	public String getName();
-	/**
-	 * @return true if the user is locked
-	 */
-	public boolean isLocked();
+	Integer getUserId();
+
 	/**
 	 * @return an identifier like an email address
 	 */
-	public String getIdentifier();
+	String getIdentifier();
+
+	/**
+	 * @return the name of the user
+	 */
+	String getName();
+
+	/**
+	 * @return true if the user is locked
+	 */
+	boolean isLocked();
+
+	/**
+	 * @return true if the user is a guest
+	 */
+	boolean isGuest();
+
+	/**
+	 * @return true if the user is spawnable
+	 */
+	boolean isSpawnable();
 	
 	/**
 	 * @return true if the user has the given permission
 	 */
-	public boolean hasPermission(Permission permission);
-	
-
-	public boolean isGuest();
-	
-	public boolean isSpawnable();
+	boolean hasPermission(Permission permission);
 }
-
