@@ -38,6 +38,10 @@ public class TechInfoSet {
 	private URI uri;
 	private String xsltDocumentLocalUri;
 	
+	public TechInfoSet() {
+		
+	}
+	
 	/**
 	 * Copy constructor
 	 * @param another the TechInfoSet object to copy
@@ -84,7 +88,7 @@ public class TechInfoSet {
 	public String getFileName() {
 		return fileName;
 	}
-
+	
 	public FileType getFileType() {
 		return fileType;
 	}
@@ -107,6 +111,10 @@ public class TechInfoSet {
 	
 	public String getMimeType() {
 		return mimeType;
+	}
+	
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 	
 	public void setFileOSType(FileOSType fileOSType) {
