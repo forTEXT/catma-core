@@ -90,6 +90,10 @@ public class IndexInfoSet {
         return (unseparableCharacterSequences==null) ?
                 Collections.<String>emptyList() : unseparableCharacterSequences;
     }
+
+    public void setUnseparableCharacterSequences(List<String> unseparableCharacterSequences) {
+        this.unseparableCharacterSequences = unseparableCharacterSequences;
+    }
     
     /**
      * @return a (possibly empty) list of user defined speparating character sequences,
@@ -98,6 +102,10 @@ public class IndexInfoSet {
     public List<Character> getUserDefinedSeparatingCharacters() {
         return (userDefinedSeparatingCharacters ==null) ?
                 Collections.<Character>emptyList() : userDefinedSeparatingCharacters;
+    }
+
+    public void setUserDefinedSeparatingCharacters(List<Character> userDefinedSeparatingCharacters) {
+        this.userDefinedSeparatingCharacters = userDefinedSeparatingCharacters;
     }
     
     /**
