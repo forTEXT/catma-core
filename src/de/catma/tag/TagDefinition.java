@@ -43,6 +43,11 @@ public class TagDefinition implements Versionable {
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
 	private String parentUuid;
 
+	public TagDefinition(){
+		this.systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
+		this.userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
+	}
+
 	/**
 	 * @param id the identifier of the definition (repository dependent)
 	 * @param uuid a CATMA uuid see {@link de.catma.util.IDGenerator}
@@ -90,6 +95,13 @@ public class TagDefinition implements Versionable {
 	public Version getVersion() {
 		return version;
 	}
+
+	/**
+	 * Sets a new {@link Version}.
+	 */
+	void setVersion() {
+		this.version = new Version();
+	}
 	
 	
 	@Override
@@ -117,6 +129,10 @@ public class TagDefinition implements Versionable {
 	 */
 	public String getUuid() {
 		return uuid;
+	}
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
 	
 	/**
@@ -164,9 +180,17 @@ public class TagDefinition implements Versionable {
 	public String getParentUuid() {
 		return parentUuid;
 	}
+
+	public void setParentUuid(String uuid){
+		this.parentUuid = uuid;
+	}
 	
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	/**
@@ -191,10 +215,6 @@ public class TagDefinition implements Versionable {
 	public Collection<PropertyDefinition> getSystemPropertyDefinitions() {
 		return Collections.unmodifiableCollection(
 				systemPropertyDefinitions.values());
-	}
-	
-	void setName(String name) {
-		this.name = name;
 	}
 	
 	void setColor(String colorAsRgbInt) {
@@ -327,12 +347,6 @@ public class TagDefinition implements Versionable {
 				pdIterator.remove();
 			}
 		}	
-	}
-	/**
-	 * Sets a new {@link Version}.
-	 */
-	void setVersion() {
-		this.version = new Version();
 	}
 
 	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
