@@ -64,6 +64,10 @@ public class PropertyDefinition {
 	private String name;
 	private String uuid;
 	private PropertyPossibleValueList possibleValueList;
+
+	public PropertyDefinition() {
+		this.possibleValueList = new PropertyPossibleValueList(new ArrayList<String>(), true);
+	}
 	
 	/**
 	 * @param id the identifier of the definition (depends on the repository)
