@@ -42,6 +42,7 @@ public class TagDefinition implements Versionable {
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
 	private String parentUuid;
+	private String tagsetDefinitionUuid;
 
 	public TagDefinition(){
 		this.systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
@@ -73,6 +74,13 @@ public class TagDefinition implements Versionable {
 		}
 		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
+	}
+
+	public TagDefinition(Integer id, String uuid, String name, Version version,
+						 Integer parentId, String parentUuid,
+						 String tagsetDefinitionUuid) {
+		this(id, uuid, name, version, parentId, parentUuid);
+		this.tagsetDefinitionUuid = tagsetDefinitionUuid;
 	}
 
 	/**
@@ -183,6 +191,14 @@ public class TagDefinition implements Versionable {
 
 	public void setParentUuid(String uuid){
 		this.parentUuid = uuid;
+	}
+
+	public String getTagsetDefinitionUuid() {
+		return this.tagsetDefinitionUuid;
+	}
+
+	public void setTagsetDefinitionUuid(String tagsetDefinitionUuid) {
+		this.tagsetDefinitionUuid = tagsetDefinitionUuid;
 	}
 	
 	public String getName() {
