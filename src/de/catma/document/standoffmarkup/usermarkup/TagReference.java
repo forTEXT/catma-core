@@ -53,6 +53,7 @@ public class TagReference {
 	private TagInstance tagInstance;
 	private Range range;
 	private URI target;
+	private String userMarkupCollectionUuid;
 
 	/**
 	 * @param tagInstance the referencing instance
@@ -65,6 +66,12 @@ public class TagReference {
 		this.tagInstance = tagInstance;
 		this.target = new URI(uri);
 		this.range = range;
+	}
+
+	public TagReference(TagInstance tagInstance, String uri, Range range, String userMarkupCollectionUuid)
+			throws URISyntaxException {
+		this(tagInstance, uri, range);
+		this.userMarkupCollectionUuid = userMarkupCollectionUuid;
 	}
 	
 	@Override
@@ -116,5 +123,13 @@ public class TagReference {
 	 */
 	public URI getTarget() {
 		return target;
+	}
+
+	public String getUserMarkupCollectionUuid() {
+		return this.userMarkupCollectionUuid;
+	}
+
+	public void setUserMarkupCollectionUuid(String userMarkupCollectionUuid) {
+		this.userMarkupCollectionUuid = userMarkupCollectionUuid;
 	}
 }

@@ -47,6 +47,7 @@ import de.catma.util.Pair;
 public class UserMarkupCollection {
 
 	private String id;
+	private String uuid;
 	private ContentInfoSet contentInfoSet;
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
@@ -54,24 +55,27 @@ public class UserMarkupCollection {
 	
 	/**
 	 * @param id the identifier of the collections (depends on the repository)
+	 * @param uuid the CATMA uuid, see {@link de.catma.util.IDGenerator}
 	 * @param contentInfoSet the bibliographical metadata of this collection
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 */
 	public UserMarkupCollection(
-			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
-		this(id, contentInfoSet, tagLibrary, new ArrayList<TagReference>(), AccessMode.WRITE);
+			String id, String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
+		this(id, uuid, contentInfoSet, tagLibrary, new ArrayList<TagReference>(), AccessMode.WRITE);
 	}
 	
 	/**
 	 * @param id the identifier of the collections (depends on the repository)
+	 * @param uuid the CATMA uuid, see {@link de.catma.util.IDGenerator}
 	 * @param contentInfoSet the bibliographical metadata of this collection
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 * @param tagReferences referenced text ranges and referencing {@link TagInstance}s.
 	 */
 	public UserMarkupCollection(
-			String id, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
+			String id, String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
 			List<TagReference> tagReferences, AccessMode accessMode) {
 		this.id = id;
+		this.uuid = uuid;
 		this.contentInfoSet = contentInfoSet;
 		this.tagLibrary = tagLibrary;
 		this.tagReferences = tagReferences;
@@ -81,7 +85,8 @@ public class UserMarkupCollection {
 
 	public UserMarkupCollection(UserMarkupCollection userMarkupCollection) throws URISyntaxException {
 		this(
-			null, 
+			null,
+			userMarkupCollection.getUuid(),
 			new ContentInfoSet(userMarkupCollection.getContentInfoSet()), 
 			new TagLibrary(userMarkupCollection.getTagLibrary()));
 		
@@ -210,6 +215,13 @@ public class UserMarkupCollection {
 	 */
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * @return the CATMA uuid of this collection
+	 */
+	public String getUuid() {
+		return this.uuid;
 	}
 	
 	/**
