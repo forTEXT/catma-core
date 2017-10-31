@@ -43,6 +43,11 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	private Version version;
 	private Map<String,TagDefinition> tagDefinitions;
 	private Map<String,Set<String>> tagDefinitionChildren;
+
+	public TagsetDefinition(){
+		this.tagDefinitions = new HashMap<String, TagDefinition>();
+		this.tagDefinitionChildren = new HashMap<String, Set<String>>();
+	}
 	
 	/**
 	 * @param id a repository dependent identifier
@@ -52,12 +57,11 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	 */
 	public TagsetDefinition(
 			Integer id, String uuid, String tagsetName, Version version) {
+		this();
 		this.id = id;
 		this.uuid = uuid;
 		this.name = tagsetName;
 		this.version = version;
-		this.tagDefinitions = new HashMap<String, TagDefinition>();
-		this.tagDefinitionChildren = new HashMap<String, Set<String>>();
 	}
 
 	/**
@@ -93,6 +97,8 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	public String getUuid() {
 		return uuid;
 	}
+
+	public void setUuid(String uuid) { this.uuid = uuid; }
 	
 	/**
 	 * @param tagDefID CATMA uuid of the {@link TagDefinition}, see {@link de.catma.util.IDGenerator}
@@ -117,6 +123,10 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public boolean contains(TagDefinition tagDefinition) {
@@ -187,10 +197,6 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 		}
 
 		return Collections.unmodifiableSet(childIDs);	
-	}
-
-	void setName(String name) {
-		this.name = name;
 	}
 
 	public void remove(TagDefinition tagDefinition) {
