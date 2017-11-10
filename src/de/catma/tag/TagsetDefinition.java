@@ -18,6 +18,8 @@
  */
 package de.catma.tag;
 
+import de.catma.interfaces.ISourceControlVersionable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,13 +36,14 @@ import java.util.logging.Logger;
  * @author marco.petris@web.de
  *
  */
-public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
+public class TagsetDefinition implements Versionable, ISourceControlVersionable, Iterable<TagDefinition> {
 	
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	private Integer id;
 	private String uuid;
 	private String name;
 	private Version version;
+	private String revisionHash;
 	private Map<String,TagDefinition> tagDefinitions;
 	private Map<String,Set<String>> tagDefinitionChildren;
 
@@ -337,5 +340,15 @@ public class TagsetDefinition implements Versionable, Iterable<TagDefinition> {
 	
 	public boolean isEmpty() {
 		return tagDefinitions.isEmpty();
+	}
+
+	@Override
+	public String getRevisionHash() {
+		return this.revisionHash;
+	}
+
+	@Override
+	public void setRevisionHash(String revisionHash) {
+		this.revisionHash = revisionHash;
 	}
 }
