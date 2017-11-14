@@ -29,6 +29,7 @@ import java.util.Set;
 
 import de.catma.document.AccessMode;
 import de.catma.document.source.ContentInfoSet;
+import de.catma.interfaces.ISourceControlVersionable;
 import de.catma.tag.Property;
 import de.catma.tag.PropertyValueList;
 import de.catma.tag.TagDefinition;
@@ -44,7 +45,7 @@ import de.catma.util.Pair;
  * @author marco.petris@web.de
  *
  */
-public class UserMarkupCollection {
+public class UserMarkupCollection implements ISourceControlVersionable {
 
 	private String id;
 	private String uuid;
@@ -52,6 +53,7 @@ public class UserMarkupCollection {
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
 	private AccessMode accessMode;
+	private String revisionHash;
 	
 	/**
 	 * @param id the identifier of the collections (depends on the repository)
@@ -256,6 +258,16 @@ public class UserMarkupCollection {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	@Override
+	public String getRevisionHash() {
+		return this.revisionHash;
+	}
+
+	@Override
+	public void setRevisionHash(String revisionHash) {
+		this.revisionHash = revisionHash;
 	}
 	
 	/**
