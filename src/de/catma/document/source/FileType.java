@@ -33,11 +33,11 @@ public enum FileType {
 	/**
 	 * MS-Word DOCs.
 	 */
-	DOC("application/msword"), 
+	DOC("doc", "application/msword"), 
 	/**
 	 * PDFs.
 	 */
-	PDF("application/pdf"), 
+	PDF("pdf", "application/pdf"), 
 	XPDF("application/x-pdf"),
 	/**
 	 * HTML-pages.
@@ -58,7 +58,8 @@ public enum FileType {
 	/**
 	 * XML files.
 	 */
-	XML(true, "application/xml", "text/xml"), 
+	XML(false,false, "application/xml", "text/xml"), 
+	XML2(true, "application/xml", "text/xml"), 
 	TEI(false, false, "application/tei+xml"), // not active since support would require a proper way to display structural elements and their customizations
 	/**
 	 * MS-Word DOCX files.
@@ -131,7 +132,7 @@ public enum FileType {
 			String extension = 
 					fileName.substring( indexOflastDot+1 ).toUpperCase();
 			for (FileType type : values()) {
-                if( extension.equals( type.name() ) ) {
+                if( type.active && extension.equals( type.name() ) ) {
                     return type;
                 }
             }
@@ -146,7 +147,7 @@ public enum FileType {
 	 */
 	public static FileType getFileType(String mimeType) {
 		for (FileType type : values()) {
-			if (type.hasMimeType(mimeType)) {
+			if (type.active && type.hasMimeType(mimeType)) {
 				return type;
 			}
 		}

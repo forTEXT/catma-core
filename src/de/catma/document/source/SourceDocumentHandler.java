@@ -33,6 +33,7 @@ import de.catma.document.source.contenthandler.PDFContentHandler;
 import de.catma.document.source.contenthandler.RTFContentHandler;
 import de.catma.document.source.contenthandler.SourceContentHandler;
 import de.catma.document.source.contenthandler.TEIContentHandler;
+import de.catma.document.source.contenthandler.XML2ContentHandler;
 import de.catma.document.source.contenthandler.XMLContentHandler;
 import de.catma.document.source.contenthandler.StandardContentHandler;
 
@@ -69,6 +70,8 @@ public class SourceDocumentHandler {
                 FileType.DOC, DOCContentHandler.class );
         registerSourceContentHandler(
         		FileType.DOCX, DOCXContentHandler.class);
+        registerSourceContentHandler(
+        		FileType.XML2, XML2ContentHandler.class);
         registerSourceContentHandler(
         		FileType.XML, XMLContentHandler.class);
         registerSourceContentHandler(
