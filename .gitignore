@@ -3,4 +3,4 @@ bin/
 .settings/org.hibernate.eclipse.console.prefs
 .settings/org.eclipse.core.resources.prefs
 .settings/com.vaadin.integration.eclipse.prefs
-
+.settings/org.eclipse.jdt.core.prefs

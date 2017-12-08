@@ -90,7 +90,7 @@ public class XML2ContentHandler extends AbstractSourceContentHandler {
 		}
     }
     
-    // soll fuer Intrinsic nicht verwendet werden 
+    @Deprecated
     public void addEmptyElement(StringBuilder contentBuilder, Element element) {
 		//contentBuilder.append(" ");
 	}

@@ -115,6 +115,7 @@ public class XMLContentHandler extends AbstractSourceContentHandler {
 		}
     }
     
+    @Deprecated
     public void addEmptyElement(StringBuilder contentBuilder, Element element) {
 		contentBuilder.append(" ");
 	}
