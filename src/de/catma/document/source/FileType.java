@@ -33,56 +33,59 @@ public enum FileType {
 	/**
 	 * MS-Word DOCs.
 	 */
-	DOC("application/msword"), 
+	DOC("doc", "application/msword"), 
 	/**
 	 * PDFs.
 	 */
-	PDF("application/pdf"), 
-	XPDF("application/x-pdf"),
+	PDF("pdf", "application/pdf"), 
+	XPDF("xpdf", "application/x-pdf"),
 	/**
 	 * HTML-pages.
 	 */
-	HTML(true, "text/html"),
+	HTML("html", true, "text/html"),
     /**
      * HTM(L)-pages.
      */
-    HTM(true, "text/html"),
+    HTM("htm", true, "text/html"),
     /**
      * RTF-docs.
      */
-    RTF("application/rtf"),
+    RTF("rtf", "application/rtf"),
 	/**
 	 * everything which is not one of the other possibilities
 	 */
-	TEXT(true, "text/plain"),
+	TEXT("txt", true, "text/plain"),
 	/**
 	 * XML files.
 	 */
-	XML(true, "application/xml", "text/xml"), 
-	TEI(false, false, "application/tei+xml"), // not active since support would require a proper way to display structural elements and their customizations
+	XML("xml", false,false, "application/xml", "text/xml"), // not active since empty element handling was flawed
+	XML2("xml", true, "application/xml", "text/xml"), 
+	TEI("xml", false, false, "application/tei+xml"), // not active since support would require a proper way to display structural elements and their customizations
 	/**
 	 * MS-Word DOCX files.
 	 */
-	DOCX("application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
+	DOCX("docx", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"),
 	/**
 	 * ZIP files.
 	 */
-	ZIP("application/zip")
+	ZIP("zip", "application/zip")
 	;
 	
 	private String[] mimeTypes;
 	private boolean active;
 	private boolean charsetSupported;
-
-	private FileType(String... mimeTypes) {
-		this(true, false, mimeTypes);
+	private String defaultExtension;
+	
+	private FileType(String defaultExtension, String... mimeTypes) {
+		this(defaultExtension, true, false, mimeTypes);
 	}	
 
-	private FileType(boolean supportsCharset, String... mimeTypes) {
-		this(true, supportsCharset, mimeTypes);
+	private FileType(String defaultExtension, boolean supportsCharset, String... mimeTypes) {
+		this(defaultExtension, true, supportsCharset, mimeTypes);
 	}	
 	
-	private FileType(boolean active, boolean supportsCharset, String... mimeTypes) {
+	private FileType(String defaultExtension, boolean active, boolean supportsCharset, String... mimeTypes) {
+		this.defaultExtension = defaultExtension;
 		this.mimeTypes = mimeTypes;
 		this.active = active;
 		this.charsetSupported = supportsCharset;
@@ -131,7 +134,7 @@ public enum FileType {
 			String extension = 
 					fileName.substring( indexOflastDot+1 ).toUpperCase();
 			for (FileType type : values()) {
-                if( extension.equals( type.name() ) ) {
+                if( type.active && extension.equals( type.defaultExtension.toUpperCase() ) ) {
                     return type;
                 }
             }
@@ -146,7 +149,7 @@ public enum FileType {
 	 */
 	public static FileType getFileType(String mimeType) {
 		for (FileType type : values()) {
-			if (type.hasMimeType(mimeType)) {
+			if (type.active && type.hasMimeType(mimeType)) {
 				return type;
 			}
 		}
