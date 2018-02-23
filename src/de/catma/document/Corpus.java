@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.List;
 
 import de.catma.document.source.SourceDocument;
-import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
 
 /**
@@ -39,7 +38,6 @@ public class Corpus {
 	private String name;
 
 	private List<SourceDocument> sourceDocuments;
-	private List<StaticMarkupCollectionReference> staticMarkupCollectionRefs;
 	private List<UserMarkupCollectionReference> userMarkupCollectionRefs;
 	
 	/**
@@ -50,7 +48,6 @@ public class Corpus {
 		this.id = id;
 		this.name = corpusName;
 		this.sourceDocuments = new ArrayList<SourceDocument>();
-		this.staticMarkupCollectionRefs = new ArrayList<StaticMarkupCollectionReference>();
 		this.userMarkupCollectionRefs = new ArrayList<UserMarkupCollectionReference>();
 	}
 
@@ -64,11 +61,6 @@ public class Corpus {
 
 	public void addSourceDocument(SourceDocument sourceDocument) {
 		sourceDocuments.add(sourceDocument);
-	}
-
-	public void addStaticMarkupCollectionReference(
-			StaticMarkupCollectionReference staticMarkupCollRef) {
-		staticMarkupCollectionRefs.add(staticMarkupCollRef);
 	}
 
 	public void addUserMarkupCollectionReference(
@@ -86,13 +78,6 @@ public class Corpus {
 	 */
 	public List<SourceDocument> getSourceDocuments() {
 		return Collections.unmodifiableList(sourceDocuments);
-	}
-
-	/**
-	 * @return non modifiable list
-	 */
-	public List<StaticMarkupCollectionReference> getStaticMarkupCollectionRefs() {
-		return Collections.unmodifiableList(staticMarkupCollectionRefs);
 	}
 
 	/**

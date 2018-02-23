@@ -32,8 +32,6 @@ import de.catma.document.AccessMode;
 import de.catma.document.Corpus;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.document.source.SourceDocument;
-import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollection;
-import de.catma.document.standoffmarkup.staticmarkup.StaticMarkupCollectionReference;
 import de.catma.document.standoffmarkup.usermarkup.TagReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
@@ -210,6 +208,10 @@ public interface Repository {
 	 * @return name of the repository
 	 */
 	public String getName();
+	
+	
+	public String getProjectId();
+	
 	/**
 	 * @param uri may be used for ID creation
 	 * @return an ID for the given URI, subsequent calls can produce different results
@@ -288,15 +290,7 @@ public interface Repository {
 	public void update(
 		Corpus corpus, UserMarkupCollectionReference userMarkupCollectionReference)
 				throws IOException;
-	/**
-	 * Adds the Static Markup Collection to the corpus.
-	 * @param corpus
-	 * @param staticMarkupCollectionReference
-	 * @throws IOException
-	 */
-	public void update(
-		Corpus corpus, StaticMarkupCollectionReference staticMarkupCollectionReference)
-				throws IOException;
+
 	public void delete(Corpus corpus) throws IOException;
 	/**
 	 * Changes the name of the corpus.
@@ -404,14 +398,7 @@ public interface Repository {
 	 * @throws IOException
 	 */
 	public List<UserMarkupCollectionReference> getWritableUserMarkupCollectionRefs(SourceDocument sd) throws IOException;
-	
-	public StaticMarkupCollectionReference insert(
-			StaticMarkupCollection staticMarkupCollection);
-	public StaticMarkupCollection getStaticMarkupCollection(
-			StaticMarkupCollectionReference staticMarkupCollectionReference);
-	public void update(StaticMarkupCollection staticMarkupCollection);
-	public void delete(StaticMarkupCollection staticMarkupCollection);
-	
+
 	/**
 	 * @param name the name of the Tag Library
 	 * @throws IOException

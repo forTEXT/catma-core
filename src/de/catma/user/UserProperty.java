@@ -4,7 +4,8 @@ public enum UserProperty {
 	identifier,
 	guest,
 	name,
-	email,
+	email, 
+	provider,
 	;
 
 }
