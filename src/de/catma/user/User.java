@@ -39,6 +39,11 @@ public interface User {
 	 * @return the name of the user
 	 */
 	String getName();
+	
+	/**
+	 * @return the email of the user
+	 */
+	String getEmail();
 
 	/**
 	 * @return true if the user is locked

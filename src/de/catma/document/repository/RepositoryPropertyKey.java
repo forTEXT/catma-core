@@ -103,11 +103,19 @@ public enum RepositoryPropertyKey {
 	GuestAccessCountMax, 
 	SpamProtectionAnswer, 
 	SpamProtectionQuestion,
+	GitBasedRepositoryBasePath, 
+	GitLabAdminPersonalAccessToken, 
+	GitLabServerUrl, 
+	GraphDbUri, 
+	GraphDbUser, 
+	GraphDbPass, 
+	GraphDbGitMountBasePath,
 	;
 
-	private String defaultValue;
+	private final String defaultValue;
 	
 	private RepositoryPropertyKey() {
+		this(null);
 	}
 
 	private RepositoryPropertyKey(String defaultValue) {

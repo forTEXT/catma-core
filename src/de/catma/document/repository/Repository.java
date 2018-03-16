@@ -35,6 +35,7 @@ import de.catma.document.source.SourceDocument;
 import de.catma.document.standoffmarkup.usermarkup.TagReference;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollection;
 import de.catma.document.standoffmarkup.usermarkup.UserMarkupCollectionReference;
+import de.catma.project.OpenProjectListener;
 import de.catma.serialization.UserMarkupCollectionSerializationHandler;
 import de.catma.tag.Property;
 import de.catma.tag.TagInstance;
@@ -180,10 +181,9 @@ public interface Repository {
 	}
 	
 	/**
-	 * @param userIdentification - a key value map that stores information to identify the user
-	 * @throws Exception any repository error
 	 */
-	public void open(Map<String,String> userIdentification) throws Exception;
+	public void open(OpenProjectListener openProjectListener);
+	
 	/**
 	 * Reloads information about available {@link SourceDocument}s, {@link UserMarkupCollection}s and
 	 * {@link TagLibary TagLibraries}.
@@ -227,7 +227,6 @@ public interface Repository {
 	/**
 	 * Inserts the given SourceDocument into the repository.
 	 * @param sourceDocument
-	 * @throws IOException
 	 */
 	public void insert(SourceDocument sourceDocument) throws IOException;
 	/**
@@ -237,13 +236,15 @@ public interface Repository {
 	public void update(SourceDocument sourceDocument, ContentInfoSet contentInfoSet);
 	/**
 	 * @return the available Source Documents
+	 * @throws Exception 
 	 */
-	public Collection<SourceDocument> getSourceDocuments();
+	public Collection<SourceDocument> getSourceDocuments() throws Exception;
 	/**
 	 * @param id ID of the SourceDocument
 	 * @return the SourceDocument with the given ID
+	 * @throws Exception 
 	 */
-	public SourceDocument getSourceDocument(String id);
+	public SourceDocument getSourceDocument(String id) throws Exception;
 	public void delete(SourceDocument sourceDocument) throws IOException;
 	/**
 	 * @param umcRef

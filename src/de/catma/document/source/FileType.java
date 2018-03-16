@@ -165,4 +165,8 @@ public enum FileType {
 		}
 		return result;
 	}
+	
+	public String getDefaultExtension() {
+		return defaultExtension;
+	}
 }

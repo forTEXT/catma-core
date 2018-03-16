@@ -19,7 +19,7 @@
 package de.catma.document.standoffmarkup.usermarkup;
 
 import de.catma.document.source.ContentInfoSet;
-import de.catma.document.standoffmarkup.MarkupCollectionReference;
+import de.catma.interfaces.ISourceControlVersionable;
 
 /**
  * A reference to a {@link UserMarkupCollection}.
@@ -27,11 +27,11 @@ import de.catma.document.standoffmarkup.MarkupCollectionReference;
  * @author marco.petris@web.de
  *
  */
-public class UserMarkupCollectionReference 
-	implements MarkupCollectionReference {
+public class UserMarkupCollectionReference implements ISourceControlVersionable {
 	
 	private String id;
 	private ContentInfoSet contentInfoSet;
+	private String revisionHash;
 	
 	/**
 	 * @param id identifier (depends on the repository)
@@ -92,6 +92,16 @@ public class UserMarkupCollectionReference
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public String getRevisionHash() {
+		return this.revisionHash;
+	}
+	
+	@Override
+	public void setRevisionHash(String revisionHash) {
+		this.revisionHash = revisionHash;
 	}
 	
 	

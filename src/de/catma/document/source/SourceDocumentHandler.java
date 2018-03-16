@@ -231,7 +231,7 @@ public class SourceDocumentHandler {
 	
 	public SourceDocument loadSourceDocument( 
 			String id, SourceContentHandler handler)
-		throws IOException, InstantiationException, IllegalAccessException {
+		throws IOException {
 		
 		SourceDocument document = 
 				new SourceDocument(id, handler);

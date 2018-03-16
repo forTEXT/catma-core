@@ -41,6 +41,7 @@ import de.catma.tag.TagManager;
  * @author marco.petris@web.de
  *
  */
+@Deprecated
 public class RepositoryManager {
 	/**
 	 * Events emitted by the RepositoryManager.
@@ -156,7 +157,7 @@ public class RepositoryManager {
 				repositoryReference.getProperties(),
 				repositoryReference.getIndex());
 		
-		repository.open(userIdentification);
+//		repository.open(userIdentification);
 		
 		openRepositories.add(repository);
 		propertyChangeSupport.firePropertyChange(

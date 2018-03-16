@@ -36,7 +36,6 @@ public class TechInfoSet {
 	private Long checksum;
 	private String mimeType;
 	private URI uri;
-	private String xsltDocumentLocalUri;
 	
 	public TechInfoSet() {
 		
@@ -54,7 +53,6 @@ public class TechInfoSet {
 		this.checksum = another.checksum;
 		this.mimeType = another.mimeType;
 		this.uri = another.uri;
-		this.xsltDocumentLocalUri = another.xsltDocumentLocalUri;
 	}
 	
 	/**
@@ -62,16 +60,14 @@ public class TechInfoSet {
 	 * @param charset the charset used in the file
 	 * @param fileOSType determines line endings 
 	 * @param checksum a checksum of the content
-	 * @param xsltDocumentLocalUri a reference to a xslt file for XML source files
 	 */
 	public TechInfoSet(FileType fileType, Charset charset,
-			FileOSType fileOSType, Long checksum, String xsltDocumentLocalUri) {
+			FileOSType fileOSType, Long checksum) {
 		super();
 		this.fileType = fileType;
 		this.charset = charset;
 		this.fileOSType = fileOSType;
 		this.checksum = checksum;
-		this.xsltDocumentLocalUri = xsltDocumentLocalUri;
 	}
 	
 	/**
@@ -140,12 +136,5 @@ public class TechInfoSet {
 	public void setURI(URI uri) {
 		this.uri = uri;
 	}
-	
-	public String getXsltDocumentLocalUri() {
-		return xsltDocumentLocalUri;
-	}
-	
-	public void setXsltDocumentLocalUri(String xsltDocumentLocalUri) {
-		this.xsltDocumentLocalUri = xsltDocumentLocalUri;
-	}
+
 }
