@@ -38,8 +38,10 @@ public class UserMarkupCollectionReference implements ISourceControlVersionable 
 	 * @param contentInfoSet bibliographical meta data
 	 */
 	public UserMarkupCollectionReference(String id,
+			String revisionHash,
 			ContentInfoSet contentInfoSet) {
 		this.id = id;
+		this.revisionHash = revisionHash;
 		this.contentInfoSet = contentInfoSet;
 	}
 

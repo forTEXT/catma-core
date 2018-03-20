@@ -34,9 +34,10 @@ import java.util.Date;
  *
  */
 public class Version {
-	
+	public static final String DATETIMEPATTERN = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+
 	private static final SimpleDateFormat FORMAT = 
-			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+			new SimpleDateFormat(DATETIMEPATTERN);
 	private static final SimpleDateFormat SHORTFORMAT = 
 			new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
 	private long version;

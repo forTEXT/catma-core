@@ -316,8 +316,7 @@ public interface Repository {
 	 * @param sourceDocument
 	 * @throws IOException
 	 */
-	public void createUserMarkupCollection(String name, SourceDocument sourceDocument) 
-			throws IOException;
+	public void createUserMarkupCollection(String name, SourceDocument sourceDocument);
 	/**
 	 * Imports a User Markup Collection.
 	 * @param inputStream the User Markup Collection
@@ -458,5 +457,9 @@ public interface Repository {
 	public TagLibrary getTagLibraryFor(String uuid, Version version) throws IOException;
 	
 	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
+
+	public List<UserMarkupCollectionReference> getUserMarkupCollectionReferences(int offset, int limit) throws Exception;
+
+	public int getUserMarkupCollectionReferenceCount() throws Exception;
 	
 }
