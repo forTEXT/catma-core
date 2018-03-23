@@ -30,19 +30,32 @@ import de.catma.interfaces.ISourceControlVersionable;
 public class UserMarkupCollectionReference implements ISourceControlVersionable {
 	
 	private String id;
-	private ContentInfoSet contentInfoSet;
 	private String revisionHash;
+	private ContentInfoSet contentInfoSet;
+	private String sourceDocumentId;
+	private String sourceDocumentTitle;
 	
+	
+	@Deprecated
+	public UserMarkupCollectionReference(String id, String revisionHash, ContentInfoSet contentInfoSet) {
+		super();
+		this.id = id;
+		this.revisionHash = revisionHash;
+		this.contentInfoSet = contentInfoSet;
+	}
+
 	/**
 	 * @param id identifier (depends on the repository)
 	 * @param contentInfoSet bibliographical meta data
 	 */
-	public UserMarkupCollectionReference(String id,
-			String revisionHash,
-			ContentInfoSet contentInfoSet) {
+	public UserMarkupCollectionReference(String id, String revisionHash, ContentInfoSet contentInfoSet,
+			String sourceDocumentId, String sourceDocumentTitle) {
+		super();
 		this.id = id;
 		this.revisionHash = revisionHash;
 		this.contentInfoSet = contentInfoSet;
+		this.sourceDocumentId = sourceDocumentId;
+		this.sourceDocumentTitle = sourceDocumentTitle;
 	}
 
 	@Override
@@ -50,6 +63,7 @@ public class UserMarkupCollectionReference implements ISourceControlVersionable 
 		return contentInfoSet.getTitle();
 	}
 	
+
 	public String getId() {
 		return id;
 	}
@@ -105,6 +119,23 @@ public class UserMarkupCollectionReference implements ISourceControlVersionable 
 	public void setRevisionHash(String revisionHash) {
 		this.revisionHash = revisionHash;
 	}
+
+	public String getSourceDocumentId() {
+		return sourceDocumentId;
+	}
+
+	public void setSourceDocumentId(String sourceDocumentId) {
+		this.sourceDocumentId = sourceDocumentId;
+	}
+
+	public String getSourceDocumentTitle() {
+		return sourceDocumentTitle;
+	}
+
+	public void setSourceDocumentTitle(String sourceDocumentTitle) {
+		this.sourceDocumentTitle = sourceDocumentTitle;
+	}
+	
 	
 	
 }
