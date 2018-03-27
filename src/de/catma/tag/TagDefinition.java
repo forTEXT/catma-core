@@ -127,11 +127,11 @@ public class TagDefinition implements Versionable {
 	 * @param propertyDefinition
 	 */
 	public void addSystemPropertyDefinition(PropertyDefinition propertyDefinition) {
-		systemPropertyDefinitions.put(propertyDefinition.getUuid(), propertyDefinition);
+		systemPropertyDefinitions.put(propertyDefinition.getName(), propertyDefinition);
 	}
 	
 	public void addUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		userDefinedPropertyDefinitions.put(propertyDefinition.getUuid(), propertyDefinition);
+		userDefinedPropertyDefinitions.put(propertyDefinition.getName(), propertyDefinition);
 	}	
 	
 	/**
@@ -146,34 +146,16 @@ public class TagDefinition implements Versionable {
 	}
 	
 	/**
-	 * @param id {@link #getUuid() uuid} of the PropertyDefinition
+	 * @param name {@link #getName() name} of the PropertyDefinition
 	 * @return the corresponding PropertyDefinition or <code>null</code> 
 	 */
-	public PropertyDefinition getPropertyDefinition(String id) {
-		if (systemPropertyDefinitions.containsKey(id)) {
-			return systemPropertyDefinitions.get(id);
+	public PropertyDefinition getPropertyDefinition(String name) {
+		if (systemPropertyDefinitions.containsKey(name)) {
+			return systemPropertyDefinitions.get(name);
 		}
 		else {
-			return userDefinedPropertyDefinitions.get(id);
+			return userDefinedPropertyDefinitions.get(name);
 		}
-	}
-	
-	public PropertyDefinition getPropertyDefinitionByName(String propertyName) {
-		if (PropertyDefinition.SystemPropertyName.hasPropertyName(propertyName)) {
-			for (PropertyDefinition pd : systemPropertyDefinitions.values()) {
-				if (pd.getName().equals(propertyName)) {
-					return pd;
-				}
-			}
-		}
-		
-		for (PropertyDefinition pd : userDefinedPropertyDefinitions.values()) {
-			if (pd.getName().equals(propertyName)) {
-				return pd;
-			}
-		}
-		
-		return null;
 	}
 	
 	/**
@@ -215,12 +197,12 @@ public class TagDefinition implements Versionable {
 	 * @return see {@link PropertyDefinition.SystemPropertyName#catma_displaycolor}
 	 */
 	public String getColor() {
-		return getPropertyDefinitionByName(
+		return getPropertyDefinition(
 			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).getFirstValue();
 	}
 	
 	public String getAuthor() {
-		PropertyDefinition authorPropertyDef =  getPropertyDefinitionByName(
+		PropertyDefinition authorPropertyDef =  getPropertyDefinition(
 			PropertyDefinition.SystemPropertyName.catma_markupauthor.name());
 		if (authorPropertyDef != null) {
 			return authorPropertyDef.getFirstValue();
@@ -236,15 +218,15 @@ public class TagDefinition implements Versionable {
 	}
 	
 	void setColor(String colorAsRgbInt) {
-		getPropertyDefinitionByName(
+		getPropertyDefinition(
 			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).
-				getPossibleValueList().setValue(colorAsRgbInt);
+				addValue(colorAsRgbInt);
 	}
 	
 	void setAuthor(String author) {
-		getPropertyDefinitionByName(
+		getPropertyDefinition(
 			PropertyDefinition.SystemPropertyName.catma_markupauthor.name()).
-				getPossibleValueList().setValue(author);
+				addValue(author);
 	}
 	
 	public void setId(Integer id) {
@@ -299,7 +281,7 @@ public class TagDefinition implements Versionable {
 			synchPropertyDefinitions(userDefinedPropertyDefinitions.values(), other);
 
 			for (PropertyDefinition pd : other.getSystemPropertyDefinitions()) {
-				if (this.getPropertyDefinitionByName(pd.getName()) == null) {
+				if (this.getPropertyDefinition(pd.getName()) == null) {
 					logger.info("adding system property " + pd + " to " + this + " because of synch");
 					addSystemPropertyDefinition(
 							new PropertyDefinition(pd));
@@ -307,7 +289,7 @@ public class TagDefinition implements Versionable {
 			}
 
 			for (PropertyDefinition pd : other.getUserDefinedPropertyDefinitions()) {
-				if (this.getPropertyDefinition(pd.getUuid()) == null) {
+				if (this.getPropertyDefinition(pd.getName()) == null) {
 					logger.info("adding user property " + pd + " to " + this + " because of synch");
 					addUserDefinedPropertyDefinition(
 							new PropertyDefinition(pd));
@@ -332,7 +314,7 @@ public class TagDefinition implements Versionable {
 		
 		while (pdIterator.hasNext()) {
 			PropertyDefinition pd  = pdIterator.next();
-			PropertyDefinition otherPd = other.getPropertyDefinition(pd.getUuid());
+			PropertyDefinition otherPd = other.getPropertyDefinition(pd.getName());
 			
 			if (otherPd != null) {
 				logger.info("synching " + pd + " with "  + otherPd);
@@ -354,7 +336,7 @@ public class TagDefinition implements Versionable {
 		
 		while (pdIterator.hasNext()) {
 			PropertyDefinition pd  = pdIterator.next();
-			PropertyDefinition otherPd = other.getPropertyDefinitionByName(pd.getName());
+			PropertyDefinition otherPd = other.getPropertyDefinition(pd.getName());
 			
 			if (otherPd != null) {
 				logger.info("synching " + pd + " with "  + otherPd);
@@ -368,6 +350,6 @@ public class TagDefinition implements Versionable {
 	}
 
 	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getUuid());
+		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getName());
 	}
 }

@@ -18,6 +18,10 @@
  */
 package de.catma.tag;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * A property of a {@link TagInstance}. Each property has a {@link PropertyDefinition definition}
@@ -30,20 +34,20 @@ package de.catma.tag;
 public class Property {
 
 	private PropertyDefinition propertyDefinition;
-	private PropertyValueList propertyValueList;
+	private List<String> propertyValueList;
 	
 	public Property(PropertyDefinition propertyDefinition,
-			PropertyValueList propertyValueList) {
+			Collection<String> propertyValueList) {
 		this.propertyDefinition = propertyDefinition;
-		this.propertyValueList = propertyValueList;
+		this.propertyValueList = new ArrayList<>(propertyValueList);
 	}
 
 	public String getName() {
 		return propertyDefinition.getName();
 	}
 	
-	public PropertyValueList getPropertyValueList() {
-		return propertyValueList;
+	public List<String> getPropertyValueList() {
+		return Collections.unmodifiableList(propertyValueList);
 	}
 	
 	public PropertyDefinition getPropertyDefinition() {
@@ -54,8 +58,8 @@ public class Property {
 		this.propertyDefinition = propertyDefinition;
 	}
 	
-	public void setPropertyValueList(PropertyValueList propertyValueList) {
-		this.propertyValueList = propertyValueList;
+	public void setPropertyValueList(Collection<String> propertyValueList) {
+		this.propertyValueList = new ArrayList<String>(propertyValueList);
 	}
 
 	/**
@@ -64,7 +68,10 @@ public class Property {
 	 * @see PropertyDefinition#getPossibleValueList()
 	 */
 	public void synchronize() {
-		setPropertyValueList(
-			propertyDefinition.getPossibleValueList().getPropertyValueList());
+		setPropertyValueList(propertyDefinition.getPossibleValueList());
+	}
+
+	public String getFirstValue() {
+		return propertyValueList.isEmpty()?null:propertyValueList.get(0);
 	}
 }

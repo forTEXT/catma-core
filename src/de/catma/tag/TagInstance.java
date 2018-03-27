@@ -64,10 +64,10 @@ public class TagInstance {
 			Collection<PropertyDefinition> propertyDefinitions, boolean useFirstValue) {
 		for (PropertyDefinition pDef : propertyDefinitions) {
 			properties.put(
-			pDef.getUuid(), 
+			pDef.getName(), 
 			new Property(pDef, 
-					useFirstValue?new PropertyValueList(pDef.getFirstValue()):
-						new PropertyValueList()));
+					useFirstValue?Collections.singleton(pDef.getFirstValue()):
+						Collections.emptySet()));
 		}
 	}
 
@@ -76,11 +76,11 @@ public class TagInstance {
 	}
 
 	public void addSystemProperty(Property property) {
-		systemProperties.put(property.getPropertyDefinition().getUuid(), property);
+		systemProperties.put(property.getPropertyDefinition().getName(), property);
 	}
 	
 	public void addUserDefinedProperty(Property property) {
-		userDefinedProperties.put(property.getPropertyDefinition().getUuid(), property);
+		userDefinedProperties.put(property.getPropertyDefinition().getName(), property);
 	}
 	
 	@Override
@@ -160,8 +160,8 @@ public class TagInstance {
 		
 		// ... addition of properties
 		for (PropertyDefinition pd : getTagDefinition().getUserDefinedPropertyDefinitions()) {
-			if (!userDefinedProperties.containsKey(pd.getUuid())) {
-				addUserDefinedProperty(new Property(pd, new PropertyValueList()));
+			if (!userDefinedProperties.containsKey(pd.getName())) {
+				addUserDefinedProperty(new Property(pd, Collections.emptySet()));
 			}
 		}
 	}

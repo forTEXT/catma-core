@@ -19,6 +19,8 @@
 package de.catma.tag;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * A definition or type for a {@link Property}.
@@ -60,28 +62,21 @@ public class PropertyDefinition {
 			return false;
 		}
 	}
-	private Integer id;
 	private String name;
-	private String uuid;
-	private PropertyPossibleValueList possibleValueList;
+	private List<String> possibleValueList;
 
 	public PropertyDefinition() {
-		this.possibleValueList = new PropertyPossibleValueList(new ArrayList<String>(), true);
+		this.possibleValueList = new ArrayList<String>();
 	}
 	
 	/**
-	 * @param id the identifier of the definition (depends on the repository)
-	 * @param uuid a CATMA uuid see {@link de.catma.util.IDGenerator}.
 	 * @param name the name of the property
 	 * @param possibleValueList a list of possible values (this is more meant as an offer than
 	 * a restriction since adhoc values of {@link Property properties} are allowed explicitly).
 	 */
-	public PropertyDefinition(Integer id, String uuid, String name,
-			PropertyPossibleValueList possibleValueList) {
-		this.id = id;
-		this.uuid = uuid;
+	public PropertyDefinition(String name, Collection<String> possibleValueList) {
 		this.name = name;
-		this.possibleValueList = possibleValueList;
+		this.possibleValueList = new ArrayList<>(possibleValueList);
 	}
 	
 	
@@ -90,34 +85,15 @@ public class PropertyDefinition {
 	 * @param toCopy
 	 */
 	public PropertyDefinition(PropertyDefinition toCopy) {
-		this.uuid = toCopy.uuid;
 		this.name = toCopy.name;
-		ArrayList<String> copiedPossibleValues = new ArrayList<String>();
-		copiedPossibleValues.addAll(
-			toCopy.possibleValueList.getPropertyValueList().getValues());
-
-		this.possibleValueList = 
-			new PropertyPossibleValueList(
-				copiedPossibleValues, 
-				toCopy.possibleValueList.isSingleSelect());
+		this.possibleValueList = new ArrayList<>(toCopy.possibleValueList);
 	}
-
 
 	@Override
 	public String toString() {
-		return "PROP#" + id + "u#"+uuid+"["+name+"="+possibleValueList+"]";
-	}
-	
-	/**
-	 * @return a CATMA uuid see {@link de.catma.util.IDGenerator}.
-	 */
-	public String getUuid() {
-		return uuid;
+		return "PROP["+name+"="+possibleValueList+"]";
 	}
 
-	public void setUuid(String uuid){
-		this.uuid = uuid;
-	}
 
 	public String getName() {
 		return name;
@@ -132,26 +108,15 @@ public class PropertyDefinition {
 	 * values specified yet
 	 */
 	public String getFirstValue() {
-		return possibleValueList.getFirstValue();
+		return possibleValueList.isEmpty()?null:possibleValueList.get(0);
 	}
 	
-	public PropertyPossibleValueList getPossibleValueList() {
+	public List<String> getPossibleValueList() {
 		return possibleValueList;
 	}
 	
-	public void setPossibleValueList(PropertyPossibleValueList possibleValueList) {
-		this.possibleValueList = possibleValueList;
-	}
-	
-	/**
-	 * @return a repository dependent identifier
-	 */
-	public Integer getId() {
-		return id;
-	}
-	
-	public void setId(Integer id) {
-		this.id = id;
+	public void setPossibleValueList(Collection<String> possibleValueList) {
+		this.possibleValueList = new ArrayList<>(possibleValueList);
 	}
 
 	/**
@@ -162,18 +127,14 @@ public class PropertyDefinition {
 	 */
 	public void synchronizeWith(PropertyDefinition pd) {
 		this.name = pd.name;
-		ArrayList<String> copiedPossibleValues = 
-				new ArrayList<String>();
-		copiedPossibleValues.addAll(
-				pd.possibleValueList.getPropertyValueList().getValues());
-
-		this.possibleValueList = 
-			new PropertyPossibleValueList(
-				copiedPossibleValues, 
-				pd.possibleValueList.isSingleSelect());	
+		this.setPossibleValueList(pd.possibleValueList);
 	}
 	
 	public boolean isSystemProperty() {
 		return SystemPropertyName.hasPropertyName(getName());
+	}
+
+	public void addValue(String value) {
+		this.possibleValueList.add(value);
 	}
 }

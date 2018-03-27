@@ -31,7 +31,6 @@ import de.catma.document.AccessMode;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.interfaces.ISourceControlVersionable;
 import de.catma.tag.Property;
-import de.catma.tag.PropertyValueList;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
@@ -108,16 +107,16 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 					copiedInstance.addSystemProperty(
 						new Property(
 							tagDefinition.getPropertyDefinition(
-								property.getPropertyDefinition().getUuid()),
-							new PropertyValueList(property.getPropertyValueList())));
+								property.getPropertyDefinition().getName()),
+							Collections.emptySet()));
 				}
 				
 				for (Property property : tagInstance.getUserDefinedProperties()) {
 					copiedInstance.addSystemProperty(
 						new Property(
 							tagDefinition.getPropertyDefinition(
-								property.getPropertyDefinition().getUuid()),
-							new PropertyValueList(property.getPropertyValueList())));
+								property.getPropertyDefinition().getName()),
+							Collections.emptySet()));
 				}
 				
 				copiedTagInstances.put(tagInstance.getUuid(), copiedInstance);
