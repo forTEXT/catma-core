@@ -59,18 +59,14 @@ public class TagReference {
 	 * @param tagInstance the referencing instance
 	 * @param uri a reference to the source document
 	 * @param range the referenced range of text
+	 * @param userMarkupCollectionUuid the ID of the containing collection
 	 * @throws URISyntaxException
 	 */
-	public TagReference(TagInstance tagInstance, String uri, Range range) 
+	public TagReference(TagInstance tagInstance, String uri, Range range, String userMarkupCollectionUuid)
 			throws URISyntaxException {
 		this.tagInstance = tagInstance;
 		this.target = new URI(uri);
 		this.range = range;
-	}
-
-	public TagReference(TagInstance tagInstance, String uri, Range range, String userMarkupCollectionUuid)
-			throws URISyntaxException {
-		this(tagInstance, uri, range);
 		this.userMarkupCollectionUuid = userMarkupCollectionUuid;
 	}
 	

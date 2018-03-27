@@ -84,7 +84,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		this.accessMode = accessMode;
 	}
 
-
+	//TODO: copy construction will be different in a git/graph based environment
 	public UserMarkupCollection(UserMarkupCollection userMarkupCollection) throws URISyntaxException {
 		this(
 			null,
@@ -124,7 +124,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 			}
 		
 			addTagReference( 
-				new TagReference(copiedInstance, tr.getTarget().toString(), tr.getRange()));
+				new TagReference(copiedInstance, tr.getTarget().toString(), tr.getRange(), userMarkupCollection.getUuid()));
 		}
 	
 	}
