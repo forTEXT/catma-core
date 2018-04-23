@@ -46,7 +46,6 @@ import de.catma.util.Pair;
  */
 public class UserMarkupCollection implements ISourceControlVersionable {
 
-	private String id;
 	private String uuid;
 	private ContentInfoSet contentInfoSet;
 	private TagLibrary tagLibrary;
@@ -61,21 +60,19 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 */
 	public UserMarkupCollection(
-			String id, String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
-		this(id, uuid, contentInfoSet, tagLibrary, new ArrayList<TagReference>(), AccessMode.WRITE);
+			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
+		this(uuid, contentInfoSet, tagLibrary, new ArrayList<TagReference>(), AccessMode.WRITE);
 	}
 	
 	/**
-	 * @param id the identifier of the collections (depends on the repository)
 	 * @param uuid the CATMA uuid, see {@link de.catma.util.IDGenerator}
 	 * @param contentInfoSet the bibliographical metadata of this collection
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 * @param tagReferences referenced text ranges and referencing {@link TagInstance}s.
 	 */
 	public UserMarkupCollection(
-			String id, String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
+			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
 			List<TagReference> tagReferences, AccessMode accessMode) {
-		this.id = id;
 		this.uuid = uuid;
 		this.contentInfoSet = contentInfoSet;
 		this.tagLibrary = tagLibrary;
@@ -86,8 +83,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	//TODO: copy construction will be different in a git/graph based environment
 	public UserMarkupCollection(UserMarkupCollection userMarkupCollection) throws URISyntaxException {
 		this(
-			null,
-			userMarkupCollection.getUuid(),
+			userMarkupCollection.getId(),
 			new ContentInfoSet(userMarkupCollection.getContentInfoSet()), 
 			new TagLibrary(userMarkupCollection.getTagLibrary()));
 		
@@ -215,12 +211,13 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	 * @return the identifier of this collection (depends on the repository) 
 	 */
 	public String getId() {
-		return id;
+		return this.uuid;
 	}
 
 	/**
 	 * @return the CATMA uuid of this collection
 	 */
+	
 	public String getUuid() {
 		return this.uuid;
 	}
@@ -253,10 +250,6 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	 */
 	public void setTagLibrary(TagLibrary tagLibrary) {
 		this.tagLibrary = tagLibrary;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	@Override
@@ -380,7 +373,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
 	}
 
@@ -396,11 +389,11 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 			return false;
 		}
 		UserMarkupCollection other = (UserMarkupCollection) obj;
-		if (id == null) {
-			if (other.id != null) {
+		if (uuid == null) {
+			if (other.uuid != null) {
 				return false;
 			}
-		} else if (!id.equals(other.id)) {
+		} else if (!uuid.equals(other.uuid)) {
 			return false;
 		}
 		return true;
