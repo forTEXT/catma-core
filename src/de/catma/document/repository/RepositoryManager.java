@@ -24,6 +24,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -178,16 +179,22 @@ public class RepositoryManager {
 	 * Close all open repositories.
 	 */
 	public void close() {
-		for (Repository r : openRepositories) {
+		Iterator<Repository> iter = new HashSet<>(openRepositories).iterator();
+		openRepositories.clear();
+		
+		while (iter.hasNext()) {
+			Repository r= iter.next();
 			try {
+				iter.remove();
 				r.close();
+				propertyChangeSupport.firePropertyChange(
+						RepositoryManagerEvent.repositoryStateChange.name(), r, null);
 			}
 			catch (Throwable t) {
 				Logger.getLogger(getClass().getName()).log(
 						Level.SEVERE, "error closing repository " + r, t);
 			}
 		}
-		openRepositories.clear();
 		repositoryReferences.clear();
 	}
 

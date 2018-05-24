@@ -470,5 +470,6 @@ public interface Repository {
 	public TagLibrary getTagLibraryFor(String uuid, Version version) throws IOException;
 	
 	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
+	void setTermsOfUseConsent() throws IOException;
 	
 }

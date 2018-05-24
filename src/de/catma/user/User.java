@@ -47,5 +47,7 @@ public interface User {
 	public boolean isGuest();
 	
 	public boolean isSpawnable();
+	
+	public boolean isTermsOfUseConsentPresent();
 }
 
