@@ -44,13 +44,6 @@ public class TagDefinition implements Versionable {
 	private String parentUuid;
 	private String tagsetDefinitionUuid;
 
-	
-	@Deprecated
-	public TagDefinition(){
-		this.systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
-		this.userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
-	}
-
 	/**
 	 * @param id the identifier of the definition (repository dependent)
 	 * @param uuid a CATMA uuid see {@link de.catma.util.IDGenerator}

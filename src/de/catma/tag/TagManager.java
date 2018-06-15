@@ -86,8 +86,8 @@ public class TagManager {
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = a {@link Pair} of the 
 		 * removed {@link TagDefinition} and its {@link TagsetDefinition} Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
 		 * </p><br />
-		 * <p>{@link TagsetDefinition} changed:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link TagsetDefinition}</li>
+		 * <p>{@link TagDefinition} changed:
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link TagDefinition}</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = a pair of the old name and the old color Pair&lt;String,String&gt;</li>
 		 */
 		tagDefinitionChanged,
@@ -96,11 +96,11 @@ public class TagManager {
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = the new library</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = <code>null</code></li>
 		 * </p><br />
-		 * <p>{@link TagDefinition} removed:
+		 * <p>{@link TagLibrary} removed:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = the removed library</li>
 		 * </p><br />
-		 * <p>{@link TagsetDefinition} changed:
+		 * <p>{@link TagLibrary} changed:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link TagLibrary}</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = the {@link ContentInfoSet old bibliographical data }</li>
 		 */
