@@ -126,7 +126,7 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	 */
 	public TagsetDefinition getTagsetDefinition(TagDefinition tagDefinition) {
 		for (TagsetDefinition td : this) {
-			if (td.contains(tagDefinition)) {
+			if (td.hasTagDefinition(tagDefinition.getUuid())) {
 				return td;
 			}
 		}
