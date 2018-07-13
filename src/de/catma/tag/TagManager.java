@@ -87,7 +87,8 @@ public class TagManager {
 		 * removed {@link TagDefinition} and its {@link TagsetDefinition} Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
 		 * </p><br />
 		 * <p>{@link TagDefinition} changed:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link TagDefinition}</li>
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of the changed 
+		 * {@link TagDefinition} and its {@link TagsetDefinition}Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = a pair of the old name and the old color Pair&lt;String,String&gt;</li>
 		 */
 		tagDefinitionChanged,
@@ -219,7 +220,7 @@ public class TagManager {
 	}
 	
 	public void setTagDefinitionTypeAndColor(
-			TagDefinition tagDefinition, String type, String colorRgbAsString) {
+			TagDefinition tagDefinition, String type, String colorRgbAsString, TagsetDefinition tagsetDefinition) {
 		String oldType = tagDefinition.getName();
 		String oldRgb = tagDefinition.getColor();
 		boolean tagDefChanged = false;
@@ -238,7 +239,7 @@ public class TagManager {
 			this.propertyChangeSupport.firePropertyChange(
 					TagManagerEvent.tagDefinitionChanged.name(),
 					new Pair<String, String>(oldType, oldRgb),
-					tagDefinition);
+					new Pair<TagDefinition, TagsetDefinition>(tagDefinition, tagsetDefinition));
 		}
 	}
 	

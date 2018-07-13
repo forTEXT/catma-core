@@ -268,11 +268,13 @@ public interface Repository {
 	/**
 	 * @return the available corpora
 	 */
+	@Deprecated
 	public Collection<Corpus> getCorpora();
 	/**
 	 * @param name the name of the new corpus
 	 * @throws IOException
 	 */
+	@Deprecated
 	public void createCorpus(String name) throws IOException;
 	/**
 	 * Adds the Source Document to the Corpus.
@@ -280,6 +282,7 @@ public interface Repository {
 	 * @param sourceDocument
 	 * @throws IOException
 	 */
+	@Deprecated
 	public void update(
 		Corpus corpus, SourceDocument sourceDocument) throws IOException;
 	/**
@@ -288,10 +291,12 @@ public interface Repository {
 	 * @param userMarkupCollectionReference
 	 * @throws IOException
 	 */
+	@Deprecated
 	public void update(
 		Corpus corpus, UserMarkupCollectionReference userMarkupCollectionReference)
 				throws IOException;
-
+	
+	@Deprecated
 	public void delete(Corpus corpus) throws IOException;
 	/**
 	 * Changes the name of the corpus.
@@ -299,6 +304,7 @@ public interface Repository {
 	 * @param name
 	 * @throws IOException
 	 */
+	@Deprecated
 	public void update(Corpus corpus, String name) throws IOException;
 	/**
 	 * Shares the given Corpus with the specified acces mode to the user 
@@ -308,6 +314,7 @@ public interface Repository {
 	 * @param accessMode
 	 * @throws IOException
 	 */
+	@Deprecated
 	public void share(Corpus corpus, String userIdentification, AccessMode accessMode) throws IOException;
 
 	/**
