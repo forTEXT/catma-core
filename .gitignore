@@ -5,3 +5,4 @@ bin/
 .settings/com.vaadin.integration.eclipse.prefs
 .settings/org.eclipse.jdt.core.prefs
 target
+.idea
