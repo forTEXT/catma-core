@@ -468,5 +468,7 @@ public interface Repository {
 	public List<UserMarkupCollectionReference> getUserMarkupCollectionReferences(int offset, int limit) throws Exception;
 
 	public int getUserMarkupCollectionReferenceCount() throws Exception;
+
+	public void addAndCommitChanges(UserMarkupCollectionReference ref) throws Exception;
 	
 }
