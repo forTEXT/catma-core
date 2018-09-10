@@ -33,6 +33,7 @@ import java.util.logging.Logger;
 public class TagDefinition implements Versionable {
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
+	@Deprecated
 	private Integer id;
 	private Integer parentId;
 	
@@ -57,7 +58,7 @@ public class TagDefinition implements Versionable {
 	public TagDefinition(
 			Integer id, String uuid, 
 			String name, Version version,  
-			Integer parentId, String parentUuid) {
+			Integer parentId, String parentUuid, String tagsetDefinitionUuid) {
 		this.id = id;
 		this.uuid = uuid;
 		this.name = name;
@@ -67,15 +68,9 @@ public class TagDefinition implements Versionable {
 		if (this.parentUuid == null) {
 			this.parentUuid = "";
 		}
+		this.tagsetDefinitionUuid = tagsetDefinitionUuid;
 		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
-	}
-
-	public TagDefinition(Integer id, String uuid, String name, Version version,
-						 Integer parentId, String parentUuid,
-						 String tagsetDefinitionUuid) {
-		this(id, uuid, name, version, parentId, parentUuid);
-		this.tagsetDefinitionUuid = tagsetDefinitionUuid;
 	}
 
 	/**
@@ -85,7 +80,7 @@ public class TagDefinition implements Versionable {
 	public TagDefinition(TagDefinition toCopy) {
 		this(null, toCopy.uuid, 
 				toCopy.name, new Version(toCopy.version), 
-				null, toCopy.parentUuid);
+				null, toCopy.parentUuid, toCopy.tagsetDefinitionUuid);
 		
 		for (PropertyDefinition pd : toCopy.getSystemPropertyDefinitions()) {
 			addSystemPropertyDefinition(new PropertyDefinition(pd));
@@ -213,13 +208,13 @@ public class TagDefinition implements Versionable {
 	void setColor(String colorAsRgbInt) {
 		getPropertyDefinition(
 			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).
-				addValue(colorAsRgbInt);
+				setValue(colorAsRgbInt);
 	}
 	
 	void setAuthor(String author) {
 		getPropertyDefinition(
 			PropertyDefinition.SystemPropertyName.catma_markupauthor.name()).
-				addValue(author);
+				setValue(author);
 	}
 	
 	public void setId(Integer id) {
@@ -344,5 +339,15 @@ public class TagDefinition implements Versionable {
 
 	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
 		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getName());
+	}
+
+	public PropertyDefinition getPropertyDefinitionByUuid(String key) {
+		//TODO: performance optimization
+		return userDefinedPropertyDefinitions
+				.values()
+				.stream()
+				.filter(pd -> pd.getUuid().equals(key))
+				.findFirst()
+				.orElse(null);
 	}
 }

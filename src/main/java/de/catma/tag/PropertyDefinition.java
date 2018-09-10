@@ -62,6 +62,8 @@ public class PropertyDefinition {
 			return false;
 		}
 	}
+	
+	private String uuid;
 	private String name;
 	private List<String> possibleValueList;
 
@@ -74,7 +76,8 @@ public class PropertyDefinition {
 	 * @param possibleValueList a list of possible values (this is more meant as an offer than
 	 * a restriction since adhoc values of {@link Property properties} are allowed explicitly).
 	 */
-	public PropertyDefinition(String name, Collection<String> possibleValueList) {
+	public PropertyDefinition(String uuid, String name, Collection<String> possibleValueList) {
+		this.uuid = uuid;
 		this.name = name;
 		this.possibleValueList = new ArrayList<>(possibleValueList);
 	}
@@ -85,15 +88,26 @@ public class PropertyDefinition {
 	 * @param toCopy
 	 */
 	public PropertyDefinition(PropertyDefinition toCopy) {
+		this.uuid = toCopy.uuid;
 		this.name = toCopy.name;
 		this.possibleValueList = new ArrayList<>(toCopy.possibleValueList);
 	}
 
 	@Override
 	public String toString() {
-		return "PROP["+name+"="+possibleValueList+"]";
+		return "PROP["+uuid+" "+name+"="+possibleValueList+"]";
 	}
 
+	/**
+	 * @return a CATMA uuid see {@link de.catma.util.IDGenerator}.
+	 */
+	public String getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(String uuid){
+		this.uuid = uuid;
+	}
 
 	public String getName() {
 		return name;
@@ -135,6 +149,11 @@ public class PropertyDefinition {
 	}
 
 	public void addValue(String value) {
+		this.possibleValueList.add(value);
+	}
+	
+	public void setValue(String value) {
+		this.possibleValueList.clear();
 		this.possibleValueList.add(value);
 	}
 }

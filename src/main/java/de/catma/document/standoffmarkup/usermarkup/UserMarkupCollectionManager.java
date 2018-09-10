@@ -78,11 +78,6 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		
 		for (UserMarkupCollection userMarkupCollection : outOfSynchCollections) {
 			logger.info("synching " + userMarkupCollection);
-			tagManager.synchronize(
-				userMarkupCollection.getTagLibrary().getTagsetDefinition(
-						tagsetDefinition.getUuid()),
-				tagsetDefinition);
-			
 			userMarkupCollection.synchronizeTagInstances();
 		}
 
@@ -148,15 +143,7 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 			if (userMarkupCollection.getAccessMode().equals(AccessMode.WRITE) 
 					&& 
 					userMarkupCollection.getTagLibrary().contains(tagsetDefinition)) {
-//			if (userMarkupCollection.getTagLibrary().contains(tagsetDefinition)) {
-				
-				TagsetDefinition containedTagsetDef = 
-					userMarkupCollection.getTagLibrary().getTagsetDefinition(
-							tagsetDefinition.getUuid());
-				if (!containedTagsetDef.isSynchronized(tagsetDefinition)) {
-					result.add(userMarkupCollection);
-				}
-				
+				result.add(userMarkupCollection);
 			}
 			
 		}
@@ -362,11 +349,12 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	/**
 	 * The persistent part of this operation is handled by {@link
 	 * Repository#update(TagInstance, Collection)}
+	 * @param userMarkupCollection 
 	 * @param tagInstance
 	 * @param properties
 	 * @throws IOException
 	 */
-	public void updateProperty(TagInstance tagInstance, Collection<Property> properties) throws IOException {
-		repository.update(tagInstance, properties);
+	public void updateProperty(UserMarkupCollection userMarkupCollection, TagInstance tagInstance, Collection<Property> properties) throws IOException {
+		repository.update(userMarkupCollection, tagInstance, properties);
 	}
 }

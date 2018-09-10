@@ -81,6 +81,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	}
 
 	//TODO: copy construction will be different in a git/graph based environment
+	@Deprecated
 	public UserMarkupCollection(UserMarkupCollection userMarkupCollection) throws URISyntaxException {
 		this(
 			userMarkupCollection.getId(),
