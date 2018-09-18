@@ -18,8 +18,6 @@
  */
 package de.catma.tag;
 
-import de.catma.interfaces.ISourceControlVersionable;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -29,6 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+
+import de.catma.interfaces.ISourceControlVersionable;
 
 /**
  * A set of {@link TagDefinition}s.
@@ -46,12 +46,8 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 	private String revisionHash;
 	private Map<String,TagDefinition> tagDefinitions;
 	private Map<String,Set<String>> tagDefinitionChildren;
+	private Set<String> deletedDefinitions;
 
-	public TagsetDefinition(){
-		this.tagDefinitions = new HashMap<String, TagDefinition>();
-		this.tagDefinitionChildren = new HashMap<String, Set<String>>();
-	}
-	
 	/**
 	 * @param id a repository dependent identifier
 	 * @param uuid the CATMA uuid, see {@link de.catma.util.IDGenerator}
@@ -60,7 +56,15 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 	 */
 	public TagsetDefinition(
 			Integer id, String uuid, String tagsetName, Version version) {
-		this();
+		this(id, uuid, tagsetName, version, new HashSet<>());
+	}
+	
+	public TagsetDefinition(
+			Integer id, String uuid, String tagsetName, Version version, 
+			Set<String> deletedDefinitions) {
+		this.tagDefinitions = new HashMap<String, TagDefinition>();
+		this.tagDefinitionChildren = new HashMap<String, Set<String>>();
+		this.deletedDefinitions = deletedDefinitions;
 		this.id = id;
 		this.uuid = uuid;
 		this.name = tagsetName;
@@ -206,7 +210,9 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 		for (TagDefinition child : getChildren(tagDefinition)) {
 			remove(child);
 		}
-		this.tagDefinitions.remove(tagDefinition.getUuid());
+		this.deletedDefinitions.add(
+			this.tagDefinitions.remove(tagDefinition.getUuid())
+			.getUuid());
 		removeFromChildrenCache(tagDefinition);
 	}
 	
@@ -255,7 +261,7 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 	
 	/**
 	 * Synchronizes this definition with the given definition. Deletions resulting
-	 * from this synch can be retrieved via {@link #getDeletedTagDefinitions()}.
+	 * from this synch can be retrieved via {@link #getDeletedDefinitions()}.
 	 * @param tagsetDefinition
 	 * @throws IllegalArgumentException if the {@link #getUuid() uuids} of the
 	 * definitions are not equal
@@ -302,38 +308,6 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 		}
 	}
 	
-	/**
-	 * @param tagsetDefinition
-	 * @return true if this definition and the given definition are in 
-	 * {@link #synchronizeWith(TagsetDefinition) synch}.
-	 */
-	public boolean isSynchronized(TagsetDefinition tagsetDefinition) {
-		
-		if (this.getVersion().equals(tagsetDefinition.getVersion())) {
-			for (TagDefinition td : this) {
-				if (tagsetDefinition.hasTagDefinition(td.getUuid())) {
-					if (!td.getVersion().equals(
-							tagsetDefinition.getTagDefinition(
-									td.getUuid()).getVersion())) {
-						return false;
-					}
-				}
-				else {
-					return false;
-				}
-			}
-			
-			for (TagDefinition td : tagsetDefinition) {
-				if (!this.hasTagDefinition(td.getUuid())) {
-					return false; 
-				}
-			}
-			
-			return true;
-		}
-		return false;
-	}
-	
 	void setVersion() {
 		this.version = new Version();
 	}
@@ -350,5 +324,18 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 	@Override
 	public void setRevisionHash(String revisionHash) {
 		this.revisionHash = revisionHash;
+	}
+	
+	public boolean isDeleted(String definitionUuid) {
+		return this.deletedDefinitions.contains(definitionUuid);
+	}
+	
+	public Set<String> getDeletedDefinitions() {
+		return Collections.unmodifiableSet(deletedDefinitions);
+	}
+
+	public void remove(PropertyDefinition propertyDefinition, TagDefinition tagDefinition) {
+		tagDefinition.removeUserDefinedPropertyDefinition(propertyDefinition);
+		this.deletedDefinitions.add(propertyDefinition.getUuid());
 	}
 }

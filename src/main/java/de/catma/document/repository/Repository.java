@@ -103,6 +103,7 @@ public interface Repository {
 		 *  {@link java.util.List List} of updated {@link UserMarkupCollection}s</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = changed {@link TagsetDefinition}</li>
 		 */
+		@Deprecated
 		userMarkupCollectionTagLibraryChanged,
 		/**
 		 * <p>{@link TagLibrary} added:
@@ -119,6 +120,7 @@ public interface Repository {
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = old {@link ContentInfoSet}</li>
 		 * </p>
 		 */
+		@Deprecated
 		tagLibraryChanged,
 		/**
 		 * <p>{@link Corpus} added:
@@ -146,6 +148,7 @@ public interface Repository {
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = old {@link Corpus}</li>
 		 * </p>
 		 */
+		@Deprecated
 		corpusChanged,
 		/**
 		 * Signals an exception:
@@ -161,12 +164,14 @@ public interface Repository {
 		propertyValueChanged,
 		/**
 		 * <p>{@link TagReference}s added:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = {@link List} of {@link TagReference}s</li>
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of 
+		 * a {@link UserMarkupCollection} and a {@link List} of {@link TagReference}s</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = <code>null</code></li>
 		 * </p><br />
 		 * <p>{@link TagReference}s removed:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
-		 * <li>{@link PropertyChangeEvent#getOldValue()} = {@link List} of {@link TagReference}s</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = a {@link Pair} of an 
+		 * UUID String of a {@link UserMarkupCollection} and a {@link Collection} of Annotation ID Strings</li>
 		 * </p><br />
 		 */
 		tagReferencesChanged,

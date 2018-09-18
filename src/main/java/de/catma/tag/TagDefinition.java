@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 /**
@@ -42,6 +43,7 @@ public class TagDefinition implements Versionable {
 	private Version version;
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
+	private Set<String> deletedPropertyDefinitions;
 	private String parentUuid;
 	private String tagsetDefinitionUuid;
 
@@ -337,7 +339,7 @@ public class TagDefinition implements Versionable {
 		}	
 	}
 
-	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
+	void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
 		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getName());
 	}
 

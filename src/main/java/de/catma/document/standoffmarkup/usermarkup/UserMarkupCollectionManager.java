@@ -136,17 +136,17 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		List<UserMarkupCollection> result = 
 				new ArrayList<UserMarkupCollection>();
 		
-		for (UserMarkupCollection userMarkupCollection : userMarkupCollections) {
-			// FIXME: regardless of tagsetdef containment, check tagdef containment as well to support old standard tagsets and move operations
-			
-			// no need to check non writable collections, they won't be updated anyway
-			if (userMarkupCollection.getAccessMode().equals(AccessMode.WRITE) 
-					&& 
-					userMarkupCollection.getTagLibrary().contains(tagsetDefinition)) {
-				result.add(userMarkupCollection);
-			}
-			
-		}
+//		for (UserMarkupCollection userMarkupCollection : userMarkupCollections) {
+//			// FIXME: regardless of tagsetdef containment, check tagdef containment as well to support old standard tagsets and move operations
+//			
+//			// no need to check non writable collections, they won't be updated anyway
+//			if (userMarkupCollection.getAccessMode().equals(AccessMode.WRITE) 
+//					&& 
+//					userMarkupCollection.getTagLibrary().contains(tagsetDefinition)) {
+//				result.add(userMarkupCollection);
+//			}
+//			
+//		}
 		
 		return result;
 	}
@@ -157,7 +157,7 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	 * noop.
 	 * @param instanceID the TagInstance to be removed
 	 */
-	public void removeTagInstance(Collection<String> instanceIDs) {
+	public void removeTagInstance(Collection<String> instanceIDs, boolean removeFromRepo) {
 		Map<UserMarkupCollection, List<TagReference>> toBeDeletedByUmc = 
 				new HashMap<UserMarkupCollection, List<TagReference>>();
 		
@@ -179,10 +179,11 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 				toBeDeletedRefs.addAll(tagReferences);
 			}
 		}
-		
-		for (Map.Entry<UserMarkupCollection, List<TagReference>> entry : toBeDeletedByUmc.entrySet()) {
-			if (!entry.getValue().isEmpty()) {
-				repository.update(entry.getKey(), entry.getValue());
+		if (removeFromRepo) {
+			for (Map.Entry<UserMarkupCollection, List<TagReference>> entry : toBeDeletedByUmc.entrySet()) {
+				if (!entry.getValue().isEmpty()) {
+					repository.update(entry.getKey(), entry.getValue());
+				}
 			}
 		}
 	}
@@ -194,7 +195,7 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	 * @param instanceID the TagInstance to be removed
 	 */
 	public void removeTagInstance(String instanceID) {
-		removeTagInstance(Collections.singletonList(instanceID));
+		removeTagInstance(Collections.singletonList(instanceID), true);
 	}
 
 	/**

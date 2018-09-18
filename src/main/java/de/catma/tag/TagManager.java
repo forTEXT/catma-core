@@ -50,7 +50,7 @@ public class TagManager {
 		 * <p>{@link PropertyDefinition} removed:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = a {@link Pair} of the 
-		 * removed {@link PropertyDefinition} and its {@link TagDefinition}</li>
+		 * removed {@link PropertyDefinition} and with a Pair of its {@link TagDefinition} and {@link TagsetDefinition}</li>
 		 * </p><br />
 		 * <p>{@link PropertyDefinition} changed:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link PropertyDefinition}</li>
@@ -60,14 +60,12 @@ public class TagManager {
 		userPropertyDefinitionChanged,
 		/**
 		 * <p>{@link TagsetDefinition} added:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of the new 
-		 * {@link TagsetDefinition} and its {@link TagLibrary} Pair&lt;TagLibrary,TagsetDefinition&gt;</li>
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = a new {@link TagsetDefinition} 
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = <code>null</code></li>
 		 * </p><br />
 		 * <p>{@link TagsetDefinition} removed:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = <code>null</code></li>
-		 * <li>{@link PropertyChangeEvent#getOldValue()} = a {@link Pair} of the 
-		 * removed {@link TagsetDefinition} and its {@link TagLibrary} Pair&lt;TagLibrary,TagsetDefinition&gt;</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = the  removed {@link TagsetDefinition}
 		 * </p><br />
 		 * <p>{@link TagsetDefinition} changed:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = the changed {@link TagsetDefinition}</li>
@@ -162,8 +160,7 @@ public class TagManager {
 		this.propertyChangeSupport.firePropertyChange(
 			TagManagerEvent.tagsetDefinitionChanged.name(),
 			null, 
-			new Pair<TagLibrary, TagsetDefinition>(
-					tagLibrary, tagsetDefinition));
+			tagsetDefinition);
 	}
 
 	public void addPropertyChangeListener(TagManagerEvent propertyName,
@@ -194,7 +191,7 @@ public class TagManager {
 		tagLibrary.remove(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagsetDefinitionChanged.name(),
-				new Pair<TagLibrary, TagsetDefinition>(tagLibrary, tagsetDefinition),
+				tagsetDefinition,
 				null);
 	}
 
@@ -257,13 +254,13 @@ public class TagManager {
 	}
 
 	public void removeUserDefinedPropertyDefinition(
-			PropertyDefinition propertyDefinition, TagDefinition tagDefinition) {
-		tagDefinition.removeUserDefinedPropertyDefinition(propertyDefinition);
+			PropertyDefinition propertyDefinition, TagDefinition tagDefinition, TagsetDefinition tagsetDefinition) {
+		tagsetDefinition.remove(propertyDefinition, tagDefinition);
 		tagDefinition.setVersion();
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.userPropertyDefinitionChanged.name(),
-				new Pair<PropertyDefinition, TagDefinition>(
-						propertyDefinition, tagDefinition),
+				new Pair<>(
+						propertyDefinition, new Pair<>(tagDefinition, tagsetDefinition)),
 				null);
 	}
 	
