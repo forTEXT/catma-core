@@ -244,6 +244,10 @@ public interface Repository {
 	 * @throws Exception 
 	 */
 	public Collection<SourceDocument> getSourceDocuments() throws Exception;
+
+
+	int getSourceDocumentsCount() throws Exception;
+
 	/**
 	 * @param id ID of the SourceDocument
 	 * @return the SourceDocument with the given ID
