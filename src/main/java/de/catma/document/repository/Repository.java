@@ -439,6 +439,7 @@ public interface Repository {
 	 * @param name the name of the Tag Library
 	 * @throws IOException
 	 */
+	@Deprecated
 	public void createTagLibrary(String name) throws IOException;
 	/**
 	 * @param inputStream the tag library
@@ -448,9 +449,12 @@ public interface Repository {
 	/**
 	 * @return the available Tag Libraries.
 	 */
+	@Deprecated
 	public Collection<TagLibraryReference> getTagLibraryReferences();
+	@Deprecated
 	public TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) 
 			throws IOException;
+	@Deprecated
 	public void delete(TagLibraryReference tagLibraryReference) throws IOException;
 	/**
 	 * Shares the given Tag Library with the specified acces mode to the user 
@@ -460,6 +464,7 @@ public interface Repository {
 	 * @param accessMode
 	 * @throws IOException
 	 */
+	@Deprecated
 	public void share(
 			TagLibraryReference tagLibraryReference, 
 			String userIdentification,
