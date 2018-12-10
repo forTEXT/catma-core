@@ -498,6 +498,9 @@ public interface Repository {
 	public TagLibrary getTagLibraryFor(String uuid, Version version) throws IOException;
 	
 	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
+	public List<User> getProjectMembers() throws Exception;
+
+	
 
 	public List<UserMarkupCollectionReference> getUserMarkupCollectionReferences(int offset, int limit) throws Exception;
 

@@ -24,5 +24,4 @@ public interface ProjectManager {
 			ProjectReference projectReference,
 			OpenProjectListener openProjectListener);
 
-	List<User> getProjectMembers(String projectId) throws Exception;
 }
