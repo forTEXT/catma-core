@@ -20,6 +20,7 @@ package de.catma.tag;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import de.catma.interfaces.ISourceControlVersionable;
 
@@ -138,6 +140,22 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 
 	public boolean contains(TagDefinition tagDefinition) {
 		return tagDefinitions.values().contains(tagDefinition);
+	}
+	
+	public List<TagDefinition> getRootTagDefinitions() {
+		return tagDefinitions.values()
+		.stream()
+		.filter(tagDef -> tagDef.getParentUuid().isEmpty())
+		.sorted(new Comparator<TagDefinition>() {
+			@Override
+			public int compare(TagDefinition o1, TagDefinition o2) {
+				if (o1.getName().equals(o2.getName())) {
+					return o1.getUuid().compareTo(o2.getUuid());
+				}
+				return o1.getName().compareTo(o2.getName());
+			}
+		})
+		.collect(Collectors.toList());
 	}
 
 	public List<TagDefinition> getDirectChildren(TagDefinition tagDefinition) {
