@@ -52,5 +52,7 @@ public interface BackgroundService {
 	public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command,
 			long initialDelay, long delay, TimeUnit unit);
 
+	public ScheduledFuture<?> schedule(Runnable command,
+			long delay, TimeUnit unit);
 	public void shutdown();
 }
