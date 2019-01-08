@@ -358,4 +358,12 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	public void updateProperty(UserMarkupCollection userMarkupCollection, TagInstance tagInstance, Collection<Property> properties) throws IOException {
 		repository.update(userMarkupCollection, tagInstance, properties);
 	}
+
+	public void remove(String collectionId) {
+		userMarkupCollections
+			.stream()
+			.filter(collection -> collection.getUuid().equals(collectionId))
+			.findFirst()
+			.ifPresent(collection -> remove(collection));
+	}
 }
