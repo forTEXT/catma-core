@@ -366,4 +366,9 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 			.findFirst()
 			.ifPresent(collection -> remove(collection));
 	}
+
+	public void clear() {
+		userMarkupCollections.clear();
+		
+	}
 }
