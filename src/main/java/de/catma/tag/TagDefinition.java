@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
+import de.catma.util.IDGenerator;
+
 /**
  * A definition of a tag. That is a type of a {@link TagInstance}.
  * 
@@ -80,7 +82,7 @@ public class TagDefinition implements Versionable {
 	 * @param toCopy
 	 */
 	public TagDefinition(TagDefinition toCopy) {
-		this(null, toCopy.uuid, 
+		this(null, new IDGenerator().generate(), 
 				toCopy.name, new Version(toCopy.version), 
 				null, toCopy.parentUuid, toCopy.tagsetDefinitionUuid);
 		
@@ -251,6 +253,7 @@ public class TagDefinition implements Versionable {
 	 * is used to lookup the new {@link #getParentId() parent id} if the
 	 * {@link #getParentUuid() uuid} of the parent has changed 
 	 */
+	@Deprecated
 	void synchronizeWith(TagDefinition other, TagsetDefinition thisTagsetDefinition) {
 		if (!this.getVersion().equals(other.getVersion())) {
 			this.name = other.name;
@@ -343,13 +346,40 @@ public class TagDefinition implements Versionable {
 		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getName());
 	}
 
-	public PropertyDefinition getPropertyDefinitionByUuid(String key) {
+	public PropertyDefinition getPropertyDefinitionByUuid(String uuid) {
 		//TODO: performance optimization
 		return userDefinedPropertyDefinitions
 				.values()
 				.stream()
-				.filter(pd -> pd.getUuid().equals(key))
+				.filter(pd -> pd.getUuid().equals(uuid))
 				.findFirst()
 				.orElse(null);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TagDefinition other = (TagDefinition) obj;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+	
+	
 }

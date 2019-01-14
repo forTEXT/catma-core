@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import de.catma.util.IDGenerator;
+
 /**
  * A definition or type for a {@link Property}.
  * 
@@ -88,7 +90,7 @@ public class PropertyDefinition {
 	 * @param toCopy
 	 */
 	public PropertyDefinition(PropertyDefinition toCopy) {
-		this.uuid = toCopy.uuid;
+		this.uuid = new IDGenerator().generate();
 		this.name = toCopy.name;
 		this.possibleValueList = new ArrayList<>(toCopy.possibleValueList);
 	}
@@ -139,6 +141,7 @@ public class PropertyDefinition {
 	 * 
 	 * @param pd 
 	 */
+	@Deprecated
 	public void synchronizeWith(PropertyDefinition pd) {
 		this.name = pd.name;
 		this.setPossibleValueList(pd.possibleValueList);
@@ -156,4 +159,31 @@ public class PropertyDefinition {
 		this.possibleValueList.clear();
 		this.possibleValueList.add(value);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PropertyDefinition other = (PropertyDefinition) obj;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+	
+	
 }

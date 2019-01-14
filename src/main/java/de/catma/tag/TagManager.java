@@ -21,8 +21,7 @@ package de.catma.tag;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import de.catma.document.source.ContentInfoSet;
@@ -108,54 +107,21 @@ public class TagManager {
 	}
 	
 	private Logger logger = Logger.getLogger(this.getClass().getName());
-	private List<TagLibrary> currentTagLibraries;
+	private TagLibrary tagLibrary;
 	
 	private PropertyChangeSupport propertyChangeSupport;
 	
-	public TagManager() {
+	public TagManager(TagLibrary tagLibrary) {
+		this.tagLibrary = tagLibrary;
 		this.propertyChangeSupport = new PropertyChangeSupport(this);
-		currentTagLibraries = new ArrayList<TagLibrary>();
 	}
 	
-	public void addTagLibrary(TagLibrary tagLibrary) {
-		if (tagLibrary == null) {
-			throw new IllegalArgumentException("tagLibrary cannot be null!");
-		}
-		currentTagLibraries.add(tagLibrary);
-		this.propertyChangeSupport.firePropertyChange(
-				TagManagerEvent.tagLibraryChanged.name(),
-				null, tagLibrary);
-	}
-
-	public void removeTagLibrary(TagLibraryReference tagLibraryReference) {
-		TagLibrary tagLibrary = getTagLibrary(tagLibraryReference);
-		if (tagLibrary != null) {
-			removeTagLibrary(tagLibrary);
-		}
-	}
-	
-	public TagLibrary getTagLibrary(TagLibraryReference tagLibraryReference) {
-		for (TagLibrary tagLibrary : currentTagLibraries) {
-			if (tagLibraryReference.getId().equals(tagLibrary.getId())) {
-				return tagLibrary;
-			}
-		}
-		return null;
-	}
-
-	public void removeTagLibrary(TagLibrary tagLibrary) {
-		if (tagLibrary == null) {
-			throw new IllegalArgumentException("tagLibrary cannot be null!");
-		}
-		
-		currentTagLibraries.remove(tagLibrary);
-		this.propertyChangeSupport.firePropertyChange(
-				TagManagerEvent.tagLibraryChanged.name(),
-				tagLibrary, null);
+	public void load(Collection<TagsetDefinition> tagsets) {
+		tagsets.forEach(tagset ->this.tagLibrary.add(tagset));
 	}
 	
 	public void addTagsetDefinition(
-			TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
+			TagsetDefinition tagsetDefinition) {
 		tagLibrary.add(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
 			TagManagerEvent.tagsetDefinitionChanged.name(),
@@ -187,7 +153,7 @@ public class TagManager {
 	}
 
 	public void removeTagsetDefinition(
-			TagLibrary tagLibrary, TagsetDefinition tagsetDefinition) {
+			TagsetDefinition tagsetDefinition) {
 		tagLibrary.remove(tagsetDefinition);
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagsetDefinitionChanged.name(),
@@ -294,5 +260,9 @@ public class TagManager {
 				TagManagerEvent.userPropertyDefinitionChanged.name(),
 				td,
 				propertyDefinition);
+	}
+
+	public TagLibrary getTagLibrary() {
+		return tagLibrary;
 	}
 }

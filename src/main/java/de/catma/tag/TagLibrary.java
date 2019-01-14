@@ -61,7 +61,7 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		}
 	}
 
-	public void add(TagsetDefinition tagsetDefinition) {
+	void add(TagsetDefinition tagsetDefinition) {
 		tagsetDefinitionsByID.put(tagsetDefinition.getUuid(),tagsetDefinition);
 	}
 

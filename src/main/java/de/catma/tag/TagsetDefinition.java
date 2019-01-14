@@ -284,6 +284,7 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 	 * @throws IllegalArgumentException if the {@link #getUuid() uuids} of the
 	 * definitions are not equal
 	 */
+	@Deprecated
 	void synchronizeWith(
 			TagsetDefinition tagsetDefinition) throws IllegalArgumentException {
 		if (!this.getUuid().equals(tagsetDefinition.getUuid())) {
@@ -356,4 +357,37 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 		tagDefinition.removeUserDefinedPropertyDefinition(propertyDefinition);
 		this.deletedDefinitions.add(propertyDefinition.getUuid());
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((revisionHash == null) ? 0 : revisionHash.hashCode());
+		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TagsetDefinition other = (TagsetDefinition) obj;
+		if (revisionHash == null) {
+			if (other.revisionHash != null)
+				return false;
+		} else if (!revisionHash.equals(other.revisionHash))
+			return false;
+		if (uuid == null) {
+			if (other.uuid != null)
+				return false;
+		} else if (!uuid.equals(other.uuid))
+			return false;
+		return true;
+	}
+	
+	
 }
