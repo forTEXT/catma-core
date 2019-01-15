@@ -362,7 +362,6 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((revisionHash == null) ? 0 : revisionHash.hashCode());
 		result = prime * result + ((uuid == null) ? 0 : uuid.hashCode());
 		return result;
 	}
@@ -376,11 +375,6 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 		if (getClass() != obj.getClass())
 			return false;
 		TagsetDefinition other = (TagsetDefinition) obj;
-		if (revisionHash == null) {
-			if (other.revisionHash != null)
-				return false;
-		} else if (!revisionHash.equals(other.revisionHash))
-			return false;
 		if (uuid == null) {
 			if (other.uuid != null)
 				return false;
@@ -388,6 +382,7 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 			return false;
 		return true;
 	}
-	
+
+
 	
 }

@@ -26,8 +26,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import de.catma.util.IDGenerator;
-
 /**
  * A definition of a tag. That is a type of a {@link TagInstance}.
  * 
@@ -38,6 +36,7 @@ public class TagDefinition implements Versionable {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	@Deprecated
 	private Integer id;
+	@Deprecated
 	private Integer parentId;
 	
 	private String uuid;
@@ -45,7 +44,7 @@ public class TagDefinition implements Versionable {
 	private Version version;
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
-	private Set<String> deletedPropertyDefinitions;
+	private Set<String> deletedPropertyDefinitions; //TODO:?
 	private String parentUuid;
 	private String tagsetDefinitionUuid;
 
@@ -82,7 +81,7 @@ public class TagDefinition implements Versionable {
 	 * @param toCopy
 	 */
 	public TagDefinition(TagDefinition toCopy) {
-		this(null, new IDGenerator().generate(), 
+		this(null, toCopy.uuid, 
 				toCopy.name, new Version(toCopy.version), 
 				null, toCopy.parentUuid, toCopy.tagsetDefinitionUuid);
 		
@@ -209,7 +208,7 @@ public class TagDefinition implements Versionable {
 				systemPropertyDefinitions.values());
 	}
 	
-	void setColor(String colorAsRgbInt) {
+	public void setColor(String colorAsRgbInt) {
 		getPropertyDefinition(
 			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).
 				setValue(colorAsRgbInt);
@@ -342,7 +341,7 @@ public class TagDefinition implements Versionable {
 		}	
 	}
 
-	void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
+	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
 		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getName());
 	}
 

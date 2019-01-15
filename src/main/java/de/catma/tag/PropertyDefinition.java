@@ -22,8 +22,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import de.catma.util.IDGenerator;
-
 /**
  * A definition or type for a {@link Property}.
  * 
@@ -90,7 +88,7 @@ public class PropertyDefinition {
 	 * @param toCopy
 	 */
 	public PropertyDefinition(PropertyDefinition toCopy) {
-		this.uuid = new IDGenerator().generate();
+		this.uuid = toCopy.uuid;	
 		this.name = toCopy.name;
 		this.possibleValueList = new ArrayList<>(toCopy.possibleValueList);
 	}

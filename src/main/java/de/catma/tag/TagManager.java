@@ -84,9 +84,8 @@ public class TagManager {
 		 * removed {@link TagDefinition} and its {@link TagsetDefinition} Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
 		 * </p><br />
 		 * <p>{@link TagDefinition} changed:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of the changed 
-		 * {@link TagDefinition} and its {@link TagsetDefinition}Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
-		 * <li>{@link PropertyChangeEvent#getOldValue()} = a pair of the old name and the old color Pair&lt;String,String&gt;</li>
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the modified {@link TagDefinition}</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = the {@link TagsetDefinition}</li>
 		 */
 		tagDefinitionChanged,
 		/**
@@ -182,35 +181,23 @@ public class TagManager {
 				null);
 	}
 	
-	public void setTagDefinitionTypeAndColor(
-			TagDefinition tagDefinition, String type, String colorRgbAsString, TagsetDefinition tagsetDefinition) {
-		String oldType = tagDefinition.getName();
-		String oldRgb = tagDefinition.getColor();
-		boolean tagDefChanged = false;
-		if (!oldType.equals(type)) {
-			tagDefinition.setName(type);
-			tagDefChanged = true;
-		}
+	public void updateTagDefinition(TagDefinition oldTag, TagDefinition newTag) {
+		TagsetDefinition tagset = this.tagLibrary.getTagsetDefinition(oldTag);
+		tagset.remove(oldTag);
+		tagset.addTagDefinition(newTag);
 		
-		if (!oldRgb.equals(colorRgbAsString)) {
-			tagDefinition.setColor(colorRgbAsString);
-			tagDefChanged = true;
-		}
-		
-		if (tagDefChanged) {
-			tagDefinition.setVersion();
-			this.propertyChangeSupport.firePropertyChange(
-					TagManagerEvent.tagDefinitionChanged.name(),
-					new Pair<String, String>(oldType, oldRgb),
-					new Pair<TagDefinition, TagsetDefinition>(tagDefinition, tagsetDefinition));
-		}
+		this.propertyChangeSupport.firePropertyChange(
+				TagManagerEvent.tagDefinitionChanged.name(),
+				tagset,
+				newTag);
 	}
-	
+
 	/**
 	 * Synchronizes td1 with td2 via {@link TagsetDefinition#synchronizeWith(TagsetDefinition)}}
 	 * @param td1
 	 * @param td2
 	 */
+	@Deprecated
 	public void synchronize(TagsetDefinition td1, TagsetDefinition td2) {
 		logger.info("synching " + td1 + " with " + td2);
 		td1.synchronizeWith(td2);
