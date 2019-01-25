@@ -1,16 +1,21 @@
 package de.catma.document.standoffmarkup.usermarkup;
 
+import java.util.Collections;
+import java.util.List;
+
 import de.catma.tag.TagInstance;
 
-public class TagInstanceInfo {
+public class Annotation {
 
-	private TagInstance tagInstance;
-	private UserMarkupCollection userMarkupCollection;
-	private String tagPath;
+	private final List<TagReference> tagReferences;
+	private final TagInstance tagInstance;
+	private final UserMarkupCollection userMarkupCollection;
+	private final String tagPath;
 	
-	public TagInstanceInfo(TagInstance tagInstance,
+	public Annotation(TagInstance tagInstance, List<TagReference> tagReferences,
 			UserMarkupCollection userMarkupCollection, String tagPath) {
 		this.tagInstance = tagInstance;
+		this.tagReferences = tagReferences;
 		this.userMarkupCollection = userMarkupCollection;
 		this.tagPath = tagPath;
 	}
@@ -27,5 +32,7 @@ public class TagInstanceInfo {
 		return tagPath;
 	}
 	
-	
+	public List<TagReference> getTagReferences() {
+		return Collections.unmodifiableList(tagReferences);
+	}
 }

@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import de.catma.tag.PropertyDefinition.SystemPropertyName;
+
 /**
  * An instance of a tag. The TagInstance has a {@link TagDefinition type}, a
  * set of user defined {@link Property properties} and a set of system properties.
@@ -200,6 +202,18 @@ public class TagInstance {
 		} else if (!uuid.equals(other.uuid))
 			return false;
 		return true;
+	}
+
+	public String getAuthor() {
+		Property authorProperty = 
+			getSystemProperty(
+					tagDefinition.getPropertyDefinition(
+						SystemPropertyName.catma_markupauthor.name())
+					.getUuid());
+		if (authorProperty != null) {
+			return authorProperty.getFirstValue();
+		}
+		return null;
 	}
 	
 	

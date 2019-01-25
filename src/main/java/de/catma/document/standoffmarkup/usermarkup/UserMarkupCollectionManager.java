@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import de.catma.document.AccessMode;
 import de.catma.document.repository.Repository;
@@ -261,11 +262,11 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	 * @return a list of all TagInstances as {@link Pair pairs} with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path} 
 	 * and the corresponding {@link TagInstance}.  
 	 */
-	public List<TagInstanceInfo> getTagInstanceInfos(Collection<String> instanceIDs) {
-		List<TagInstanceInfo> result = 
-				new ArrayList<TagInstanceInfo>();
+	public List<Annotation> getTagInstanceInfos(Collection<String> instanceIDs) {
+		List<Annotation> result = 
+				new ArrayList<Annotation>();
 		for (String instanceID : instanceIDs) {
-			TagInstanceInfo ti = getTagInstanceInfo(instanceID);
+			Annotation ti = getAnnotation(instanceID);
 			if (ti == null) {
 				 throw new IllegalStateException(
 					 "TagInstance #"+instanceID + 
@@ -276,23 +277,21 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 		return result;
 	}
 
-	/**
-	 * @param instanceID the {@link TagInstance#getUuid() uuid} of the TagInstance
-	 * @return a TagInstanceInfo with the {@link de.catma.tag.TagLibrary#getTagPath(de.catma.tag.TagDefinition) Tag path}, 
-	 * the corresponding {@link TagInstance} and the relevant {@link UserMarkupCollection}.
-	 */
-	public TagInstanceInfo getTagInstanceInfo(String instanceID) {
+
+	public Annotation getAnnotation(String instanceID) {
 		for (UserMarkupCollection umc : userMarkupCollections) {
 			if (umc.hasTagInstance(instanceID)) {
-				Pair<String, TagInstance> tagInstanceWithPath = 
-						umc.getInstance(instanceID);
-				return new TagInstanceInfo(
-					tagInstanceWithPath.getSecond(), 
-					umc, 
-					tagInstanceWithPath.getFirst());
+				return umc.getAnnotation(instanceID);
 			}
 		}
 		return null;
+	}
+	
+	public Collection<Annotation> getAnnotations(Collection<String> tagInstanceIds) {
+		return tagInstanceIds
+		.stream()
+		.map(tagInstanceId -> getAnnotation(tagInstanceId))
+		.collect(Collectors.toList());
 	}
 
 	/**

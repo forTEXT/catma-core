@@ -36,7 +36,6 @@ import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
 import de.catma.tag.TagsetDefinition;
 import de.catma.util.IDGenerator;
-import de.catma.util.Pair;
 
 /**
  * A collection of user generated markup in the form of {@link TagReference}s.
@@ -46,7 +45,7 @@ import de.catma.util.Pair;
  */
 public class UserMarkupCollection implements ISourceControlVersionable {
 
-	private String uuid;
+	private final String uuid;
 	private ContentInfoSet contentInfoSet;
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
@@ -354,22 +353,16 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		this.contentInfoSet = contentInfoSet;
 	}
 
-	/**
-	 * @param instanceID the {@link TagInstance#getUuid() uuid} of the TagInstance
-	 * @return a {@link Pair} with the {@link TagLibrary#getTagPath(TagDefinition) Tag path} 
-	 * and the corresponding {@link TagInstance}.
-	 */
-	public Pair<String,TagInstance> getInstance(String instanceID) {
-		for (TagReference tr : tagReferences) {
-			if (tr.getTagInstanceID().equals(instanceID)) {
-				return new Pair<String,TagInstance>(
-						this.tagLibrary.getTagPath(tr.getTagDefinition()),
-						tr.getTagInstance());
-			}
-		}
-		return null;
+	public Annotation getAnnotation(String tagInstanceId) {
+		List<TagReference> tagReferences = getTagReferences(tagInstanceId);
+		
+		TagInstance tagInstance = tagReferences.get(0).getTagInstance();
+		
+		String tagPath = getTagLibrary().getTagPath(tagInstance.getTagDefinition());
+		
+		return new Annotation(tagInstance, tagReferences, this, tagPath);
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
