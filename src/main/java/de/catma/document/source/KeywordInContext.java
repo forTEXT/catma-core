@@ -28,11 +28,12 @@ import de.catma.document.Range;
  *
  */
 public class KeywordInContext {
-    private String keyword;
-    private String kwic;
-    private Range kwicSourceRange;
-    private int relativeKeywordStartPos;
-	private boolean rtl;
+    private final String keyword;
+    private final Range keywordRange;
+    private final String kwic;
+    private final Range kwicSourceRange;
+    private final int relativeKeywordStartPos;
+	private final boolean rtl;
 
     /**
      * Constructor.
@@ -43,12 +44,16 @@ public class KeywordInContext {
      */
     public KeywordInContext(
             String keyword, String kwic,
-            Range kwicSourceRange, int relativeKeywordStartPos, 
+            Range kwicSourceRange, int relativeKeywordStartPos,
             boolean rtl) {
         this.keyword = keyword;
         this.kwic = kwic;
         this.kwicSourceRange = kwicSourceRange;
         this.relativeKeywordStartPos = relativeKeywordStartPos;
+        this.keywordRange = 
+        	new Range(
+        		kwicSourceRange.getStartPoint()+relativeKeywordStartPos, 
+        		kwicSourceRange.getStartPoint()+relativeKeywordStartPos+keyword.length());
         this.rtl = rtl;
     }
 
@@ -79,7 +84,7 @@ public class KeywordInContext {
     public int getRelativeKeywordStartPos() {
         return relativeKeywordStartPos;
     }
-
+    
     @Override
     public String toString() {
         return getBackwardContext() 
@@ -102,4 +107,8 @@ public class KeywordInContext {
     public boolean isRightToLeft() {
     	return rtl;
     }
+    
+    public Range getKeywordRange() {
+		return keywordRange;
+	}
 }

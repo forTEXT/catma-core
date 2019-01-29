@@ -98,21 +98,21 @@ public class TagInstance {
 	}
 	
 	/**
-	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
+	 * @param name CATMA name of the {@link PropertyDefinition}
 	 * @return the {@link Property} that belongs to the given {@link PropertyDefinition}
 	 * or <code>null</code> if there is no such property
 	 */
-	public Property getSystemProperty(String uuid) {
-		return systemProperties.get(uuid);
+	public Property getSystemProperty(String name) {
+		return systemProperties.get(name);
 	}
 	
 	/**
 	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
 	 * @return the {@link Property} that belongs to the given {@link PropertyDefinition}
-	 * or <code>null</code> if there is no such property
+	 * or <code>name</code> if there is no such property
 	 */
-	public Property getUserDefinedProperty(String uuid) {
-		return userDefinedProperties.get(uuid);
+	public Property getUserDefinedProperty(String name) {
+		return userDefinedProperties.get(name);
 	}
 	
 	/**
@@ -169,14 +169,13 @@ public class TagInstance {
 	}
 
 	/**
-	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
-	 * @return the property with the given uuid
+	 * @return the property with the given name
 	 */
-	public Property getProperty(String uuid) {
-		if (systemProperties.containsKey(uuid)) {
-			return getSystemProperty(uuid);
+	public Property getProperty(String name) {
+		if (systemProperties.containsKey(name)) {
+			return getSystemProperty(name);
 		}
-		return getUserDefinedProperty(uuid);
+		return getUserDefinedProperty(name);
 	}
 
 	@Override
@@ -206,10 +205,7 @@ public class TagInstance {
 
 	public String getAuthor() {
 		Property authorProperty = 
-			getSystemProperty(
-					tagDefinition.getPropertyDefinition(
-						SystemPropertyName.catma_markupauthor.name())
-					.getUuid());
+			getSystemProperty(SystemPropertyName.catma_markupauthor.name());
 		if (authorProperty != null) {
 			return authorProperty.getFirstValue();
 		}
