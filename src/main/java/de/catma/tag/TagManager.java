@@ -242,7 +242,6 @@ public class TagManager {
 			TagDefinition td,
 			PropertyDefinition propertyDefinition) {
 		td.setVersion();
-		
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.userPropertyDefinitionChanged.name(),
 				td,
