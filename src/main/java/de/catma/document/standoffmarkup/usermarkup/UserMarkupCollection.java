@@ -30,7 +30,6 @@ import java.util.Set;
 import de.catma.document.AccessMode;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.interfaces.ISourceControlVersionable;
-import de.catma.tag.Property;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
@@ -96,26 +95,26 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 			TagInstance copiedInstance = copiedTagInstances.get(tagInstance.getUuid());
 			
 			if (copiedInstance == null) {
-				TagDefinition tagDefinition = 
-					getTagLibrary().getTagDefinition(tagInstance.getTagDefinition().getUuid());
-				copiedInstance = new TagInstance(idGenerator.generate(), tagDefinition);
-				for (Property property : tagInstance.getSystemProperties()) {
-					copiedInstance.addSystemProperty(
-						new Property(
-							tagDefinition.getPropertyDefinition(
-								property.getPropertyDefinition().getName()),
-							Collections.<String>emptySet()));
-				}
+//				TagDefinition tagDefinition = 
+//					getTagLibrary().getTagDefinition(tagInstance.getTagDefinition().getUuid());
+//				copiedInstance = new TagInstance(idGenerator.generate(), tagDefinition);
+//				for (Property property : tagInstance.getSystemProperties()) {
+//					copiedInstance.addSystemProperty(
+//						new Property(
+//							tagDefinition.getPropertyDefinition(
+//								property.getPropertyDefinition().getName()),
+//							Collections.<String>emptySet()));
+//				}
 				
-				for (Property property : tagInstance.getUserDefinedProperties()) {
-					copiedInstance.addSystemProperty(
-						new Property(
-							tagDefinition.getPropertyDefinition(
-								property.getPropertyDefinition().getName()),
-							Collections.<String>emptySet()));
-				}
+//				for (Property property : tagInstance.getUserDefinedProperties()) {
+//					copiedInstance.addSystemProperty(
+//						new Property(
+//							tagDefinition.getPropertyDefinition(
+//								property.getPropertyDefinition().getName()),
+//							Collections.<String>emptySet()));
+//				}
 				
-				copiedTagInstances.put(tagInstance.getUuid(), copiedInstance);
+//				copiedTagInstances.put(tagInstance.getUuid(), copiedInstance);
 			}
 		
 			addTagReference( 
@@ -168,7 +167,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		}
 		
 		for (TagReference tr : tagReferences) {
-			if (tagDefinitionIDs.contains(tr.getTagDefinition().getUuid())) {
+			if (tagDefinitionIDs.contains(tr.getTagDefinitionId())) {
 				result.add(tr);
 			}
 		}
@@ -265,6 +264,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	/**
 	 * {@link TagInstance#synchronizeProperties() Synchronizes} all the Tag Instances. 
 	 */
+	@Deprecated
 	public void synchronizeTagInstances() {
 		HashSet<TagInstance> tagInstances = new HashSet<TagInstance>();
 		for (TagReference tr : tagReferences) {
@@ -272,13 +272,13 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		}
 		
 		for (TagInstance ti : tagInstances) {
-			if (getTagLibrary().getTagsetDefinition(ti.getTagDefinition()) != null) {
-				//TODO: handle move between TagsetDefinitions
-				ti.synchronizeProperties();
-			}
-			else {
-				tagReferences.removeAll(getTagReferences(ti.getUuid()));
-			}
+//			if (getTagLibrary().getTagsetDefinition(ti.getTagDefinition()) != null) {
+//				//TODO: handle move between TagsetDefinitions
+//				ti.synchronizeProperties();
+//			}
+//			else {
+//				tagReferences.removeAll(getTagReferences(ti.getUuid()));
+//			}
 		}
 	}
 
@@ -357,8 +357,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		List<TagReference> tagReferences = getTagReferences(tagInstanceId);
 		
 		TagInstance tagInstance = tagReferences.get(0).getTagInstance();
-		
-		String tagPath = getTagLibrary().getTagPath(tagInstance.getTagDefinition());
+		String tagPath = getTagLibrary().getTagPath(tagInstance.getTagDefinitionId());
 		
 		return new Annotation(tagInstance, tagReferences, this, tagPath);
 	}

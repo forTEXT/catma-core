@@ -26,6 +26,7 @@ import de.catma.document.Range;
 import de.catma.tag.PropertyDefinition;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
+import de.catma.tag.PropertyDefinition.SystemPropertyName;
 
 /**
  * A {@link Range} of text referenced by a {@link TagInstance}.
@@ -78,8 +79,8 @@ public class TagReference {
 	/**
 	 * @return definition of the {@link TagInstance}'s tag 
 	 */
-	public TagDefinition getTagDefinition() {
-		return tagInstance.getTagDefinition();
+	public String getTagDefinitionId() {
+		return tagInstance.getTagDefinitionId();
 	}
 	
 	/**
@@ -95,17 +96,7 @@ public class TagReference {
 	public Range getRange() {
 		return range;
 	}
-	
-	/**
-	 * @return {@link PropertyDefinition.SystemPropertyName#catma_displaycolor color property}
-	 *  of the underlying {@link TagDefinition}.
-	 */
-	public String getColor() {
-		return tagInstance.getSystemProperty(
-			tagInstance.getTagDefinition().getPropertyDefinition(
-					PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).getName()).getFirstValue();
-	}
-	
+
 	/**
 	 * @return the referencing instance
 	 */

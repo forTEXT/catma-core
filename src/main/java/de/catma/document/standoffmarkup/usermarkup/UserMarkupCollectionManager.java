@@ -73,6 +73,7 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	 * @param outOfSynchCollections
 	 * @param tagsetDefinition
 	 */
+	@Deprecated
 	public void updateUserMarkupCollections(
 			List<UserMarkupCollection> outOfSynchCollections, 
 			TagsetDefinition tagsetDefinition) {

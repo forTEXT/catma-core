@@ -47,6 +47,8 @@ public class PropertyDefinition {
 		 * TagDefinition with this PropertyDefinition.
 		 */
 		catma_markupauthor,
+		
+		catma_markuptimestamp,
 		;
 		
 		/**

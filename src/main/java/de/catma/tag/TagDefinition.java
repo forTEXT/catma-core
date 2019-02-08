@@ -123,7 +123,7 @@ public class TagDefinition implements Versionable {
 	}
 	
 	public void addUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		userDefinedPropertyDefinitions.put(propertyDefinition.getName(), propertyDefinition);
+		userDefinedPropertyDefinitions.put(propertyDefinition.getUuid(), propertyDefinition);
 	}	
 	
 	/**
@@ -146,7 +146,12 @@ public class TagDefinition implements Versionable {
 			return systemPropertyDefinitions.get(name);
 		}
 		else {
-			return userDefinedPropertyDefinitions.get(name);
+			return userDefinedPropertyDefinitions
+					.values()
+					.stream()
+					.filter(pd -> pd.getName().equals(name))
+					.findFirst()
+					.orElse(null);
 		}
 	}
 	
@@ -343,17 +348,11 @@ public class TagDefinition implements Versionable {
 	}
 
 	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getName());
+		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getUuid());
 	}
 
 	public PropertyDefinition getPropertyDefinitionByUuid(String uuid) {
-		//TODO: performance optimization
-		return userDefinedPropertyDefinitions
-				.values()
-				.stream()
-				.filter(pd -> pd.getUuid().equals(uuid))
-				.findFirst()
-				.orElse(null);
+		return this.userDefinedPropertyDefinitions.get(uuid);
 	}
 
 	@Override
