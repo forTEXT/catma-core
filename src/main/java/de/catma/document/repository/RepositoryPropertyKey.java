@@ -75,7 +75,9 @@ public enum RepositoryPropertyKey {
 	/**
 	 * a temporal directory, that can be used e.g. for uploads
 	 */
-	TempDir, 
+	TempDir,
+	LoginType,
+	InitType,
 	GraphDbPath, 
 	SourceDocumentIndexMaintainer, 
 	SourceDocumentIndexMaintainerMaxObjects,
@@ -83,12 +85,15 @@ public enum RepositoryPropertyKey {
 	AnnotationGeneratorURL,
 	BaseURL("http://www.digitalhumanities.it/catma/"),
 	otpSecret,
-	otpDuration, 
+	otpDuration,
+	signup_tokenKey,
 	version,
 	Google_oauthAuthorizationCodeRequestURL,
 	Google_oauthAccessTokenRequestURL,
 	Google_oauthClientId,
-	Google_oauthClientSecret, 
+	Google_oauthClientSecret,
+	Google_recaptchaSiteKey,
+	Google_recaptchaSecretKey,
 	CATMA_oauthAuthorizationCodeRequestURL,
 	CATMA_oauthAccessTokenRequestURL,
 	CATMA_oauthClientId,

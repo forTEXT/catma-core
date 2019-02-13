@@ -25,7 +25,7 @@ public class DefaultBackgroundServiceProvider implements
 	private ProgressListener progressListener = new LogProgressListener();
 
 	@Override
-	public BackgroundService getBackgroundService() {
+	public BackgroundService accuireBackgroundService() {
 		return dummy;
 	}
 
