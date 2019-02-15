@@ -506,6 +506,4 @@ public interface Repository {
 
 	public int getUserMarkupCollectionReferenceCount() throws Exception;
 
-	public void addAndCommitChanges(UserMarkupCollectionReference ref) throws Exception;
-	
 }

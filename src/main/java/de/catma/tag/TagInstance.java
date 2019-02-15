@@ -172,6 +172,10 @@ public class TagInstance {
 ////			}
 ////		}
 	}
+	
+	public void removeUserDefinedProperty(String propertyDefId) {
+		this.userDefinedProperties.remove(propertyDefId);
+	}
 
 	@Override
 	public int hashCode() {

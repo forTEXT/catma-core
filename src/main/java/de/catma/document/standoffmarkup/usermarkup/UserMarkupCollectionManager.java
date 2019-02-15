@@ -35,6 +35,7 @@ import de.catma.document.AccessMode;
 import de.catma.document.repository.Repository;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.tag.Property;
+import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
@@ -370,5 +371,17 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 	public void clear() {
 		userMarkupCollections.clear();
 		
+	}
+
+	public Collection<UserMarkupCollectionReference> getCollections(TagDefinition tag) {
+		return userMarkupCollections
+			.stream()
+			.filter(collection -> collection.containsTag(tag))
+			.map(collection -> new UserMarkupCollectionReference(
+				collection.getUuid(), collection.getRevisionHash(), 
+				collection.getContentInfoSet(),
+				collection.getSourceDocumentId()))
+			.collect(Collectors.toSet());
+			
 	}
 }

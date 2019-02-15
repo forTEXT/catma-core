@@ -50,6 +50,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	private List<TagReference> tagReferences;
 	private AccessMode accessMode;
 	private String revisionHash;
+	private String sourceDocumentId;
 	
 	/**
 	 * @param id the identifier of the collections (depends on the repository)
@@ -58,8 +59,9 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 */
 	public UserMarkupCollection(
-			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
+			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary, String sourceDocumentId) {
 		this(uuid, contentInfoSet, tagLibrary, new ArrayList<TagReference>(), AccessMode.WRITE);
+		this.sourceDocumentId = sourceDocumentId;
 	}
 	
 	/**
@@ -84,7 +86,8 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		this(
 			userMarkupCollection.getId(),
 			new ContentInfoSet(userMarkupCollection.getContentInfoSet()), 
-			new TagLibrary(userMarkupCollection.getTagLibrary()));
+			new TagLibrary(userMarkupCollection.getTagLibrary()),
+			"");
 		
 		IDGenerator idGenerator = new IDGenerator();
 		Map<String,TagInstance> copiedTagInstances = new HashMap<String,TagInstance>();
@@ -394,5 +397,20 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	
 	public AccessMode getAccessMode() {
 		return accessMode;
+	}
+
+	public boolean containsTag(TagDefinition tag) {
+		for (TagReference t : tagReferences) {
+			if (t.getTagDefinitionId().equals(tag.getUuid())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	public String getSourceDocumentId() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
