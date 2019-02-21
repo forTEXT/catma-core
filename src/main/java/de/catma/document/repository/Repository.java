@@ -273,7 +273,7 @@ public interface Repository {
 	 * @throws Exception 
 	 */
 	public SourceDocument getSourceDocument(String id) throws Exception;
-	public void delete(SourceDocument sourceDocument) throws IOException;
+	public void delete(SourceDocument sourceDocument) throws Exception;
 	/**
 	 * @param umcRef
 	 * @return the SourceDocument that belongs to the given UserMarkupCollection
@@ -415,7 +415,7 @@ public interface Repository {
 			UserMarkupCollectionReference userMarkupCollectionReference, 
 			ContentInfoSet contentInfoSet);
 	public void delete(
-			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
+			UserMarkupCollectionReference userMarkupCollectionReference) throws Exception;
 	/**
 	 * Shares the given User Markup Collection with the specified acces mode to the user 
 	 * identified by userIdentification.

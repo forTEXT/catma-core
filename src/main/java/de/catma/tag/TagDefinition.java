@@ -45,7 +45,7 @@ public class TagDefinition implements Versionable {
 	private Version version;
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
-	private Set<String> deletedPropertyDefinitions; //TODO:?
+	private Set<String> deletedPropertyDefinitions;
 	private String parentUuid;
 	private String tagsetDefinitionUuid;
 

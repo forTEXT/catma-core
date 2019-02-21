@@ -21,6 +21,7 @@ package de.catma.tag;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -181,15 +182,32 @@ public class TagManager {
 				null);
 	}
 	
-	public void updateTagDefinition(TagDefinition oldTag, TagDefinition newTag) {
-		TagsetDefinition tagset = this.tagLibrary.getTagsetDefinition(oldTag);
-		tagset.remove(oldTag);
-		tagset.addTagDefinition(newTag);
+	public void updateTagDefinition(TagDefinition tag, TagDefinition updatedTag) {
+		TagsetDefinition tagset = this.tagLibrary.getTagsetDefinition(tag);
+		
+		for (PropertyDefinition pd : new ArrayList<>(tag.getUserDefinedPropertyDefinitions())) {
+			if (!updatedTag.getUserDefinedPropertyDefinitions().contains(pd)) {
+				removeUserDefinedPropertyDefinition(pd, tag, tagset);
+			}
+		}
+		
+		for (PropertyDefinition pd : updatedTag.getUserDefinedPropertyDefinitions()) {
+			if (!tag.getUserDefinedPropertyDefinitions().contains(pd)) {
+				tag.addUserDefinedPropertyDefinition(new PropertyDefinition(pd));
+			}
+			else {
+				tag.getPropertyDefinitionByUuid(
+					pd.getUuid()).setPossibleValueList(pd.getPossibleValueList());
+			}
+		}
+		
+		tag.setName(updatedTag.getName());
+		tag.setColor(updatedTag.getColor());
 		
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.tagDefinitionChanged.name(),
 				tagset,
-				newTag);
+				tag);
 	}
 
 	/**
