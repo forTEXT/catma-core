@@ -19,7 +19,7 @@
 package de.catma.backgroundservice;
 
 public interface BackgroundServiceProvider {
-	public BackgroundService getBackgroundService();
+	public BackgroundService accuireBackgroundService();
 	
 	public <T> void submit( 
 			String caption,
