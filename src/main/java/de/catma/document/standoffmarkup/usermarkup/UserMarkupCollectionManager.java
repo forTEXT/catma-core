@@ -380,7 +380,8 @@ public class UserMarkupCollectionManager implements Iterable<UserMarkupCollectio
 			.map(collection -> new UserMarkupCollectionReference(
 				collection.getUuid(), collection.getRevisionHash(), 
 				collection.getContentInfoSet(),
-				collection.getSourceDocumentId()))
+				collection.getSourceDocumentId(),
+				collection.getSourceDocumentRevisionHash()))
 			.collect(Collectors.toSet());
 			
 	}

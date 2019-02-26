@@ -413,7 +413,7 @@ public interface Repository {
 	 */
 	public void update(
 			UserMarkupCollectionReference userMarkupCollectionReference, 
-			ContentInfoSet contentInfoSet);
+			ContentInfoSet contentInfoSet) throws Exception;
 	public void delete(
 			UserMarkupCollectionReference userMarkupCollectionReference) throws Exception;
 	/**

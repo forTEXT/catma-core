@@ -42,7 +42,7 @@ public class TagDefinition implements Versionable {
 	
 	private String uuid;
 	private String name;
-	private Version version;
+	private Version version = new Version(); //TODO: replace version with createdDate
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
 	private Set<String> deletedPropertyDefinitions;
@@ -63,6 +63,7 @@ public class TagDefinition implements Versionable {
 			Integer id, String uuid, 
 			String name, Version version,  
 			Integer parentId, String parentUuid, String tagsetDefinitionUuid) {
+		this();
 		this.id = id;
 		this.uuid = uuid;
 		this.name = name;
@@ -73,8 +74,6 @@ public class TagDefinition implements Versionable {
 			this.parentUuid = "";
 		}
 		this.tagsetDefinitionUuid = tagsetDefinitionUuid;
-		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
-		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 	}
 
 	/**
@@ -92,6 +91,11 @@ public class TagDefinition implements Versionable {
 		for (PropertyDefinition pd : toCopy.getUserDefinedPropertyDefinitions()) {
 			addUserDefinedPropertyDefinition(new PropertyDefinition(pd));
 		}	
+	}
+
+	public TagDefinition() {
+		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
+		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 	}
 
 	public Version getVersion() {

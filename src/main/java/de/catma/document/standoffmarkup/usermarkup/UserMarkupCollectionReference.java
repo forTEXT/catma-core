@@ -33,17 +33,20 @@ public class UserMarkupCollectionReference implements ISourceControlVersionable 
 	private String revisionHash;
 	private ContentInfoSet contentInfoSet;
 	private String sourceDocumentId;
+	private String sourceDocumentRevisiohHash;
 	
 	
 	public UserMarkupCollectionReference(
 		String id, String revisionHash, 
 		ContentInfoSet contentInfoSet, 
-		String sourceDocumentId) {
+		String sourceDocumentId,
+		String sourceDocumentRevisiohHash) {
 		super();
 		this.id = id;
 		this.revisionHash = revisionHash;
 		this.contentInfoSet = contentInfoSet;
 		this.sourceDocumentId = sourceDocumentId;
+		this.sourceDocumentRevisiohHash = sourceDocumentRevisiohHash;
 	}
 
 	@Override
@@ -112,9 +115,7 @@ public class UserMarkupCollectionReference implements ISourceControlVersionable 
 		return sourceDocumentId;
 	}
 
-//	public void setSourceDocumentId(String sourceDocumentId) {
-//		this.sourceDocumentId = sourceDocumentId;
-//	}
-
-	
+	public String getSourceDocumentRevisiohHash() {
+		return sourceDocumentRevisiohHash;
+	}
 }

@@ -48,9 +48,11 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	private ContentInfoSet contentInfoSet;
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
+	@Deprecated
 	private AccessMode accessMode;
 	private String revisionHash;
 	private String sourceDocumentId;
+	private String sourceDocumentRevisionHash;
 	
 	/**
 	 * @param id the identifier of the collections (depends on the repository)
@@ -59,9 +61,21 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 */
 	public UserMarkupCollection(
-			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary, String sourceDocumentId) {
-		this(uuid, contentInfoSet, tagLibrary, new ArrayList<TagReference>(), AccessMode.WRITE);
+			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary, 
+			String sourceDocumentId, String sourceDocumentRevisionHash) {
+		this(uuid ,contentInfoSet, tagLibrary, new ArrayList<TagReference>(), 
+				sourceDocumentId, sourceDocumentRevisionHash);
+	}
+	
+	public UserMarkupCollection(
+			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary, List<TagReference> tagReferences,
+			String sourceDocumentId, String sourceDocumentRevisionHash) {
+		this.uuid = uuid;
+		this.contentInfoSet = contentInfoSet;
+		this.tagLibrary = tagLibrary;
+		this.tagReferences = new ArrayList<TagReference>();
 		this.sourceDocumentId = sourceDocumentId;
+		this.sourceDocumentRevisionHash = sourceDocumentRevisionHash;
 	}
 	
 	/**
@@ -70,15 +84,16 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 * @param tagReferences referenced text ranges and referencing {@link TagInstance}s.
 	 */
-	public UserMarkupCollection(
-			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
-			List<TagReference> tagReferences, AccessMode accessMode) {
-		this.uuid = uuid;
-		this.contentInfoSet = contentInfoSet;
-		this.tagLibrary = tagLibrary;
-		this.tagReferences = tagReferences;
-		this.accessMode = accessMode;
-	}
+//	@Deprecated
+//	public UserMarkupCollection(
+//			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
+//			List<TagReference> tagReferences, AccessMode accessMode) {
+//		this.uuid = uuid;
+//		this.contentInfoSet = contentInfoSet;
+//		this.tagLibrary = tagLibrary;
+//		this.tagReferences = tagReferences;
+//		this.accessMode = accessMode;
+//	}
 
 	//TODO: copy construction will be different in a git/graph based environment
 	@Deprecated
@@ -87,7 +102,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 			userMarkupCollection.getId(),
 			new ContentInfoSet(userMarkupCollection.getContentInfoSet()), 
 			new TagLibrary(userMarkupCollection.getTagLibrary()),
-			"");
+			"","");
 		
 		IDGenerator idGenerator = new IDGenerator();
 		Map<String,TagInstance> copiedTagInstances = new HashMap<String,TagInstance>();
@@ -276,7 +291,6 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		
 		for (TagInstance ti : tagInstances) {
 //			if (getTagLibrary().getTagsetDefinition(ti.getTagDefinition()) != null) {
-//				//TODO: handle move between TagsetDefinitions
 //				ti.synchronizeProperties();
 //			}
 //			else {
@@ -394,7 +408,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		}
 		return true;
 	}
-	
+	@Deprecated
 	public AccessMode getAccessMode() {
 		return accessMode;
 	}
@@ -410,7 +424,10 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	}
 
 	public String getSourceDocumentId() {
-		// TODO Auto-generated method stub
-		return null;
+		return sourceDocumentId;
+	}
+	
+	public String getSourceDocumentRevisionHash() {
+		return sourceDocumentRevisionHash;
 	}
 }
