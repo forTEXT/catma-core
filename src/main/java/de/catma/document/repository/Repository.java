@@ -247,24 +247,10 @@ public interface Repository {
 
 	/**
 	 *
-	 * @return the number of available Source Documents
-	 * @throws Exception
-	 */
-	int getSourceDocumentsCount() throws Exception;
-
-	/**
-	 *
 	 * @return the available Tagsets
 	 * @throws Exception
 	 */
 	Collection<TagsetDefinition> getTagsets() throws Exception;
-
-	/**
-	 *
-	 * @return the number of available Tagsets
-	 * @throws Exception
-	 */
-	int getTagsetsCount() throws Exception;
 
 
 	/**
@@ -499,11 +485,5 @@ public interface Repository {
 	
 	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
 	public List<User> getProjectMembers() throws Exception;
-
-	
-
-	public List<UserMarkupCollectionReference> getUserMarkupCollectionReferences(int offset, int limit) throws Exception;
-
-	public int getUserMarkupCollectionReferenceCount() throws Exception;
 
 }
