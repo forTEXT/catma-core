@@ -486,4 +486,10 @@ public interface Repository {
 	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
 	public List<User> getProjectMembers() throws Exception;
 
+	public boolean hasUncommittedChanges() throws Exception;
+
+	public void commitChanges(String commitMsg);
+
+	public void synchronizeWithRemote();
+
 }
