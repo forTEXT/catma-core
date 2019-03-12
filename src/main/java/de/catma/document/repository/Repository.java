@@ -490,6 +490,8 @@ public interface Repository {
 
 	public void commitChanges(String commitMsg);
 
-	public void synchronizeWithRemote();
+	public void synchronizeWithRemote() throws Exception;
+
+	void printStatus();
 
 }

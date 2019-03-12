@@ -33,5 +33,9 @@ public class ProjectReference {
 		this.description = description;
 	}
 	
+	@Override
+	public String toString() {
+		return "Project " + name + " #" + projectId;
+	}
 	
 }
