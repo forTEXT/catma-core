@@ -5,8 +5,6 @@ import java.io.IOException;
 import de.catma.document.source.SourceDocument;
 import de.catma.models.Project;
 import de.catma.tag.TagsetDefinition;
-import de.catma.user.Member;
-import de.catma.user.User;
 
 /**
  * Manages all access controls

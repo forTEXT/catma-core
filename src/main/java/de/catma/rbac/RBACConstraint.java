@@ -6,10 +6,10 @@ import java.util.function.Predicate;
  * A constraint that executes a certain task if condition is met or not at runtime.
  * <p>
  * <code>
- * RBACConstraint rbacConstraint = RBACConstraint.ifNotAuthorized((proj) -> 
- *      			(rbacManager.isAuthorizedOnProject(RBACPermission.PROJECT_EDIT, proj.getProjectId())),
- *       			() -> editAction.setVisible(false))
- *       		);
+ * RBACConstraint rbacConstraint = RBACConstraint.ifNotAuthorized((project) -> 
+        			(remoteGitManager.isAuthorizedOnProject(remoteGitManager.getUser(), RBACPermission.PROJECT_MEMBERS_EDIT, project.getProjectId())),
+        			() -> aComponent.setVisible(false))
+        		);
  * </code>
  * </p>
  * At a later point when proj is available e.g. data has been loaded we enforce all conditions by executing.

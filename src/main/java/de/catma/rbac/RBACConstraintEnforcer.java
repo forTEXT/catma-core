@@ -8,11 +8,12 @@ import java.util.List;
  * at a later point when <code>T t</code> is available e.g. when data is ready usually reload() methods.
  * <p>
  * <code>
- *         rbacEnforcer.register(
- *       		RBACConstraint.ifNotAuthorized((proj) -> 
- *       			(rbacManager.isAuthorizedOnProject(RBACPermission.PROJECT_EDIT, proj.getProjectId())),
- *       			() -> editAction.setVisible(false))
+ *       rbacEnforcer.register(
+ *       		RBACConstraint.ifNotAuthorized((project) -> 
+ *       			(remoteGitManager.isAuthorizedOnProject(remoteGitManager.getUser(),RBACPermission.PROJECT_MEMBERS_EDIT, project.getProjectId())),
+ *       			() -> aComponent.setVisible(false))
  *       		);
+ *
  *
  * </code>
  * </p>
