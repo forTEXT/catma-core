@@ -248,24 +248,10 @@ public interface Repository {
 
 	/**
 	 *
-	 * @return the number of available Source Documents
-	 * @throws Exception
-	 */
-	int getSourceDocumentsCount() throws Exception;
-
-	/**
-	 *
 	 * @return the available Tagsets
 	 * @throws Exception
 	 */
 	Collection<TagsetDefinition> getTagsets() throws Exception;
-
-	/**
-	 *
-	 * @return the number of available Tagsets
-	 * @throws Exception
-	 */
-	int getTagsetsCount() throws Exception;
 
 
 	/**
@@ -274,7 +260,7 @@ public interface Repository {
 	 * @throws Exception 
 	 */
 	public SourceDocument getSourceDocument(String id) throws Exception;
-	public void delete(SourceDocument sourceDocument) throws IOException;
+	public void delete(SourceDocument sourceDocument) throws Exception;
 	/**
 	 * @param umcRef
 	 * @return the SourceDocument that belongs to the given UserMarkupCollection
@@ -414,9 +400,9 @@ public interface Repository {
 	 */
 	public void update(
 			UserMarkupCollectionReference userMarkupCollectionReference, 
-			ContentInfoSet contentInfoSet);
+			ContentInfoSet contentInfoSet) throws Exception;
 	public void delete(
-			UserMarkupCollectionReference userMarkupCollectionReference) throws IOException;
+			UserMarkupCollectionReference userMarkupCollectionReference) throws Exception;
 	/**
 	 * Shares the given User Markup Collection with the specified acces mode to the user 
 	 * identified by userIdentification.
@@ -499,13 +485,15 @@ public interface Repository {
 	public TagLibrary getTagLibraryFor(String uuid, Version version) throws IOException;
 	
 	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
-	
+
 	public List<Member> getProjectMembers() throws Exception;
 
-	public List<UserMarkupCollectionReference> getUserMarkupCollectionReferences(int offset, int limit) throws Exception;
+	public boolean hasUncommittedChanges() throws Exception;
 
-	public int getUserMarkupCollectionReferenceCount() throws Exception;
+	public void commitChanges(String commitMsg);
 
-	public void addAndCommitChanges(UserMarkupCollectionReference ref) throws Exception;
-	
+	public void synchronizeWithRemote() throws Exception;
+
+	void printStatus();
+
 }

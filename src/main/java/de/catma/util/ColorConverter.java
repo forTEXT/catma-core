@@ -67,12 +67,24 @@ public class ColorConverter {
 	 * @return a corresponding hex string consisting of three hex values (without a leading #)
 	 */
 	public static String toHex(int rgb) {
-		int red = (rgb >> 16) & 0xFF;
-		int green = (rgb >> 8) & 0xFF;
-		int blue = (rgb >> 0) & 0xFF;
+		int red = getRed(rgb);
+		int green = getGreen(rgb);
+		int blue = getBlue(rgb);
 		return fillUp(Integer.toHexString(red).toUpperCase()) 
 				+ fillUp(Integer.toHexString(green).toUpperCase()) 
 				+ fillUp(Integer.toHexString(blue).toUpperCase());
+	}
+	
+	private static int getRed(int rgb) {
+		return (rgb >> 16) & 0xFF;
+	}
+	
+	private static int getGreen(int rgb) {
+		return (rgb >> 8) & 0xFF;
+	}
+	
+	private static int getBlue(int rgb) {
+		return (rgb >> 0) & 0xFF;
 	}
 	
 	/**
@@ -148,5 +160,19 @@ public class ColorConverter {
 		int g = getRandomInt();
 		int b = getRandomInt();
 		return new int[] {r, g, b};
+	}
+
+	public static boolean isLightColor(String colorInteger) {
+		int rgb = Integer.valueOf(colorInteger);
+		int r = getRed(rgb);
+		int g = getGreen(rgb);
+		int b = getBlue(rgb);
+		return isLightColor(r, g, b);
+	}
+	
+	public static boolean isLightColor(int r, int g, int b) {
+		// copied from https://codepen.io/WebSeed/pen/pvgqEq (Will Bamford)
+		double perceptiveLuminance = 1 - (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+		return (perceptiveLuminance < 0.5);
 	}
 }

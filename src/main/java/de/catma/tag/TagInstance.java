@@ -21,8 +21,11 @@ package de.catma.tag;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Map;
+
+import de.catma.tag.PropertyDefinition.SystemPropertyName;
+import de.catma.util.IDGenerator;
 
 /**
  * An instance of a tag. The TagInstance has a {@link TagDefinition type}, a
@@ -32,60 +35,69 @@ import java.util.Map;
  *
  */
 public class TagInstance {
-
 	private String uuid;
-	private TagDefinition tagDefinition;
-	private Map<String,Property> systemProperties;
+	private String tagDefinitionId;
 	private Map<String,Property> userDefinedProperties;
+	private String tagsetId;
+	private String author;
+	private String timestamp;
 	
 	/**
 	 * System properties get the {@link PropertyDefinition#getFirstValue() default} value set.
 	 * @param uuid CATMA uuid of the instance (see {@link de.catma.util.IDGenerator}.
 	 * @param tagDefinition the type of this instance
 	 */
-	public TagInstance(String uuid, TagDefinition tagDefinition) {
+	public TagInstance(
+			String uuid, String tagDefinitionId, 
+			String author, String timestamp,
+			Collection<PropertyDefinition> userDefinedPropertyDefs,
+			String tagsetId) {
+		
 		this.uuid = uuid;
-		this.tagDefinition = tagDefinition;
-
-		systemProperties = new HashMap<String, Property>();
-		setDefaultValues(
-				systemProperties, 
-				tagDefinition.getSystemPropertyDefinitions(), true);
-
+		this.tagDefinitionId = tagDefinitionId;
+		this.author = author;
+		this.timestamp = timestamp;
+		
 		userDefinedProperties = new HashMap<String, Property>();
-		setDefaultValues(
-			userDefinedProperties, 
-			tagDefinition.getUserDefinedPropertyDefinitions(), false);
-
+		
+		for (PropertyDefinition pDef : userDefinedPropertyDefs) {
+			userDefinedProperties.put(
+				pDef.getUuid(), 
+				new Property(
+					pDef.getUuid(),
+					Collections.<String>emptySet()));
+		}
+		this.tagsetId = tagsetId;
 	}
 	
-	private void setDefaultValues(
-			Map<String,Property> properties,
-			Collection<PropertyDefinition> propertyDefinitions, boolean useFirstValue) {
-		for (PropertyDefinition pDef : propertyDefinitions) {
-			properties.put(
-			pDef.getName(), 
-			new Property(pDef, 
-					useFirstValue?Collections.singleton(pDef.getFirstValue()):
-						Collections.<String>emptySet()));
-		}
-	}
 
-	public TagDefinition getTagDefinition() {
-		return tagDefinition;
+
+	public String getTagDefinitionId() {
+		return tagDefinitionId;
 	}
 
 	public void addSystemProperty(Property property) {
-		systemProperties.put(property.getPropertyDefinition().getName(), property);
+		String propertyDefinitionId = property.getPropertyDefinitionId();
+		IDGenerator idGenerator = new IDGenerator();
+		
+		String authorId = idGenerator.generate(SystemPropertyName.catma_markupauthor.name());
+		String timestampId = idGenerator.generate(SystemPropertyName.catma_markuptimestamp.name());
+		
+		if (authorId.equals(propertyDefinitionId)) {
+			this.author = property.getFirstValue();
+		}
+		else if (timestampId.equals(propertyDefinitionId)) {
+			this.timestamp = property.getFirstValue();
+		}
 	}
 	
 	public void addUserDefinedProperty(Property property) {
-		userDefinedProperties.put(property.getPropertyDefinition().getName(), property);
+		userDefinedProperties.put(property.getPropertyDefinitionId(), property);
 	}
 	
 	@Override
 	public String toString() {
-		return "TAGINSTANCE[#"+uuid+","+tagDefinition+"]";
+		return "TAGINSTANCE[#"+uuid+",TAG#"+tagDefinitionId+"]";
 	}
 	
 	/**
@@ -95,21 +107,7 @@ public class TagInstance {
 		return uuid;
 	}
 	
-	/**
-	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
-	 * @return the {@link Property} that belongs to the given {@link PropertyDefinition}
-	 * or <code>null</code> if there is no such property
-	 */
-	public Property getSystemProperty(String uuid) {
-		return systemProperties.get(uuid);
-	}
-	
-	/**
-	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
-	 * @return the {@link Property} that belongs to the given {@link PropertyDefinition}
-	 * or <code>null</code> if there is no such property
-	 */
-	public Property getUserDefinedProperty(String uuid) {
+	public Property getUserDefinedPropetyByUuid(String uuid) {
 		return userDefinedProperties.get(uuid);
 	}
 	
@@ -118,7 +116,15 @@ public class TagInstance {
 	 * @see PropertyDefinition.SystemPropertyName
 	 */
 	public Collection<Property> getSystemProperties() {
-		return Collections.unmodifiableCollection(systemProperties.values());
+		Collection<Property> systemProperties = new HashSet<>();
+		IDGenerator idGenerator = new IDGenerator();
+		
+		String authorId = idGenerator.generate(SystemPropertyName.catma_markupauthor.name());
+		systemProperties.add(new Property(authorId, Collections.singleton(author)));
+		String timestampId = idGenerator.generate(SystemPropertyName.catma_markuptimestamp.name());
+		systemProperties.add(new Property(timestampId, Collections.singleton(timestamp)));
+		
+		return Collections.unmodifiableCollection(systemProperties);
 	}
 	
 	/**
@@ -132,49 +138,43 @@ public class TagInstance {
 	 * Sychnronizes the properties of this instance which the attached 
 	 * {@link PropertyDefinition}, property values don't get overridden 
 	 */
+	@Deprecated
 	public void synchronizeProperties() {
 		
-		Iterator<Map.Entry<String, Property>> iterator = systemProperties.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Map.Entry<String, Property> entry = iterator.next();
-			Property p = entry.getValue();
-			if (getTagDefinition().getPropertyDefinition(entry.getKey())==null) {
-				iterator.remove();
-			}
-			else {
-				p.synchronize();
-			}
-		}
+//		Iterator<Map.Entry<String, Property>> iterator = systemProperties.entrySet().iterator();
+//		while (iterator.hasNext()) {
+//			Map.Entry<String, Property> entry = iterator.next();
+//			Property p = entry.getValue();
+////			if (getTagDefinition().getPropertyDefinition(entry.getKey())==null) {
+////				iterator.remove();
+////			}
+////			else {
+////				p.synchronize();
+////			}
+//		}
 		
 		// we do not update Property values, therefore we handle only ...
 		
 		// ... deletion and ...
-		iterator = userDefinedProperties.entrySet().iterator();
-		while (iterator.hasNext()) {
-			Map.Entry<String, Property> entry = iterator.next();
-			
-			if (getTagDefinition().getPropertyDefinition(entry.getKey())==null) {
-				iterator.remove();
-			}
-		}
-		
-		// ... addition of properties
-		for (PropertyDefinition pd : getTagDefinition().getUserDefinedPropertyDefinitions()) {
-			if (!userDefinedProperties.containsKey(pd.getName())) {
-				addUserDefinedProperty(new Property(pd, Collections.<String>emptySet()));
-			}
-		}
+//		iterator = userDefinedProperties.entrySet().iterator();
+//		while (iterator.hasNext()) {
+//			Map.Entry<String, Property> entry = iterator.next();
+//			
+////			if (getTagDefinition().getPropertyDefinition(entry.getKey())==null) {
+////				iterator.remove();
+////			}
+//		}
+//		
+////		// ... addition of properties
+////		for (PropertyDefinition pd : getTagDefinition().getUserDefinedPropertyDefinitions()) {
+////			if (!userDefinedProperties.containsKey(pd.getUuid())) {
+//////				addUserDefinedProperty(new Property(pd, Collections.<String>emptySet()));
+////			}
+////		}
 	}
-
-	/**
-	 * @param uuid CATMA uuid of the {@link PropertyDefinition}
-	 * @return the property with the given uuid
-	 */
-	public Property getProperty(String uuid) {
-		if (systemProperties.containsKey(uuid)) {
-			return getSystemProperty(uuid);
-		}
-		return getUserDefinedProperty(uuid);
+	
+	public void removeUserDefinedProperty(String propertyDefId) {
+		this.userDefinedProperties.remove(propertyDefId);
 	}
 
 	@Override
@@ -201,6 +201,21 @@ public class TagInstance {
 			return false;
 		return true;
 	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public String getTimestamp() {
+		return timestamp;
+	}
 	
+	public String getTagsetId() {
+		return tagsetId;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;	
+	}
 	
 }

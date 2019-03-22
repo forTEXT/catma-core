@@ -23,10 +23,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Logger;
-
-import de.catma.util.IDGenerator;
 
 /**
  * A definition of a tag. That is a type of a {@link TagInstance}.
@@ -38,11 +37,12 @@ public class TagDefinition implements Versionable {
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	@Deprecated
 	private Integer id;
+	@Deprecated
 	private Integer parentId;
 	
 	private String uuid;
 	private String name;
-	private Version version;
+	private Version version = new Version(); //TODO: replace version with createdDate
 	private Map<String,PropertyDefinition> systemPropertyDefinitions;
 	private Map<String,PropertyDefinition> userDefinedPropertyDefinitions;
 	private Set<String> deletedPropertyDefinitions;
@@ -63,6 +63,7 @@ public class TagDefinition implements Versionable {
 			Integer id, String uuid, 
 			String name, Version version,  
 			Integer parentId, String parentUuid, String tagsetDefinitionUuid) {
+		this();
 		this.id = id;
 		this.uuid = uuid;
 		this.name = name;
@@ -73,8 +74,6 @@ public class TagDefinition implements Versionable {
 			this.parentUuid = "";
 		}
 		this.tagsetDefinitionUuid = tagsetDefinitionUuid;
-		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
-		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 	}
 
 	/**
@@ -82,7 +81,7 @@ public class TagDefinition implements Versionable {
 	 * @param toCopy
 	 */
 	public TagDefinition(TagDefinition toCopy) {
-		this(null, new IDGenerator().generate(), 
+		this(null, toCopy.uuid, 
 				toCopy.name, new Version(toCopy.version), 
 				null, toCopy.parentUuid, toCopy.tagsetDefinitionUuid);
 		
@@ -92,6 +91,11 @@ public class TagDefinition implements Versionable {
 		for (PropertyDefinition pd : toCopy.getUserDefinedPropertyDefinitions()) {
 			addUserDefinedPropertyDefinition(new PropertyDefinition(pd));
 		}	
+	}
+
+	public TagDefinition() {
+		systemPropertyDefinitions = new HashMap<String, PropertyDefinition>();
+		userDefinedPropertyDefinitions = new HashMap<String, PropertyDefinition>();
 	}
 
 	public Version getVersion() {
@@ -123,7 +127,7 @@ public class TagDefinition implements Versionable {
 	}
 	
 	public void addUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		userDefinedPropertyDefinitions.put(propertyDefinition.getName(), propertyDefinition);
+		userDefinedPropertyDefinitions.put(propertyDefinition.getUuid(), propertyDefinition);
 	}	
 	
 	/**
@@ -146,7 +150,12 @@ public class TagDefinition implements Versionable {
 			return systemPropertyDefinitions.get(name);
 		}
 		else {
-			return userDefinedPropertyDefinitions.get(name);
+			return userDefinedPropertyDefinitions
+					.values()
+					.stream()
+					.filter(pd -> pd.getName().equals(name))
+					.findFirst()
+					.orElse(null);
 		}
 	}
 	
@@ -209,7 +218,7 @@ public class TagDefinition implements Versionable {
 				systemPropertyDefinitions.values());
 	}
 	
-	void setColor(String colorAsRgbInt) {
+	public void setColor(String colorAsRgbInt) {
 		getPropertyDefinition(
 			PropertyDefinition.SystemPropertyName.catma_displaycolor.name()).
 				setValue(colorAsRgbInt);
@@ -342,18 +351,12 @@ public class TagDefinition implements Versionable {
 		}	
 	}
 
-	void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
-		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getName());
+	public void removeUserDefinedPropertyDefinition(PropertyDefinition propertyDefinition) {
+		this.userDefinedPropertyDefinitions.remove(propertyDefinition.getUuid());
 	}
 
 	public PropertyDefinition getPropertyDefinitionByUuid(String uuid) {
-		//TODO: performance optimization
-		return userDefinedPropertyDefinitions
-				.values()
-				.stream()
-				.filter(pd -> pd.getUuid().equals(uuid))
-				.findFirst()
-				.orElse(null);
+		return this.userDefinedPropertyDefinitions.get(uuid);
 	}
 
 	@Override

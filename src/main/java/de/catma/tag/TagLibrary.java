@@ -70,6 +70,8 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 	// of older CATMA versions since move operations between tagsets were possible and
 	// the conversion algorithm of the standard tagset can in certain cases generate distinct IDs, 
 	// supporting move in CATMA 4 would certainly break this assumption as well!!!
+	
+	// there is only one TagLibrary per Project, so within a project, this should work fine in CATMA 6 now
 	/**
 	 * @param tagDefinitionID CATMA uuid of the {@link TagDefinition}, see {@link de.catma.util.IDGenerator}.
 	 * @return the corresponding TagDefinition or <code>null</code>
@@ -174,6 +176,12 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return tagsetDefinition.getTagPath(tagDefinition);
 	}
 
+	public String getTagPath(String tagId) {
+		TagDefinition tagDefinition = getTagDefinition(tagId);
+		TagsetDefinition tagsetDefinition = getTagsetDefinition(tagDefinition);
+		return tagsetDefinition.getTagPath(tagDefinition);
+	}
+	
 	@Override
 	public String toString() {
 		return (contentInfoSet.getTitle()==null) ? id : contentInfoSet.getTitle();

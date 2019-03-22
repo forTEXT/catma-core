@@ -33,29 +33,20 @@ public class UserMarkupCollectionReference implements ISourceControlVersionable 
 	private String revisionHash;
 	private ContentInfoSet contentInfoSet;
 	private String sourceDocumentId;
-	private String sourceDocumentTitle;
+	private String sourceDocumentRevisiohHash;
 	
 	
-	@Deprecated
-	public UserMarkupCollectionReference(String id, String revisionHash, ContentInfoSet contentInfoSet) {
-		super();
-		this.id = id;
-		this.revisionHash = revisionHash;
-		this.contentInfoSet = contentInfoSet;
-	}
-
-	/**
-	 * @param id identifier (depends on the repository)
-	 * @param contentInfoSet bibliographical meta data
-	 */
-	public UserMarkupCollectionReference(String id, String revisionHash, ContentInfoSet contentInfoSet,
-			String sourceDocumentId, String sourceDocumentTitle) {
+	public UserMarkupCollectionReference(
+		String id, String revisionHash, 
+		ContentInfoSet contentInfoSet, 
+		String sourceDocumentId,
+		String sourceDocumentRevisiohHash) {
 		super();
 		this.id = id;
 		this.revisionHash = revisionHash;
 		this.contentInfoSet = contentInfoSet;
 		this.sourceDocumentId = sourceDocumentId;
-		this.sourceDocumentTitle = sourceDocumentTitle;
+		this.sourceDocumentRevisiohHash = sourceDocumentRevisiohHash;
 	}
 
 	@Override
@@ -124,18 +115,7 @@ public class UserMarkupCollectionReference implements ISourceControlVersionable 
 		return sourceDocumentId;
 	}
 
-	public void setSourceDocumentId(String sourceDocumentId) {
-		this.sourceDocumentId = sourceDocumentId;
+	public String getSourceDocumentRevisiohHash() {
+		return sourceDocumentRevisiohHash;
 	}
-
-	public String getSourceDocumentTitle() {
-		return sourceDocumentTitle;
-	}
-
-	public void setSourceDocumentTitle(String sourceDocumentTitle) {
-		this.sourceDocumentTitle = sourceDocumentTitle;
-	}
-	
-	
-	
 }

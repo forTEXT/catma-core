@@ -30,13 +30,11 @@ import java.util.Set;
 import de.catma.document.AccessMode;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.interfaces.ISourceControlVersionable;
-import de.catma.tag.Property;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
 import de.catma.tag.TagLibrary;
 import de.catma.tag.TagsetDefinition;
 import de.catma.util.IDGenerator;
-import de.catma.util.Pair;
 
 /**
  * A collection of user generated markup in the form of {@link TagReference}s.
@@ -46,12 +44,15 @@ import de.catma.util.Pair;
  */
 public class UserMarkupCollection implements ISourceControlVersionable {
 
-	private String uuid;
+	private final String uuid;
 	private ContentInfoSet contentInfoSet;
 	private TagLibrary tagLibrary;
 	private List<TagReference> tagReferences;
+	@Deprecated
 	private AccessMode accessMode;
 	private String revisionHash;
+	private String sourceDocumentId;
+	private String sourceDocumentRevisionHash;
 	
 	/**
 	 * @param id the identifier of the collections (depends on the repository)
@@ -60,8 +61,21 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 */
 	public UserMarkupCollection(
-			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary) {
-		this(uuid, contentInfoSet, tagLibrary, new ArrayList<TagReference>(), AccessMode.WRITE);
+			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary, 
+			String sourceDocumentId, String sourceDocumentRevisionHash) {
+		this(uuid ,contentInfoSet, tagLibrary, new ArrayList<TagReference>(), 
+				sourceDocumentId, sourceDocumentRevisionHash);
+	}
+	
+	public UserMarkupCollection(
+			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary, List<TagReference> tagReferences,
+			String sourceDocumentId, String sourceDocumentRevisionHash) {
+		this.uuid = uuid;
+		this.contentInfoSet = contentInfoSet;
+		this.tagLibrary = tagLibrary;
+		this.tagReferences = new ArrayList<TagReference>();
+		this.sourceDocumentId = sourceDocumentId;
+		this.sourceDocumentRevisionHash = sourceDocumentRevisionHash;
 	}
 	
 	/**
@@ -70,15 +84,16 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	 * @param tagLibrary the internal library with all relevant {@link TagsetDefinition}s.
 	 * @param tagReferences referenced text ranges and referencing {@link TagInstance}s.
 	 */
-	public UserMarkupCollection(
-			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
-			List<TagReference> tagReferences, AccessMode accessMode) {
-		this.uuid = uuid;
-		this.contentInfoSet = contentInfoSet;
-		this.tagLibrary = tagLibrary;
-		this.tagReferences = tagReferences;
-		this.accessMode = accessMode;
-	}
+//	@Deprecated
+//	public UserMarkupCollection(
+//			String uuid, ContentInfoSet contentInfoSet, TagLibrary tagLibrary,
+//			List<TagReference> tagReferences, AccessMode accessMode) {
+//		this.uuid = uuid;
+//		this.contentInfoSet = contentInfoSet;
+//		this.tagLibrary = tagLibrary;
+//		this.tagReferences = tagReferences;
+//		this.accessMode = accessMode;
+//	}
 
 	//TODO: copy construction will be different in a git/graph based environment
 	@Deprecated
@@ -86,7 +101,8 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		this(
 			userMarkupCollection.getId(),
 			new ContentInfoSet(userMarkupCollection.getContentInfoSet()), 
-			new TagLibrary(userMarkupCollection.getTagLibrary()));
+			new TagLibrary(userMarkupCollection.getTagLibrary()),
+			"","");
 		
 		IDGenerator idGenerator = new IDGenerator();
 		Map<String,TagInstance> copiedTagInstances = new HashMap<String,TagInstance>();
@@ -97,26 +113,26 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 			TagInstance copiedInstance = copiedTagInstances.get(tagInstance.getUuid());
 			
 			if (copiedInstance == null) {
-				TagDefinition tagDefinition = 
-					getTagLibrary().getTagDefinition(tagInstance.getTagDefinition().getUuid());
-				copiedInstance = new TagInstance(idGenerator.generate(), tagDefinition);
-				for (Property property : tagInstance.getSystemProperties()) {
-					copiedInstance.addSystemProperty(
-						new Property(
-							tagDefinition.getPropertyDefinition(
-								property.getPropertyDefinition().getName()),
-							Collections.<String>emptySet()));
-				}
+//				TagDefinition tagDefinition = 
+//					getTagLibrary().getTagDefinition(tagInstance.getTagDefinition().getUuid());
+//				copiedInstance = new TagInstance(idGenerator.generate(), tagDefinition);
+//				for (Property property : tagInstance.getSystemProperties()) {
+//					copiedInstance.addSystemProperty(
+//						new Property(
+//							tagDefinition.getPropertyDefinition(
+//								property.getPropertyDefinition().getName()),
+//							Collections.<String>emptySet()));
+//				}
 				
-				for (Property property : tagInstance.getUserDefinedProperties()) {
-					copiedInstance.addSystemProperty(
-						new Property(
-							tagDefinition.getPropertyDefinition(
-								property.getPropertyDefinition().getName()),
-							Collections.<String>emptySet()));
-				}
+//				for (Property property : tagInstance.getUserDefinedProperties()) {
+//					copiedInstance.addSystemProperty(
+//						new Property(
+//							tagDefinition.getPropertyDefinition(
+//								property.getPropertyDefinition().getName()),
+//							Collections.<String>emptySet()));
+//				}
 				
-				copiedTagInstances.put(tagInstance.getUuid(), copiedInstance);
+//				copiedTagInstances.put(tagInstance.getUuid(), copiedInstance);
 			}
 		
 			addTagReference( 
@@ -169,7 +185,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		}
 		
 		for (TagReference tr : tagReferences) {
-			if (tagDefinitionIDs.contains(tr.getTagDefinition().getUuid())) {
+			if (tagDefinitionIDs.contains(tr.getTagDefinitionId())) {
 				result.add(tr);
 			}
 		}
@@ -266,6 +282,7 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	/**
 	 * {@link TagInstance#synchronizeProperties() Synchronizes} all the Tag Instances. 
 	 */
+	@Deprecated
 	public void synchronizeTagInstances() {
 		HashSet<TagInstance> tagInstances = new HashSet<TagInstance>();
 		for (TagReference tr : tagReferences) {
@@ -273,13 +290,12 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		}
 		
 		for (TagInstance ti : tagInstances) {
-			if (getTagLibrary().getTagsetDefinition(ti.getTagDefinition()) != null) {
-				//TODO: handle move between TagsetDefinitions
-				ti.synchronizeProperties();
-			}
-			else {
-				tagReferences.removeAll(getTagReferences(ti.getUuid()));
-			}
+//			if (getTagLibrary().getTagsetDefinition(ti.getTagDefinition()) != null) {
+//				ti.synchronizeProperties();
+//			}
+//			else {
+//				tagReferences.removeAll(getTagReferences(ti.getUuid()));
+//			}
 		}
 	}
 
@@ -354,22 +370,15 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		this.contentInfoSet = contentInfoSet;
 	}
 
-	/**
-	 * @param instanceID the {@link TagInstance#getUuid() uuid} of the TagInstance
-	 * @return a {@link Pair} with the {@link TagLibrary#getTagPath(TagDefinition) Tag path} 
-	 * and the corresponding {@link TagInstance}.
-	 */
-	public Pair<String,TagInstance> getInstance(String instanceID) {
-		for (TagReference tr : tagReferences) {
-			if (tr.getTagInstanceID().equals(instanceID)) {
-				return new Pair<String,TagInstance>(
-						this.tagLibrary.getTagPath(tr.getTagDefinition()),
-						tr.getTagInstance());
-			}
-		}
-		return null;
+	public Annotation getAnnotation(String tagInstanceId) {
+		List<TagReference> tagReferences = getTagReferences(tagInstanceId);
+		
+		TagInstance tagInstance = tagReferences.get(0).getTagInstance();
+		String tagPath = getTagLibrary().getTagPath(tagInstance.getTagDefinitionId());
+		
+		return new Annotation(tagInstance, tagReferences, this, tagPath);
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -399,8 +408,26 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 		}
 		return true;
 	}
-	
+	@Deprecated
 	public AccessMode getAccessMode() {
 		return accessMode;
+	}
+
+	public boolean containsTag(TagDefinition tag) {
+		for (TagReference t : tagReferences) {
+			if (t.getTagDefinitionId().equals(tag.getUuid())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
+	public String getSourceDocumentId() {
+		return sourceDocumentId;
+	}
+	
+	public String getSourceDocumentRevisionHash() {
+		return sourceDocumentRevisionHash;
 	}
 }

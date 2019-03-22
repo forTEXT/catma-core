@@ -21,6 +21,7 @@ package de.catma.tag;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -84,9 +85,8 @@ public class TagManager {
 		 * removed {@link TagDefinition} and its {@link TagsetDefinition} Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
 		 * </p><br />
 		 * <p>{@link TagDefinition} changed:
-		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of the changed 
-		 * {@link TagDefinition} and its {@link TagsetDefinition}Pair&lt;TagsetDefinition,TagDefinition&gt;</li>
-		 * <li>{@link PropertyChangeEvent#getOldValue()} = a pair of the old name and the old color Pair&lt;String,String&gt;</li>
+		 * <li>{@link PropertyChangeEvent#getNewValue()} = the modified {@link TagDefinition}</li>
+		 * <li>{@link PropertyChangeEvent#getOldValue()} = the {@link TagsetDefinition}</li>
 		 */
 		tagDefinitionChanged,
 		/**
@@ -182,35 +182,40 @@ public class TagManager {
 				null);
 	}
 	
-	public void setTagDefinitionTypeAndColor(
-			TagDefinition tagDefinition, String type, String colorRgbAsString, TagsetDefinition tagsetDefinition) {
-		String oldType = tagDefinition.getName();
-		String oldRgb = tagDefinition.getColor();
-		boolean tagDefChanged = false;
-		if (!oldType.equals(type)) {
-			tagDefinition.setName(type);
-			tagDefChanged = true;
+	public void updateTagDefinition(TagDefinition tag, TagDefinition updatedTag) {
+		TagsetDefinition tagset = this.tagLibrary.getTagsetDefinition(tag);
+		
+		for (PropertyDefinition pd : new ArrayList<>(tag.getUserDefinedPropertyDefinitions())) {
+			if (!updatedTag.getUserDefinedPropertyDefinitions().contains(pd)) {
+				removeUserDefinedPropertyDefinition(pd, tag, tagset);
+			}
 		}
 		
-		if (!oldRgb.equals(colorRgbAsString)) {
-			tagDefinition.setColor(colorRgbAsString);
-			tagDefChanged = true;
+		for (PropertyDefinition pd : updatedTag.getUserDefinedPropertyDefinitions()) {
+			if (!tag.getUserDefinedPropertyDefinitions().contains(pd)) {
+				tag.addUserDefinedPropertyDefinition(new PropertyDefinition(pd));
+			}
+			else {
+				tag.getPropertyDefinitionByUuid(
+					pd.getUuid()).setPossibleValueList(pd.getPossibleValueList());
+			}
 		}
 		
-		if (tagDefChanged) {
-			tagDefinition.setVersion();
-			this.propertyChangeSupport.firePropertyChange(
-					TagManagerEvent.tagDefinitionChanged.name(),
-					new Pair<String, String>(oldType, oldRgb),
-					new Pair<TagDefinition, TagsetDefinition>(tagDefinition, tagsetDefinition));
-		}
+		tag.setName(updatedTag.getName());
+		tag.setColor(updatedTag.getColor());
+		
+		this.propertyChangeSupport.firePropertyChange(
+				TagManagerEvent.tagDefinitionChanged.name(),
+				tagset,
+				tag);
 	}
-	
+
 	/**
 	 * Synchronizes td1 with td2 via {@link TagsetDefinition#synchronizeWith(TagsetDefinition)}}
 	 * @param td1
 	 * @param td2
 	 */
+	@Deprecated
 	public void synchronize(TagsetDefinition td1, TagsetDefinition td2) {
 		logger.info("synching " + td1 + " with " + td2);
 		td1.synchronizeWith(td2);
@@ -255,7 +260,6 @@ public class TagManager {
 			TagDefinition td,
 			PropertyDefinition propertyDefinition) {
 		td.setVersion();
-		
 		this.propertyChangeSupport.firePropertyChange(
 				TagManagerEvent.userPropertyDefinitionChanged.name(),
 				td,

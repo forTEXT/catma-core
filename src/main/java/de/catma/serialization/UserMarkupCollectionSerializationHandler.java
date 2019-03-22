@@ -31,6 +31,7 @@ public interface UserMarkupCollectionSerializationHandler {
 		SourceDocument sourceDocument, OutputStream outputStream) throws IOException;
 	
 	public UserMarkupCollection deserialize(
+			SourceDocument sourceDocument,
 			String id, InputStream inputStream) throws IOException;
 	
 }

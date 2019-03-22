@@ -33,31 +33,23 @@ import java.util.List;
  */
 public class Property {
 
-	private PropertyDefinition propertyDefinition;
+	private String propertyDefinitionId;
 	private List<String> propertyValueList;
 	
-	public Property(PropertyDefinition propertyDefinition,
+	public Property(String propertyDefinitionId,
 			Collection<String> propertyValueList) {
-		this.propertyDefinition = propertyDefinition;
+		this.propertyDefinitionId = propertyDefinitionId;
 		this.propertyValueList = new ArrayList<>(propertyValueList);
 	}
 
-	public String getName() {
-		return propertyDefinition.getName();
-	}
-	
 	public List<String> getPropertyValueList() {
 		return Collections.unmodifiableList(propertyValueList);
 	}
 	
-	public PropertyDefinition getPropertyDefinition() {
-		return propertyDefinition;
+	public String getPropertyDefinitionId() {
+		return propertyDefinitionId;
 	}
 
-	void setPropertyDefinition(PropertyDefinition propertyDefinition) {
-		this.propertyDefinition = propertyDefinition;
-	}
-	
 	public void setPropertyValueList(Collection<String> propertyValueList) {
 		this.propertyValueList = new ArrayList<String>(propertyValueList);
 	}
@@ -67,8 +59,9 @@ public class Property {
 	 * proposed by the definition.
 	 * @see PropertyDefinition#getPossibleValueList()
 	 */
+	@Deprecated
 	public void synchronize() {
-		setPropertyValueList(propertyDefinition.getPossibleValueList());
+//		setPropertyValueList(propertyDefinition.getPossibleValueList());
 	}
 
 	public String getFirstValue() {
