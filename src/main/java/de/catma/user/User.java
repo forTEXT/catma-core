@@ -18,7 +18,6 @@
  */
 package de.catma.user;
 
-import de.catma.rbac.RBACRole;
 import de.catma.rbac.RBACSubject;
 
 /**
