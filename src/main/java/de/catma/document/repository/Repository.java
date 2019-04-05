@@ -44,6 +44,7 @@ import de.catma.tag.TagLibraryReference;
 import de.catma.tag.TagManager;
 import de.catma.tag.TagsetDefinition;
 import de.catma.tag.Version;
+import de.catma.user.Member;
 import de.catma.user.User;
 import de.catma.util.Pair;
 
@@ -484,7 +485,8 @@ public interface Repository {
 	public TagLibrary getTagLibraryFor(String uuid, Version version) throws IOException;
 	
 	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
-	public List<User> getProjectMembers() throws Exception;
+
+	public List<Member> getProjectMembers() throws Exception;
 
 	public boolean hasUncommittedChanges() throws Exception;
 

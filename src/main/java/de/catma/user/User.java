@@ -18,13 +18,15 @@
  */
 package de.catma.user;
 
+import de.catma.rbac.RBACSubject;
+
 /**
  * A user within the CATMA system.
  * 
  * @author marco.petris@web.de
  *
  */
-public interface User {
+public interface User extends RBACSubject {
 	/**
 	 * @return the numeric ID of the user
 	 */
@@ -64,4 +66,5 @@ public interface User {
 	 * @return true if the user has the given permission
 	 */
 	boolean hasPermission(Permission permission);
+	
 }
