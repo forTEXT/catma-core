@@ -55,4 +55,12 @@ public interface IRBACManager {
 	 * @throws IOException
 	 */
 	RBACSubject assignOnResource(RBACSubject subject, RBACRole role, Integer resourceId) throws IOException;
+
+	/**
+	 * unassigns a subject from a project
+	 * @param subject
+	 * @param projectId
+	 * @throws IOException
+	 */
+	void unassignFromProject(RBACSubject subject, String projectId) throws IOException;
 }
