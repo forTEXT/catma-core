@@ -492,7 +492,7 @@ public interface Repository {
 
 	public void commitChanges(String commitMsg);
 
-	public void synchronizeWithRemote() throws Exception;
+	public void synchronizeWithRemote(OpenProjectListener openProjectListener) throws Exception;
 
 	void printStatus();
 
