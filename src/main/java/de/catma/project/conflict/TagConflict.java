@@ -59,15 +59,24 @@ public class TagConflict {
 		for (PropertyDefinition devPropertyDef : devTagDefinition.getUserDefinedPropertyDefinitions()) {
 			PropertyDefinition combinedPropertyDef  = 
 				tagDefinition.getPropertyDefinitionByUuid(devPropertyDef.getUuid());
-			
-			for (String value : devPropertyDef.getPossibleValueList()) {
-				if (!combinedPropertyDef.getPossibleValueList().contains(value)) {
-					combinedPropertyDef.addValue(value);
+			if (combinedPropertyDef == null) {
+				combinedPropertyDef = new PropertyDefinition(devPropertyDef);
+				tagDefinition.addUserDefinedPropertyDefinition(combinedPropertyDef);
+			}
+			else {
+				for (String value : devPropertyDef.getPossibleValueList()) {
+					if (!combinedPropertyDef.getPossibleValueList().contains(value)) {
+						combinedPropertyDef.addValue(value);
+					}
 				}
 			}
 		}
 		
 		return tagDefinition;
+	}
+
+	public void setResolution(Resolution resolution) {
+		this.resolution = resolution;
 	}
 	
 	
