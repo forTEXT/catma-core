@@ -229,5 +229,7 @@ public class TagLibrary implements Iterable<TagsetDefinition> {
 		return true;
 	}
 	
-	
+	void clear() {
+		tagsetDefinitionsByID.clear();
+	}
 }

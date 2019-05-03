@@ -117,6 +117,7 @@ public class TagManager {
 	}
 	
 	public void load(Collection<TagsetDefinition> tagsets) {
+		this.tagLibrary.clear();
 		tagsets.forEach(tagset ->this.tagLibrary.add(tagset));
 	}
 	
