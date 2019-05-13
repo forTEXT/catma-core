@@ -30,6 +30,8 @@ import java.util.Map;
 
 import de.catma.document.AccessMode;
 import de.catma.document.Corpus;
+import de.catma.document.repository.event.CollectionChangeEvent;
+import de.catma.document.repository.event.DocumentChangeEvent;
 import de.catma.document.source.ContentInfoSet;
 import de.catma.document.source.SourceDocument;
 import de.catma.document.standoffmarkup.usermarkup.TagReference;
@@ -68,6 +70,7 @@ public interface Repository {
 	 */
 	public static enum RepositoryChangeEvent {
 		/**
+		 * @deprecated use {@link DocumentChangeEvent}
 		 * <p>{@link SourceDocument} added:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = {@link SourceDocument#getID()}</li>
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = <code>null</code></li>
@@ -81,8 +84,10 @@ public interface Repository {
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = {@link SourceDocument#getID()}</li>
 		 * </p>
 		 */
+		@Deprecated
 		sourceDocumentChanged,
 		/**
+		 * @deprecated use {@link CollectionChangeEvent}
 		 * <p>{@link UserMarkupCollection} added:
 		 * <li>{@link PropertyChangeEvent#getNewValue()} = a {@link Pair} of 
 		 * {@link UserMarkupCollectionReference} and corresponding {@link SourceDocument}</li>
@@ -97,8 +102,11 @@ public interface Repository {
 		 * <li>{@link PropertyChangeEvent#getOldValue()} = old {@link ContentInfoSet}</li>
 		 * </p>
 		 */
+		@Deprecated
 		userMarkupCollectionChanged,
 		/**
+		 * @deprecated obsolet <br>
+		 * 
 		 * Updates on the User Markup Collection's inner Tag Library.
 		 * <li>{@link PropertyChangeEvent#getNewValue()} =
 		 *  {@link java.util.List List} of updated {@link UserMarkupCollection}s</li>

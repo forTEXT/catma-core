@@ -115,6 +115,13 @@ public enum RepositoryPropertyKey {
 	GraphDbUser, 
 	GraphDbPass, 
 	GraphDbGitMountBasePath,
+	MailHost,
+	MailPort,
+	MailAuthenticationNeeded,
+	MailUser,
+	MailPass,
+	MailFrom,
+	
 	;
 
 	private final String defaultValue;
@@ -204,5 +211,9 @@ public enum RepositoryPropertyKey {
 	
 	public boolean isTrueIndexed(int index, boolean defaultValue) {
 		return isTrue(RepositoryProperties.INSTANCE.getProperties(), index, defaultValue);
+	}
+
+	public boolean getValue(boolean defaultValue) {
+		return Boolean.valueOf(RepositoryProperties.INSTANCE.getProperties().getProperty(this.name(), String.valueOf(defaultValue)));
 	}
 }
