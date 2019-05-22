@@ -29,6 +29,7 @@ import java.util.Set;
 
 import de.catma.document.AccessMode;
 import de.catma.document.source.ContentInfoSet;
+import de.catma.interfaces.IdentifiableResource;
 import de.catma.interfaces.ISourceControlVersionable;
 import de.catma.tag.TagDefinition;
 import de.catma.tag.TagInstance;
@@ -430,4 +431,5 @@ public class UserMarkupCollection implements ISourceControlVersionable {
 	public String getSourceDocumentRevisionHash() {
 		return sourceDocumentRevisionHash;
 	}
+
 }

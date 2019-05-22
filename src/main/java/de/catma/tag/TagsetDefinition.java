@@ -30,6 +30,7 @@ import java.util.Set;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import de.catma.interfaces.IdentifiableResource;
 import de.catma.interfaces.ISourceControlVersionable;
 
 /**
@@ -382,7 +383,5 @@ public class TagsetDefinition implements Versionable, ISourceControlVersionable,
 			return false;
 		return true;
 	}
-
-
 	
 }

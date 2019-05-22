@@ -1,11 +1,9 @@
 package de.catma.project;
 
-import de.catma.Pager;
-import de.catma.backgroundservice.BackgroundServiceProvider;
-import de.catma.user.User;
-
 import java.io.IOException;
-import java.util.List;
+
+import de.catma.Pager;
+import de.catma.user.User;
 
 public interface ProjectManager {
 	String create(String name, String description) throws Exception;
@@ -23,5 +21,7 @@ public interface ProjectManager {
 	public void openProject(
 			ProjectReference projectReference,
 			OpenProjectListener openProjectListener);
+
+	void leaveProject(String projectId) throws IOException;
 
 }

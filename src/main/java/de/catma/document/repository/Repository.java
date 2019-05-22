@@ -27,6 +27,7 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import de.catma.document.AccessMode;
 import de.catma.document.Corpus;
@@ -486,7 +487,7 @@ public interface Repository {
 	
 	public User createIfAbsent(Map<String, String> userIdentification) throws IOException;
 
-	public List<Member> getProjectMembers() throws Exception;
+	public Set<Member> getProjectMembers() throws IOException;
 
 	public boolean hasUncommittedChanges() throws Exception;
 
