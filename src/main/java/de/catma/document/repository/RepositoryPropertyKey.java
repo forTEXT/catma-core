@@ -121,7 +121,7 @@ public enum RepositoryPropertyKey {
 	MailUser,
 	MailPass,
 	MailFrom,
-	
+	ShowAnalyzer5,
 	;
 
 	private final String defaultValue;
